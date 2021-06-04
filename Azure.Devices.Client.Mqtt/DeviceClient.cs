@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Azure.Devices.Shared;
+using System;
+using System.Threading;
 
 namespace Microsoft.Azure.Devices.Client
 {
-    public abstract class DeviceClient : IDisposable
+    public class DeviceClient : IDeviceClient
     {
         /// <summary>
         /// Default operation timeout.
@@ -32,6 +34,7 @@ namespace Microsoft.Azure.Devices.Client
         /// provided cancellation token.
         /// </summary>
         protected uint OperationTimeoutInMilliseconds { get; set; }
+        uint IDeviceClient.OperationTimeoutInMilliseconds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         /// <summary>
         /// Sets the retry policy used in the operation retries.
@@ -47,6 +50,81 @@ namespace Microsoft.Azure.Devices.Client
         }
 
         public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Open(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Close(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Message Receive(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Complete(Message message, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Complete(string lockToken, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Abandon(string lockToken, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Abandon(Message message, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reject(string lockToken, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Reject(Message message, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendEvent(Message message, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetMethodHandler(string methodName, MethodCallback methodHandler, object userContext, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetMethodDefaultHandler(MethodCallback methodHandler, object userContext, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetDesiredPropertyUpdateCallback(DesiredPropertyUpdateCallback callback, object userContext, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Twin GetTwinAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateReportedPropertiesAsync(TwinCollection reportedProperties, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

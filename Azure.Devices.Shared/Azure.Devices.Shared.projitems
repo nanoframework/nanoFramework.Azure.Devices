@@ -9,6 +9,15 @@
     <Import_RootNamespace>Azure.Devices.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectionStatusChangeHendler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectionStatusChangeReason.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDeviceClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Metadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodCallbackDefinitions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\ExponentialBackoff.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\FixedInterval.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\Incremental.cs" />
@@ -16,5 +25,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\RetryStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\ShouldRetry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TransportType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Twin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwinCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TwinProperties.cs" />
   </ItemGroup>
 </Project>
