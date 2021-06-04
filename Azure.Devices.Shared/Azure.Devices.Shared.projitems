@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4a08951f-f976-47f3-a875-0291adcbd404</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Azure.Devices.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\ExponentialBackoff.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\FixedInterval.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\Incremental.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\IRetryPolicy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\RetryStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\ShouldRetry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TransportType.cs" />
+  </ItemGroup>
+</Project>
