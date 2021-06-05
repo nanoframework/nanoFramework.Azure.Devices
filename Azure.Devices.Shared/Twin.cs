@@ -2,6 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections;
+using nanoFramework.Json;
 
 namespace Microsoft.Azure.Devices.Shared
 {
@@ -84,7 +86,39 @@ namespace Microsoft.Azure.Devices.Shared
         /// <returns>JSON string</returns>
         public string ToJson()
         {
-            throw new NotImplementedException();
+            Hashtable ser = new();
+            ser.Add("properties", Properties);
+            if (Tags != null)
+            {
+                ser.Add("tags", Tags);
+            }
+
+            if (!string.IsNullOrEmpty(ModelId))
+            {
+                ser.Add("modelid", ModelId);
+            }
+
+            if (!string.IsNullOrEmpty(ModuleId))
+            {
+                ser.Add("moduleid", ModuleId);
+            }
+            
+            if (!string.IsNullOrEmpty(ETag))
+            {
+                ser.Add("etag", ETag);
+            }            
+
+            if (!string.IsNullOrEmpty(DeviceId))
+            {
+                ser.Add("deviceid", DeviceId);
+            }
+            
+            if (Version !=0)
+            {
+                ser.Add("$version", Version);
+            }
+
+            return JsonConvert.SerializeObject(ser);
         }
     }
 }

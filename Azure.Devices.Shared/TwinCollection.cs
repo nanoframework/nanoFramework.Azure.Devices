@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using nanoFramework.Json;
 using System;
 using System.Collections;
 
@@ -15,10 +16,9 @@ namespace Microsoft.Azure.Devices.Shared
         internal const string LastUpdatedName = "$lastUpdated";
         internal const string LastUpdatedVersionName = "$lastUpdatedVersion";
         internal const string VersionName = "$version";
-        private readonly string _twin;
-        private readonly string _metadata;
+        private readonly Hashtable _twin;
 
-        public TwinCollection()
+        public TwinCollection() : this(string.Empty)
         { }
 
         /// <summary>
@@ -26,11 +26,9 @@ namespace Microsoft.Azure.Devices.Shared
         /// </summary>
         /// <param name="twinJson">JSON fragment containing the twin data.</param>
         /// <param name="metadataJson">JSON fragment containing the metadata.</param>
-        public TwinCollection(string twinJson, string metadataJson = null)            
+        public TwinCollection(string twinJson)
         {
-            // TODO: as soon as the new JSON is here, this will have to be implemented here for dynamic JObject equivalent
-            _twin = twinJson;
-            _metadata = metadataJson;
+            _twin = (Hashtable)JsonConvert.DeserializeObject(twinJson, typeof(Hashtable));
         }
 
         /// <summary>
@@ -40,7 +38,14 @@ namespace Microsoft.Azure.Devices.Shared
         {
             get
             {
-                throw new NotImplementedException();
+                try
+                {
+                    return (long)_twin[VersionName];
+                }
+                catch
+                {
+                    return default(long);
+                }
             }
         }
 
@@ -51,7 +56,16 @@ namespace Microsoft.Azure.Devices.Shared
         {
             get
             {
-                throw new NotImplementedException();
+                int count = _twin.Count;
+                if (count > 0)
+                {
+                    if (Contains(VersionName))
+                    {
+                        count--;
+                    }
+                }
+
+                return count;
             }
         }
 
@@ -61,50 +75,26 @@ namespace Microsoft.Azure.Devices.Shared
         /// <param name="propertyName">Name of the property to get</param>
         /// <returns>Value for the given property name</returns>
 
-        public string this[string propertyName]
+        public object this[string propertyName]
         {
             get
             {
-                throw new NotImplementedException();
+                try
+                {
+                    return _twin[propertyName];
+                }
+                catch
+                {
+                    return null;
+                }
             }
-            set => throw new NotImplementedException();
+            set => _twin[propertyName] = value;
         }
 
         /// <inheritdoc />
         public override string ToString()
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the Metadata for this property.
-        /// </summary>
-        /// <returns>Metadata instance representing the metadata for this property</returns>
-        public Metadata GetMetadata()
-        {
-            return new Metadata(GetLastUpdated(), GetLastUpdatedVersion());
-        }
-
-        /// <summary>
-        /// Gets the LastUpdated time for this property
-        /// </summary>
-        /// <returns>DateTime instance representing the LastUpdated time for this property</returns>
-        /// <exception cref="System.NullReferenceException">Thrown when the TwinCollection metadata is null.
-        /// An example would be when the TwinCollection class is created with the default constructor</exception>
-        public DateTime GetLastUpdated()
-        {
-            // return (DateTime)_metadata[LastUpdatedName];
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the LastUpdatedVersion for this property.
-        /// </summary>
-        /// <returns>LastUpdatdVersion if present, null otherwise</returns>
-        public long GetLastUpdatedVersion()
-        {
-            //return (long?)_metadata?[LastUpdatedVersionName];
-            throw new NotImplementedException();
+            return JsonConvert.SerializeObject(_twin);
         }
 
         /// <summary>
@@ -113,8 +103,7 @@ namespace Microsoft.Azure.Devices.Shared
         /// <returns>JSON string</returns>
         public string ToJson()
         {
-            //return JsonConvert.SerializeObject(JObject, formatting);
-            throw new NotImplementedException();
+            return JsonConvert.SerializeObject(_twin);
         }
 
         /// <summary>
@@ -124,37 +113,21 @@ namespace Microsoft.Azure.Devices.Shared
         /// <returns>true if the specified property is present; otherwise, false</returns>
         public bool Contains(string propertyName)
         {
-            //return JObject.TryGetValue(propertyName, out JToken ignored);
-            throw new NotImplementedException();
+            try
+            {
+                var obj = _twin[propertyName];
+                return true;
+            }
+            catch
+            { // That means it doesn't exist
+                return false;
+            }
         }
 
         /// <inheritdoc />
         public IEnumerator GetEnumerator()
         {
-            throw new NotImplementedException();
-        }        
-
-        /// <summary>
-        /// Clears metadata out of the twin collection.
-        /// </summary>
-        /// <remarks>
-        /// This will only clear the metadata from the twin collection but will not change the base metadata object. This allows you to still use methods such as <see cref="GetMetadata"/>. If you need to remove all metadata, please use <see cref="ClearAllMetadata"/>.
-        /// </remarks>
-        public void ClearMetadata()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Clears all metadata out of the twin collection as well as the base metadata object.
-        /// </summary>
-        /// <remarks>
-        /// This will remove all metadata from the base metadata object as well as the metadata for the twin collection. The difference from the <see cref="ClearMetadata"/> method is this will also clear the underlying metadata object which will affect methods such as <see cref="GetMetadata"/> and <see cref="GetLastUpdatedVersion"/>.
-        /// This method would be useful if you are performing any operations that require <see cref="TryGetMemberInternal(string, out object)"/> to return a <see cref="JToken"/> regardless of the client you are using.
-        /// </remarks>
-        public void ClearAllMetadata()
-        {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); 
         }
     }
 }

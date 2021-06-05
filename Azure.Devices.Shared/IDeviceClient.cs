@@ -6,7 +6,7 @@ namespace Microsoft.Azure.Devices.Client
 {
     public interface IDeviceClient : IDisposable
     {
-                /// <summary>
+        /// <summary>
         /// Stores the timeout used in the operation retries. Note that this value is ignored for operations
         /// where a cancellation token is provided. For example, <see cref="SendEventAsync(Message)"/> will use this timeout, but
         /// <see cref="SendEventAsync(Message, CancellationToken)"/> will not. The latter operation will only be canceled by the

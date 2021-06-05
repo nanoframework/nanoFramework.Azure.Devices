@@ -9,10 +9,22 @@
     <Import_RootNamespace>Azure.Devices.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AuthenticationMethodFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AuthenticationWithTokenRefresh.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectionStatusChangeHendler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectionStatusChangeReason.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceAutehnticationWithToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceAuthenticationWithRegistrySymmetricKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceAuthenticationWithSharedAccessPolicyKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceAuthenticationWithTokenRefresh.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeviceAuthenticationWithX509Certificate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DeviceStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ExtensionsHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\StringValidationHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HMACSHA256.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IAuthenticateMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDeviceClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IotHubConnectionStringBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Message.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Metadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodCallbackDefinitions.cs" />
@@ -24,9 +36,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\IRetryPolicy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\RetryStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RetryPolicies\ShouldRetry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedAccessSignature.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedAccessSignatureConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TransportType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Twin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TwinCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TwinProperties.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Security\" />
   </ItemGroup>
 </Project>

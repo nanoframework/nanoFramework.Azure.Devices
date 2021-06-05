@@ -12,17 +12,26 @@ namespace Microsoft.Azure.Devices.Client
         public const uint DefaultOperationTimeoutInMilliseconds = 4 * 60 * 1000;
         protected IRetryPolicy _retryPolicy;
 
-        protected DeviceClient(string connectionString)
+        internal DeviceClient(string hostname, IAuthenticationMethod authenticationMethod, TransportType transportType)
         {
 
         }
 
-        protected DeviceClient(string connectionString, TransportType transportType)
+        internal DeviceClient(string connectionString, TransportType transportType)
         {
 
         }
 
-        protected static DeviceClient CreateFromConnectionString(string connectionString, TransportType transportType)
+        /// <summary>
+        /// Creates a disposable DeviceClient from the specified parameters, that uses AMQP transport protocol.
+        /// </summary>
+        /// <param name="hostname">The fully-qualified DNS host name of IoT Hub</param>
+        /// <param name="authenticationMethod">The authentication method that is used</param>
+        /// <param name="transportType">The transportType used (HTTP1, AMQP or MQTT), <see cref="TransportType"/></param>
+        /// <returns>A disposable DeviceClient instance</returns>
+        public static DeviceClient Create(string hostname, IAuthenticationMethod authenticationMethod, TransportType transportType = TransportType.Mqtt_Tcp_Only) => new DeviceClient(hostname, authenticationMethod, transportType);
+
+        public static DeviceClient CreateFromConnectionString(string connectionString, TransportType transportType = TransportType.Mqtt_Tcp_Only)
         {
             throw new NotImplementedException();
         }
