@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Devices.Client
         private const RegexOptions CommonRegexOptions = RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant;
         private static readonly Regex s_hostNameRegex = new Regex(@"[a-zA-Z0-9_\-\.]+$", CommonRegexOptions);
         private static readonly Regex s_idNameRegex = new Regex(@"^[\d\w\-.]*$", CommonRegexOptions);
-        private static readonly Regex s_sharedAccessKeyNameRegex = new Regex(@"^[a-zA-Z0-9_\-@\.]+$", CommonRegexOptions);
+        private static readonly Regex s_sharedAccessKeyNameRegex = new Regex(@"^[a-zA-Z0-9_\-@\.\+\%\_\#\*\?\!\(\)\,\=\;\$\']+$", CommonRegexOptions);
         private static readonly Regex s_sharedAccessKeyRegex = new Regex(@"^.+$", CommonRegexOptions);
         private static readonly Regex s_sharedAccessSignatureRegex = new Regex(@"^.+$", CommonRegexOptions);
         private static readonly Regex s_x509CertRegex = new Regex(@"^[true|false]+$", CommonRegexOptions);
@@ -224,43 +224,7 @@ namespace Microsoft.Azure.Devices.Client
             UsingX509Cert = GetConnectionStringOptionalValueOrDefault(map, X509CertPropertyName, ParseX509, true);
             GatewayHostName = GetConnectionStringOptionalValue(map, GatewayHostNamePropertyName);
 
-            Debug.WriteLine("Parse");
-            Debug.WriteLine($"HostName {HostName}");
-            Debug.WriteLine($"DeviceId {DeviceId}");
-            Debug.WriteLine($"ModuleId {ModuleId}");
-            Debug.WriteLine($"SharedAccessKeyName {SharedAccessKeyName}");
-            Debug.WriteLine($"SharedAccessKey {SharedAccessKey}");
-            Debug.WriteLine($"SharedAccessSignature {SharedAccessSignature}");
-            Debug.WriteLine($"UsingX509Cert {UsingX509Cert}");
-            Debug.WriteLine($"GatewayHostName {GatewayHostName}");
-
             Validate();
-        }
-
-        private void SetHostName(string hostname)
-        {
-            if (string.IsNullOrEmpty(hostname))
-            {
-                throw new ArgumentNullException(nameof(hostname));
-            }
-
-            ValidateFormat(hostname, HostNamePropertyName, s_hostNameRegex);
-
-            _hostName = hostname;
-            SetIotHubName();
-        }
-
-        private void SetIotHubName()
-        {
-            IotHubName = GetIotHubName(HostName);
-            // We expect the hostname to be of the format "acme.azure-devices.net", in which case the IotHubName is "acme".
-            // For transparent gateway scenarios, we can simplify the input credentials to only specify the gateway device hostname,
-            // instead of having to specify both the IoT Hub hostname and the gateway device hostname.
-            // In this case, the hostname will be of the format "myGatewayDevice", and will not have ".azure-devices.net" suffix.
-            if (string.IsNullOrEmpty(IotHubName))
-            {
-                IotHubName = HostName;
-            }
         }
 
         private void Validate()
@@ -270,14 +234,11 @@ namespace Microsoft.Azure.Devices.Client
                 throw new ArgumentException("DeviceId must be specified in connection string");
             }
 
-            Debug.WriteLine($"SharedAccessKey {SharedAccessKey}");
-            Debug.WriteLine($"SharedAccessSignature {SharedAccessSignature}");
-
             if (!(string.IsNullOrEmpty(SharedAccessKey) ^ string.IsNullOrEmpty(SharedAccessSignature)))
             {
                 if (!(UsingX509Cert || AuthenticationMethod is AuthenticationWithTokenRefresh))
                 {
-                    throw new ArgumentException("XX Should specify either SharedAccessKey or SharedAccessSignature if X.509 certificate is not used");
+                    throw new ArgumentException("Should specify either SharedAccessKey or SharedAccessSignature if X.509 certificate is not used");
                 }
             }
 
@@ -324,6 +285,32 @@ namespace Microsoft.Azure.Devices.Client
             ValidateFormatIfSpecified(UsingX509Cert.ToString(), X509CertPropertyName, s_x509CertRegex);
         }
 
+        private void SetHostName(string hostname)
+        {
+            if (string.IsNullOrEmpty(hostname))
+            {
+                throw new ArgumentNullException(nameof(hostname));
+            }
+
+            ValidateFormat(hostname, HostNamePropertyName, s_hostNameRegex);
+
+            _hostName = hostname;
+            SetIotHubName();
+        }
+
+        private void SetIotHubName()
+        {
+            IotHubName = GetIotHubName(HostName);
+            // We expect the hostname to be of the format "acme.azure-devices.net", in which case the IotHubName is "acme".
+            // For transparent gateway scenarios, we can simplify the input credentials to only specify the gateway device hostname,
+            // instead of having to specify both the IoT Hub hostname and the gateway device hostname.
+            // In this case, the hostname will be of the format "myGatewayDevice", and will not have ".azure-devices.net" suffix.
+            if (string.IsNullOrEmpty(IotHubName))
+            {
+                IotHubName = HostName;
+            }
+        }
+        
         private void SetAuthenticationMethod(IAuthenticationMethod authMethod)
         {
             if (authMethod == null)

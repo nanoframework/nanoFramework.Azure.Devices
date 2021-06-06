@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics;
 using Microsoft.Azure.Devices.Client.Extensions;
 
 namespace Microsoft.Azure.Devices.Client
@@ -12,7 +13,7 @@ namespace Microsoft.Azure.Devices.Client
     public sealed class DeviceAuthenticationWithRegistrySymmetricKey : IAuthenticationMethod
     {
         private string _deviceId;
-        private byte[] _key;
+        private string _key;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceAuthenticationWithRegistrySymmetricKey"/> class.
@@ -39,7 +40,7 @@ namespace Microsoft.Azure.Devices.Client
         /// </summary>
         public byte[] Key
         {
-            get => _key;
+            get => Convert.FromBase64String(_key);
             set => SetKey(value);
         }
 
@@ -48,8 +49,8 @@ namespace Microsoft.Azure.Devices.Client
         /// </summary>
         public string KeyAsBase64String
         {
-            get => Convert.ToBase64String(Key);
-            set => SetKeyFromBase64String(value);
+            get => _key;
+            set => _key = value;
         }
 
         /// <summary>
@@ -64,6 +65,7 @@ namespace Microsoft.Azure.Devices.Client
                 throw new ArgumentNullException(nameof(iotHubConnectionStringBuilder));
             }
 
+            Debug.WriteLine("Populate");
             iotHubConnectionStringBuilder.DeviceId = DeviceId;
             iotHubConnectionStringBuilder.SharedAccessKey = KeyAsBase64String;
             iotHubConnectionStringBuilder.SharedAccessKeyName = null;
@@ -74,7 +76,8 @@ namespace Microsoft.Azure.Devices.Client
 
         private void SetKey(byte[] key)
         {
-            _key = key ?? throw new ArgumentNullException(nameof(key));
+            key = key ?? throw new ArgumentNullException(nameof(key));
+            _key = Convert.ToBase64String(key);
         }
 
         private void SetKeyFromBase64String(string key)
@@ -88,8 +91,8 @@ namespace Microsoft.Azure.Devices.Client
             {
                 throw new ArgumentException("Key must be base64 encoded");
             }
-
-            _key = Convert.FromBase64String(key);
+            
+            _key = key;
         }
 
         private void SetDeviceId(string deviceId)
