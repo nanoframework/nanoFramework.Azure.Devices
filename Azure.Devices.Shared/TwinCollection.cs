@@ -4,6 +4,7 @@
 using nanoFramework.Json;
 using System;
 using System.Collections;
+using System.Diagnostics;
 
 namespace Microsoft.Azure.Devices.Shared
 {
@@ -40,7 +41,8 @@ namespace Microsoft.Azure.Devices.Shared
             {
                 try
                 {
-                    return (long)_twin[VersionName];
+                    int ver = (int)_twin[VersionName];
+                    return ver;
                 }
                 catch
                 {
@@ -127,7 +129,7 @@ namespace Microsoft.Azure.Devices.Shared
         /// <inheritdoc />
         public IEnumerator GetEnumerator()
         {
-            throw new NotImplementedException(); 
+            throw new NotImplementedException();
         }
     }
 }
