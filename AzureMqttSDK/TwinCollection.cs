@@ -6,16 +6,13 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 
-namespace Microsoft.Azure.Devices.Shared
+namespace nanoFramework.Azure.Devices
 {
     /// <summary>
     /// Represents a collection of properties for <see cref="Twin"/>
     /// </summary>
     public class TwinCollection : IEnumerable
     {
-        internal const string MetadataName = "$metadata";
-        internal const string LastUpdatedName = "$lastUpdated";
-        internal const string LastUpdatedVersionName = "$lastUpdatedVersion";
         internal const string VersionName = "$version";
         private readonly Hashtable _twin;
 
@@ -23,13 +20,21 @@ namespace Microsoft.Azure.Devices.Shared
         { }
 
         /// <summary>
-        /// Creates a <see cref="TwinCollection"/> using the given JSON fragments for the body and metadata.
+        /// Creates a <see cref="TwinCollection"/> using the given JSON fragments for the body.
         /// </summary>
-        /// <param name="twinJson">JSON fragment containing the twin data.</param>
-        /// <param name="metadataJson">JSON fragment containing the metadata.</param>
+        /// <param name="twinJson">JSON fragment containing the twin data.</param>        
         public TwinCollection(string twinJson)
         {
-            _twin = (Hashtable)JsonConvert.DeserializeObject(twinJson, typeof(Hashtable));
+            _twin = string.IsNullOrEmpty(twinJson) ? new() : (Hashtable)JsonConvert.DeserializeObject(twinJson, typeof(Hashtable));
+        }
+
+        /// <summary>
+        /// Creates a <see cref="TwinCollection"/> using the given JSON fragments for the body.
+        /// </summary>
+        /// <param name="twin">the json hashtable</param>
+        public TwinCollection(Hashtable twin)
+        {
+            _twin = twin ?? new();
         }
 
         /// <summary>
@@ -90,6 +95,7 @@ namespace Microsoft.Azure.Devices.Shared
                     return null;
                 }
             }
+
             set => _twin[propertyName] = value;
         }
 
@@ -103,9 +109,16 @@ namespace Microsoft.Azure.Devices.Shared
         /// Gets the TwinProperties as a JSON string.
         /// </summary>
         /// <returns>JSON string</returns>
-        public string ToJson()
+        public string ToJson() => ToString();
+
+        /// <summary>
+        /// Add a property.
+        /// </summary>
+        /// <param name="property">The property to add</param>
+        /// <param name="value">The value of the property</param>
+        public void Add(string property, object value)
         {
-            return JsonConvert.SerializeObject(_twin);
+            _twin.Add(property, value);
         }
 
         /// <summary>
@@ -121,15 +134,13 @@ namespace Microsoft.Azure.Devices.Shared
                 return true;
             }
             catch
-            { // That means it doesn't exist
+            {
+                // That means it doesn't exist
                 return false;
             }
         }
 
         /// <inheritdoc />
-        public IEnumerator GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerator GetEnumerator() => _twin as IEnumerator;
     }
 }

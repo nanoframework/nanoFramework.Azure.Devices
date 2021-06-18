@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Collections;
+
 namespace Microsoft.Azure.Devices.Shared
 {
     /// <summary>
@@ -15,6 +17,17 @@ namespace Microsoft.Azure.Devices.Shared
         {
             Desired = new TwinCollection();
             Reported = new TwinCollection();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="TwinProperties"/>
+        /// </summary>
+        /// <param name="desired">Hashtable for the desired properties</param>
+        /// <param name="reported">Hashtable for the reported properties</param>
+        public TwinProperties(Hashtable desired, Hashtable reported)
+        {
+            Desired = new TwinCollection(desired);
+            Reported = new TwinCollection(reported);
         }
 
         /// <summary>

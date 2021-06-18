@@ -39,17 +39,21 @@ namespace NFUnitTestTwinTests
         public void DeserializeTwinProperties()
         {
             TwinProperties properties = new TwinProperties();
-            Hashtable props = (Hashtable)JsonConvert.DeserializeObject("{\"desired\":{\"TimeToSleep\":5,\"$version\":2},\"reported\":{\"Firmware\":\"nanoFramework\",\"TimeToSleep\":2,\"$version\":94}}", typeof(Hashtable));
-            foreach (string str in props)
-            {
-                Debug.WriteLine(str);
-            }
-            //Debug.WriteLine(props["desired"].ToString());
-            //properties.Desired = new(JsonConvert.SerializeObject(props["desired"]));
-            //properties.Reported = new(JsonConvert.SerializeObject(props["reported"]));
-            //Assert.Equal(2, properties.Desired.Version);
-            //Assert.Equal(5, (int)properties.Desired["TimeToSleep"]);
-            //Assert.Equal(2, (int)properties.Reported["TimeToSleep"]);
+            Hashtable props = (Hashtable)JsonConvert.DeserializeObject(FullTwin, typeof(Hashtable));
+            properties.Desired = new(JsonConvert.SerializeObject(props["desired"]));
+            properties.Reported = new(JsonConvert.SerializeObject(props["reported"]));
+            Assert.Equal(2, properties.Desired.Version);
+            Assert.Equal(5, (int)properties.Desired["TimeToSleep"]);
+            Assert.Equal(2, (int)properties.Reported["TimeToSleep"]);
+        }
+
+        [TestMethod]
+        public void DeserializeTwin()
+        {
+            Twin twin = new("nanoDeepSleep", FullTwin);
+            Assert.Equal(2, twin.Properties.Desired.Version);
+            Assert.Equal(5, (int)twin.Properties.Desired["TimeToSleep"]);
+            Assert.Equal(2, (int)twin.Properties.Reported["TimeToSleep"]);
         }
     }
 }

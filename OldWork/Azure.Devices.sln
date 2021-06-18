@@ -17,6 +17,10 @@ Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "NFUnitTestExtensionsElement
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "NFUnitTestIotHubConnectionStringBuilder", "Tests\NFUnitTestIotHubConnectionStringBuilder\NFUnitTestIotHubConnectionStringBuilder.nfproj", "{1EEE26EF-A294-4CAD-A3DF-DA50BBA9658A}"
 EndProject
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "SampleApplication", "SampleApplication\SampleApplication.nfproj", "{B9865240-FBBC-4B1F-9D38-95479AB500D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared Projects", "Shared Projects", "{2E2CC3F7-054D-4D10-8D82-E03B99C61F8A}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Azure.Devices.Shared\Azure.Devices.Shared.projitems*{4a08951f-f976-47f3-a875-0291adcbd404}*SharedItemsImports = 13
@@ -51,11 +55,19 @@ Global
 		{1EEE26EF-A294-4CAD-A3DF-DA50BBA9658A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EEE26EF-A294-4CAD-A3DF-DA50BBA9658A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1EEE26EF-A294-4CAD-A3DF-DA50BBA9658A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B9865240-FBBC-4B1F-9D38-95479AB500D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9865240-FBBC-4B1F-9D38-95479AB500D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9865240-FBBC-4B1F-9D38-95479AB500D6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B9865240-FBBC-4B1F-9D38-95479AB500D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9865240-FBBC-4B1F-9D38-95479AB500D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9865240-FBBC-4B1F-9D38-95479AB500D6}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{4A08951F-F976-47F3-A875-0291ADCBD404} = {2E2CC3F7-054D-4D10-8D82-E03B99C61F8A}
+		{809A6044-F4F6-4E6F-8C44-EB5A54B71AB2} = {2E2CC3F7-054D-4D10-8D82-E03B99C61F8A}
 		{AEA12A0B-6A56-4BA3-89E8-A4E3E33000D4} = {0806ED4D-2502-46E7-B3B1-A93A39BA5CA4}
 		{44EDF479-C356-474C-AF51-1E8E433E5545} = {0806ED4D-2502-46E7-B3B1-A93A39BA5CA4}
 		{1EEE26EF-A294-4CAD-A3DF-DA50BBA9658A} = {0806ED4D-2502-46E7-B3B1-A93A39BA5CA4}

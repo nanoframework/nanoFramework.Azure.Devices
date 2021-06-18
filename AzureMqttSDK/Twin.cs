@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using nanoFramework.Json;
 
-namespace Microsoft.Azure.Devices.Shared
+namespace nanoFramework.Azure.Devices
 {
     /// <summary>
     /// Twin Representation
@@ -17,7 +17,6 @@ namespace Microsoft.Azure.Devices.Shared
         /// </summary>
         public Twin()
         {
-            Tags = new TwinCollection();
             Properties = new TwinProperties();
         }
 
@@ -33,10 +32,21 @@ namespace Microsoft.Azure.Devices.Shared
         /// <summary>
         /// Creates an instance of <see cref="Twin"/>
         /// </summary>
+        /// <param name="deviceId">Device Id</param>
+        /// <param name="jsonTwin">The json twin</param>
+        public Twin(string deviceId, string jsonTwin) : this()
+        {
+            DeviceId = deviceId;
+            Hashtable props = (Hashtable)JsonConvert.DeserializeObject(jsonTwin, typeof(Hashtable));
+            Properties = new TwinProperties((Hashtable)props["desired"], (Hashtable)props["reported"]);
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="Twin"/>
+        /// </summary>
         /// <param name="twinProperties"></param>
         public Twin(TwinProperties twinProperties)
         {
-            Tags = new TwinCollection();
             Properties = twinProperties;
         }
 
@@ -55,24 +65,9 @@ namespace Microsoft.Azure.Devices.Shared
         public string ModelId { get; set; }
 
         /// <summary>
-        /// Gets and sets the <see cref="Twin" /> Module Id.
-        /// </summary>
-        public string ModuleId { get; set; }
-
-        /// <summary>
-        /// Gets and sets the <see cref="Twin"/> tags.
-        /// </summary>
-        public TwinCollection Tags { get; set; }
-
-        /// <summary>
         /// Gets and sets the <see cref="Twin"/> properties.
         /// </summary>
         public TwinProperties Properties { get; set; }
-
-        /// <summary>
-        /// Twin's ETag
-        /// </summary>
-        public string ETag { get; set; }
 
         /// <summary>
         /// Twin's Version
@@ -88,25 +83,11 @@ namespace Microsoft.Azure.Devices.Shared
         {
             Hashtable ser = new();
             ser.Add("properties", Properties);
-            if (Tags != null)
-            {
-                ser.Add("tags", Tags);
-            }
 
             if (!string.IsNullOrEmpty(ModelId))
             {
                 ser.Add("modelid", ModelId);
             }
-
-            if (!string.IsNullOrEmpty(ModuleId))
-            {
-                ser.Add("moduleid", ModuleId);
-            }
-            
-            if (!string.IsNullOrEmpty(ETag))
-            {
-                ser.Add("etag", ETag);
-            }            
 
             if (!string.IsNullOrEmpty(DeviceId))
             {
