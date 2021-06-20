@@ -16,21 +16,28 @@ namespace nanoFramework.Azure.Devices
     {
         const string TwinReportedPropertiesTopic = "$iothub/twin/PATCH/properties/reported/";
         const string TwinDesiredPropertiesTopic = "$iothub/twin/GET/";
+        const string DirectMethodTopic = "$iothub/methods/POST/";
 
         private readonly string _iotHubName;
         private readonly string _deviceId;
         private readonly string _sasKey;
         private readonly string _telemetryTopic;
         private readonly X509Certificate2 _clientCert;
-
-        private string _privateKey;
-        private bool _twinReceived;
+        private readonly string _deviceMessageTopic;
+        private readonly string _privateKey;
         private Twin _twin;
+        private bool _twinReceived;
         private MqttClient _mqttc;
+        private readonly IoTHubStatus _ioTHubStatus = new IoTHubStatus();
+        private readonly ArrayList _methodCallback = new ArrayList();
+        private readonly ArrayList _waitForConfirmation = new ArrayList();
+        private object _lock = new object();
 
         public event TwinUpdated TwinUpated;
+        public event StatusUpdated StatusUpdated;
+        public event CloudToDeviceMessage CloudToDeviceMessage;
 
-        public Mqtt(string iotHubName, string deviceId, string sasKey)
+        public Mqtt(string iotHubName, string deviceId, string sasKey, byte qosLevel = MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE)
         {
             _clientCert = null;
             _privateKey = null;
@@ -38,17 +45,33 @@ namespace nanoFramework.Azure.Devices
             _deviceId = deviceId;
             _sasKey = sasKey;
             _telemetryTopic = $"devices/{_deviceId}/messages/events/";
+            _ioTHubStatus.Status = Status.Disconnected;
+            _ioTHubStatus.Message = string.Empty;
+            _deviceMessageTopic = $"devices/{_deviceId}/messages/devicebound/";
+            QosLevel = qosLevel;
         }
 
-        public Mqtt(string iotHubName, string deviceId, X509Certificate2 clientCert, string privateKey)
+        public Mqtt(string iotHubName, string deviceId, X509Certificate2 clientCert, byte qosLevel = MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE)
         {
             _clientCert = clientCert;
-            _privateKey = privateKey;
+            _privateKey = Convert.ToBase64String(clientCert.PrivateKey);
             _iotHubName = iotHubName;
             _deviceId = deviceId;
             _sasKey = null;
             _telemetryTopic = $"devices/{_deviceId}/messages/events/";
+            _ioTHubStatus.Status = Status.Disconnected;
+            _ioTHubStatus.Message = string.Empty;
+            _deviceMessageTopic = $"devices/{_deviceId}/messages/devicebound/";
+            QosLevel = qosLevel;
         }
+
+        public Twin LastTwin => _twin;
+
+        public IoTHubStatus IoTHubStatus => new IoTHubStatus(_ioTHubStatus);
+
+        public byte QosLevel { get; set; }
+
+        public bool IsConnected => _mqttc.IsConnected;
 
         public bool Open()
         {
@@ -73,10 +96,6 @@ namespace nanoFramework.Azure.Devices
             _mqttc.MqttMsgPublished += ClientMqttMsgPublished;
             // event when connection has been dropped
             _mqttc.ConnectionClosed += ClientConnectionClosed;
-            // handler for subscriber 
-            _mqttc.MqttMsgSubscribed += ClientMqttMsgSubscribed;
-            // handler for unsubscriber
-            _mqttc.MqttMsgUnsubscribed += clientMqttMsgUnsubscribed;
 
             // Now connect the device
             byte code = _mqttc.Connect(
@@ -93,6 +112,9 @@ namespace nanoFramework.Azure.Devices
 
             if (_mqttc.IsConnected)
             {
+                _ioTHubStatus.Status = Status.Connected;
+                _ioTHubStatus.Message = string.Empty;
+                StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                 _mqttc.Subscribe(
                     new[] {
                 $"devices/{_deviceId}/messages/devicebound/#",
@@ -100,9 +122,9 @@ namespace nanoFramework.Azure.Devices
                 "$iothub/methods/POST/#"
                     },
                     new[] {
-                    MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE,
-                    MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE,
-                    MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE
+                        MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE,
+                        MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE,
+                        MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE
                     }
                 );
             }
@@ -112,7 +134,15 @@ namespace nanoFramework.Azure.Devices
 
         public void Close()
         {
-            _mqttc.Disconnect();
+            if (_mqttc.IsConnected)
+            {
+                _mqttc.Unsubscribe(new[] {
+                $"devices/{_deviceId}/messages/devicebound/#",
+                "$iothub/twin/#",
+                "$iothub/methods/POST/#"
+                    });
+                _mqttc.Disconnect();
+            }
         }
 
         public Twin GetTwin(CancellationToken cancellationToken = default)
@@ -128,38 +158,91 @@ namespace nanoFramework.Azure.Devices
             return _twinReceived ? _twin : null;
         }
 
-        public void UpdateReportedProperties(TwinCollection reported)
+        public bool UpdateReportedProperties(TwinCollection reported, CancellationToken cancellationToken = default)
         {
             string twin = reported.ToJson();
             Debug.WriteLine($"update twin: {twin}");
-            _mqttc.Publish($"{TwinReportedPropertiesTopic}?$rid={Guid.NewGuid()}", Encoding.UTF8.GetBytes(twin), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+            var rid = _mqttc.Publish($"{TwinReportedPropertiesTopic}?$rid={Guid.NewGuid()}", Encoding.UTF8.GetBytes(twin), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);
+            _ioTHubStatus.Status = Status.TwinUpdated;
+            _ioTHubStatus.Message = string.Empty;
+            StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
+
+            if (cancellationToken.CanBeCanceled)
+            {
+                ConfirmationStatus conf = new(rid);
+                _waitForConfirmation.Add(conf);
+                while (!conf.Received && !cancellationToken.IsCancellationRequested)
+                {
+                    cancellationToken.WaitHandle.WaitOne(200, true);
+                }
+
+                _waitForConfirmation.Remove(conf);
+                return conf.Received;
+            }
+
+            return false;
         }
 
-        void ClientMqttMsgReceived(object sender, MqttMsgPublishEventArgs e)
+        public void AddMethodCallback(MethodCalback methodCalback)
+        {
+            _methodCallback.Add(methodCalback);
+        }
+
+        public void RemoveMethodCallback(MethodCalback methodCalback)
+        {
+            _methodCallback.Remove(methodCalback);
+        }
+
+        public bool SendMessage(string message, CancellationToken cancellationToken = default)
+        {
+
+            var rid = _mqttc.Publish(_telemetryTopic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+
+            if (cancellationToken.CanBeCanceled)
+            {
+                ConfirmationStatus conf = new(rid);
+                _waitForConfirmation.Add(conf);
+                while (!conf.Received && !cancellationToken.IsCancellationRequested)
+                {
+                    cancellationToken.WaitHandle.WaitOne(200, true);
+                }
+
+                _waitForConfirmation.Remove(conf);
+                return conf.Received;
+            }
+
+            return false;
+        }
+
+        private void ClientMqttMsgReceived(object sender, MqttMsgPublishEventArgs e)
         {
             try
             {
-                //Trace($"Message received on topic: {e.Topic}");
                 string message = Encoding.UTF8.GetString(e.Message, 0, e.Message.Length);
-                //Trace($"and message length: {message.Length}");
 
                 if (e.Topic.StartsWith("$iothub/twin/res/204"))
                 {
-                    //Trace("and received confirmation for desired properties.");
+                    _ioTHubStatus.Status = Status.TwinUpdateReceived;
+                    _ioTHubStatus.Message = string.Empty;
+                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                 }
                 else if (e.Topic.StartsWith("$iothub/twin/"))
                 {
                     if (e.Topic.IndexOf("res/400/") > 0 || e.Topic.IndexOf("res/404/") > 0 || e.Topic.IndexOf("res/500/") > 0)
                     {
-                        //Trace("and was in the error queue.");
+                        _ioTHubStatus.Status = Status.TwinUpdateError;
+                        _ioTHubStatus.Message = string.Empty;
+                        StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                     }
                     else if (e.Topic.StartsWith("$iothub/twin/PATCH/properties/desired/"))
                     {
                         TwinUpated?.Invoke(this, new TwinUpdateEventArgs(new TwinCollection(message)));
+                        _ioTHubStatus.Status = Status.TwinUpdateReceived;
+                        _ioTHubStatus.Message = string.Empty;
+                        StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                     }
                     else
                     {
-                        //Trace("and was in the success queue.");
                         if (message.Length > 0)
                         {
                             // skip if already received in this session
@@ -169,72 +252,127 @@ namespace nanoFramework.Azure.Devices
                                 {
                                     _twin = new Twin(_deviceId, message);
                                     _twinReceived = true;
+                                    _ioTHubStatus.Status = Status.TwinReceived;
+                                    _ioTHubStatus.Message = message;
+                                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                                 }
                                 catch (Exception ex)
                                 {
                                     Debug.WriteLine($"Exception receiving the twins: {ex}");
+                                    _ioTHubStatus.Status = Status.InternalError;
+                                    _ioTHubStatus.Message = ex.ToString();
+                                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                                 }
                             }
                         }
                     }
                 }
-                else if (e.Topic.StartsWith("$iothub/methods/POST/"))
+                else if (e.Topic.StartsWith(DirectMethodTopic))
                 {
-                    //Trace("and was a method.");
+                    const string C9PatternMainStyle = "<<Main>$>g__";
+                    string method = e.Topic.Substring(DirectMethodTopic.Length);
+                    string methodName = method.Substring(0, method.IndexOf('/'));
+                    int rid = Convert.ToInt32(method.Substring(method.IndexOf('=') + 1));
+                    _ioTHubStatus.Status = Status.DirectMethodCalled;
+                    _ioTHubStatus.Message = $"{method}/{message}";
+                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
+                    foreach (MethodCalback mt in _methodCallback)
+                    {
+                        string mtName = mt.Method.Name;
+                        if (mtName.Contains(C9PatternMainStyle))
+                        {
+                            mtName = mtName.Substring(C9PatternMainStyle.Length);
+                            mtName = mtName.Substring(0, mtName.IndexOf('|'));
+                        }
+                        if (mtName == methodName)
+                        {
+                            try
+                            {
+                                var res = mt.Invoke(rid, message);
+                                _mqttc.Publish($"$iothub/methods/res/200/?$rid={rid}", Encoding.UTF8.GetBytes(res), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                            }
+                            catch (Exception ex)
+                            {
+                                _mqttc.Publish($"$iothub/methods/res/504/?$rid={rid}", Encoding.UTF8.GetBytes($"{{\"Exception:\":\"{ex}\"}}"), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                            }
+                        }
+                    }
                 }
-                else if (e.Topic.StartsWith($"devices/{_deviceId}/messages/devicebound/"))
+                else if (e.Topic.StartsWith(_deviceMessageTopic))
                 {
-                    //Trace("and was a message for the device.");
+                    string messageTopic = e.Topic.Substring(_deviceMessageTopic.Length);
+                    _ioTHubStatus.Status = Status.MessageReceived;
+                    _ioTHubStatus.Message = $"{messageTopic}/{message}";
+                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
+                    CloudToDeviceMessage?.Invoke(this, new CloudToDeviceMessageEventArgs(message, messageTopic));
                 }
                 else if (e.Topic.StartsWith("$iothub/clientproxy/"))
                 {
-                    //Trace("and the device has been disconnected.");
+                    _ioTHubStatus.Status = Status.Disconnected;
+                    _ioTHubStatus.Message = message;
+                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                 }
                 else if (e.Topic.StartsWith("$iothub/logmessage/Info"))
                 {
-                    //Trace("and was in the log message queue.");
+                    _ioTHubStatus.Status = Status.IoTHubInformation;
+                    _ioTHubStatus.Message = message;
+                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                 }
                 else if (e.Topic.StartsWith("$iothub/logmessage/HighlightInfo"))
                 {
-                    //Trace("and was in the Highlight info queue.");
+                    _ioTHubStatus.Status = Status.IoTHubHighlightInformation;
+                    _ioTHubStatus.Message = message;
+                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                 }
                 else if (e.Topic.StartsWith("$iothub/logmessage/Error"))
                 {
-                    //Trace("and was in the logmessage error queue.");
+                    _ioTHubStatus.Status = Status.IoTHubError;
+                    _ioTHubStatus.Message = message;
+                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                 }
                 else if (e.Topic.StartsWith("$iothub/logmessage/Warning"))
                 {
-                    //Trace("and was in the logmessage warning queue.");
+                    _ioTHubStatus.Status = Status.IoTHubWarning;
+                    _ioTHubStatus.Message = message;
+                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Exception in event: {ex}");
+                _ioTHubStatus.Status = Status.InternalError;
+                _ioTHubStatus.Message = ex.ToString();
+                StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
             }
         }
 
         void ClientMqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
         {
-            //Trace($"Response from publish with message id: {e.MessageId}");
-            //if (e.MessageId == messageID)
-            //{
-            //    messageReceived = true;
-            //}
-        }
+            if(_waitForConfirmation.Count == 0)
+            {
+                return;
+            }
 
-        void ClientMqttMsgSubscribed(object sender, MqttMsgSubscribedEventArgs e)
-        {
-            //Trace(String.Format("Response from subscribe with message id: {0}", e.MessageId.ToString()));
-        }
-
-        void clientMqttMsgUnsubscribed(object sender, MqttMsgUnsubscribedEventArgs e)
-        {
-            //Trace(String.Format("Response from unsubscribe with message id: {0}", e.MessageId.ToString()));
+            // Making sure the object will not be added or removed in this loop
+            lock (_lock)
+            {
+                foreach (ConfirmationStatus status in _waitForConfirmation)
+                {
+                    if (status.ResponseId == e.MessageId)
+                    {
+                        status.Received = true;
+                        // messages are unique
+                        return;
+                    }
+                }
+            }
         }
 
         void ClientConnectionClosed(object sender, EventArgs e)
         {
-            //Trace("Connection closed");
+            _ioTHubStatus.Status = Status.Disconnected;
+            _ioTHubStatus.Message = string.Empty;
+            StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
         }
 
         private string GetSharedAccessSignature(string keyName, string sharedAccessKey, string resource, TimeSpan tokenTimeToLive)

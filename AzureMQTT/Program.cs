@@ -13,38 +13,58 @@ using System;
 using System.Collections;
 using System.Threading;
 using System.Diagnostics;
+using nanoFramework.Json;
+using Bmp280Measurement;
 
-const string DeviceID = "devicename";
-const string IotBrokerAddress = "youriot.azure-devices.net";
-const string SasKey = "thelongsastokenprimaryorsecondarykey";
-const string Ssid = "yourwifi";
-const string Password = "yourwifipassword";
+const string DeviceID = "nanoEdgeTwin";
+const string IotBrokerAddress = "youriothub.azure-devices.net";
+const string SasKey = "yoursaskey";
+const string Ssid = "your wifi";
+const string Password = "your wifi password";
 
 // One minute unit
-DateTime allupOperation = DateTime.UtcNow;
 int sleepTimeMinutes = 60000;
+Bmp280M bmp280 = new();
+bool ShoudIStop = false;
 
 Mqtt mqtt = new Mqtt(IotBrokerAddress, DeviceID, SasKey);
 
 try
 {
-    ConnectToWifi();
+    if (!ConnectToWifi()) return;
 
     mqtt.TwinUpated += TwinUpdatedEvent;
-    mqtt.Open();
+    mqtt.StatusUpdated += StatusUpdatedEvent;
+    mqtt.CloudToDeviceMessage += CloudToDeviceMessageEvent;
+    mqtt.AddMethodCallback(MethodCalbackTest);
+    mqtt.AddMethodCallback(MakeAddition);
+    mqtt.AddMethodCallback(RaiseExceptionCallbackTest);
+    var isOpen = mqtt.Open();
+    Debug.WriteLine($"Connection is open: {isOpen}");
+
     var twin = mqtt.GetTwin(new CancellationTokenSource(20000).Token);
     if (twin == null)
+    {
+        Debug.WriteLine($"Can't get the twins");
+        mqtt.Close();
         return;
+    }
 
     Debug.WriteLine($"Twin DeviceID: {twin.DeviceId}, #desired: {twin.Properties.Desired.Count}, #reported: {twin.Properties.Reported.Count}");
 
     TwinCollection reported = new TwinCollection();
     reported.Add("firmware", "myNano");
-    reported.Add("sdk", 2.2);
+    reported.Add("sdk", 0.2);
     mqtt.UpdateReportedProperties(reported);
-    // Just to make sure all is going out
-    //Thread.Sleep(10000);
-    //mqtt.Close();
+
+    while (!ShoudIStop)
+    {
+        var values = bmp280.Read();
+        var isReceived = mqtt.SendMessage($"{{\"Temperature\":{values.Temperature.DegreesCelsius},\"Pressure\":{values.Pressure.Hectopascals}}}", new CancellationTokenSource(5000).Token);
+        Debug.WriteLine($"Message received by IoT Hub: {isReceived}");
+        Thread.Sleep(20000);
+    }
+    
 }
 catch (Exception ex)
 {
@@ -56,7 +76,7 @@ catch (Exception ex)
 
 Thread.Sleep(Timeout.InfiniteTimeSpan);
 
-void ConnectToWifi()
+bool ConnectToWifi()
 {
     Debug.WriteLine("Program Started, connecting to WiFi.");
 
@@ -70,21 +90,63 @@ void ConnectToWifi()
         {
             Debug.WriteLine($"NetworkHelper.ConnectionError.Exception");
         }
-
-        // GoToSleep();
-        return;
-    }
-
-    // Reset the time counter if the previous date was not valid
-    if (allupOperation.Year < 2018)
-    {
-        allupOperation = DateTime.UtcNow;
     }
 
     Debug.WriteLine($"Date and time is now {DateTime.UtcNow}");
+    return success;
 }
 
 void TwinUpdatedEvent(object sender, TwinUpdateEventArgs e)
 {
     Debug.WriteLine($"Twin update received:  {e.Twin.Count}");
+}
+
+void StatusUpdatedEvent(object sender, StatusUpdatedEventArgs e)
+{
+    Debug.WriteLine($"Status changed: {e.IoTHubStatus.Status}, {e.IoTHubStatus.Message}");
+    //if (e.IoTHubStatus.Status == Status.Disconnected)
+    //{
+    //    mqtt.Open();
+    //}
+}
+
+string MethodCalbackTest(int rid, string payload)
+{
+    Debug.WriteLine($"Call back called :-) rid={rid}, payload={payload}");
+    return "{\"Yes\":\"baby\",\"itisworking\":42}";
+}
+
+string MakeAddition(int rid, string payload)
+{
+    Hashtable variables = (Hashtable)JsonConvert.DeserializeObject(payload, typeof(Hashtable));
+    int arg1 = (int)variables["arg1"];
+    int arg2 = (int)variables["arg2"];
+    return $"{{\"result\":{arg1 + arg2}}}";
+}
+
+string RaiseExceptionCallbackTest(int rid, string payload)
+{
+    throw new Exception("I got you, it's to test the 504");
+}
+
+void CloudToDeviceMessageEvent(object sender, CloudToDeviceMessageEventArgs e)
+{
+    Debug.WriteLine($"Message arrived: {e.Message}");
+    foreach (string key in e.Properties.Keys)
+    {
+        Debug.Write($"  Key: {key} = ");
+        if (e.Properties[key] == null)
+        {
+            Debug.WriteLine("null");
+        }
+        else
+        {
+            Debug.WriteLine((string)e.Properties[key]);
+        }
+    }
+
+    if(e.Message == "stop")
+    {
+        ShoudIStop = true;
+    }
 }
