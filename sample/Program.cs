@@ -69,7 +69,7 @@ try
         Debug.WriteLine($"Message received by IoT Hub: {isReceived}");
         Thread.Sleep(20000);
     }
-    
+
 }
 catch (Exception ex)
 {
@@ -110,10 +110,10 @@ void StatusUpdatedEvent(object sender, StatusUpdatedEventArgs e)
 {
     Debug.WriteLine($"Status changed: {e.IoTHubStatus.Status}, {e.IoTHubStatus.Message}");
     // You may want to reconnect or use a similar retry mechanism
-    ////if (e.IoTHubStatus.Status == Status.Disconnected)
-    ////{
-    ////    mqtt.Open();
-    ////}
+    if (e.IoTHubStatus.Status == Status.Disconnected)
+    {
+        Debug.WriteLine("Stoppped!!!");
+    }
 }
 
 string MethodCalbackTest(int rid, string payload)
@@ -151,7 +151,7 @@ void CloudToDeviceMessageEvent(object sender, CloudToDeviceMessageEventArgs e)
         }
     }
 
-    if(e.Message == "stop")
+    if (e.Message == "stop")
     {
         ShoudIStop = true;
     }

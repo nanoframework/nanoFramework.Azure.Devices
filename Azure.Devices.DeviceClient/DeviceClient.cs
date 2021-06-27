@@ -39,6 +39,7 @@ namespace nanoFramework.Azure.Devices.Client
         private readonly ArrayList _methodCallback = new ArrayList();
         private readonly ArrayList _waitForConfirmation = new ArrayList();
         private readonly object _lock = new object();
+        private Timer _timerTokenRenew;
 
         /// <summary>
         /// Device twin updated event.
@@ -146,17 +147,7 @@ namespace nanoFramework.Azure.Devices.Client
             _mqttc.ConnectionClosed += ClientConnectionClosed;
 
             // Now connect the device
-            _mqttc.Connect(
-                _deviceId,
-                $"{_iotHubName}/{_deviceId}/api-version=2020-09-30",
-                _clientCert == null ? GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0)) : _privateKey,
-                false,
-                MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
-                false, "$iothub/twin/GET/?$rid=999",
-                "Disconnected",
-                false,
-                60
-                );
+            Reconnect();
 
             if (_mqttc.IsConnected)
             {
@@ -178,6 +169,31 @@ namespace nanoFramework.Azure.Devices.Client
             }
 
             return _mqttc.IsConnected;
+        }
+
+        private void Reconnect()
+        {
+            Close();
+            _mqttc.Connect(
+                _deviceId,
+                $"{_iotHubName}/{_deviceId}/api-version=2020-09-30",
+                _clientCert == null ? GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0)) : _privateKey,
+                false,
+                MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
+                false, "$iothub/twin/GET/?$rid=999",
+                "Disconnected",
+                false,
+                60
+                );
+
+            // We will renew 10 minutes before just in case
+            _timerTokenRenew = new Timer(TimerCallbackReconnect, null, new TimeSpan(23, 50, 0), TimeSpan.MaxValue);
+        }
+
+        private void TimerCallbackReconnect(object state)
+        {
+            _timerTokenRenew.Dispose();
+            Reconnect();
         }
 
         /// <summary>
@@ -274,7 +290,7 @@ namespace nanoFramework.Azure.Devices.Client
         public bool SendMessage(string message, CancellationToken cancellationToken = default)
         {
 
-            var rid = _mqttc.Publish(_telemetryTopic, Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+            var rid = _mqttc.Publish(_telemetryTopic, Encoding.UTF8.GetBytes(message), QosLevel, false);
 
             if (cancellationToken.CanBeCanceled)
             {

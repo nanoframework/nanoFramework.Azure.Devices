@@ -10,7 +10,7 @@
 
 namespace nanoFramework.Azure.Devices.Client
 {
-    
+
     internal partial class Resources
     {
         private static System.Resources.ResourceManager manager;
@@ -20,7 +20,7 @@ namespace nanoFramework.Azure.Devices.Client
             {
                 if ((Resources.manager == null))
                 {
-                    Resources.manager = new System.Resources.ResourceManager("AzureMqttSDK.Resources", typeof(Resources).Assembly);
+                    Resources.manager = new System.Resources.ResourceManager("nanoFramework.Azure.Devices.Client.Resources", typeof(Resources).Assembly);
                 }
                 return Resources.manager;
             }
