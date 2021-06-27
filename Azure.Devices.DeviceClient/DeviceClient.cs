@@ -146,7 +146,7 @@ namespace nanoFramework.Azure.Devices.Client
             _mqttc.ConnectionClosed += ClientConnectionClosed;
 
             // Now connect the device
-            byte code = _mqttc.Connect(
+            _mqttc.Connect(
                 _deviceId,
                 $"{_iotHubName}/{_deviceId}/api-version=2020-09-30",
                 _clientCert == null ? GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0)) : _privateKey,
@@ -321,26 +321,23 @@ namespace nanoFramework.Azure.Devices.Client
                     }
                     else
                     {
-                        if (message.Length > 0)
+                        if ((message.Length > 0) && !_twinReceived)
                         {
-                            // skip if already received in this session
-                            if (!_twinReceived)
+                            // skip if already received in this session                         
+                            try
                             {
-                                try
-                                {
-                                    _twin = new Twin(_deviceId, message);
-                                    _twinReceived = true;
-                                    _ioTHubStatus.Status = Status.TwinReceived;
-                                    _ioTHubStatus.Message = message;
-                                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
-                                }
-                                catch (Exception ex)
-                                {
-                                    Debug.WriteLine($"Exception receiving the twins: {ex}");
-                                    _ioTHubStatus.Status = Status.InternalError;
-                                    _ioTHubStatus.Message = ex.ToString();
-                                    StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
-                                }
+                                _twin = new Twin(_deviceId, message);
+                                _twinReceived = true;
+                                _ioTHubStatus.Status = Status.TwinReceived;
+                                _ioTHubStatus.Message = message;
+                                StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine($"Exception receiving the twins: {ex}");
+                                _ioTHubStatus.Status = Status.InternalError;
+                                _ioTHubStatus.Message = ex.ToString();
+                                StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
                             }
                         }
                     }

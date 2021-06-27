@@ -109,10 +109,11 @@ void TwinUpdatedEvent(object sender, TwinUpdateEventArgs e)
 void StatusUpdatedEvent(object sender, StatusUpdatedEventArgs e)
 {
     Debug.WriteLine($"Status changed: {e.IoTHubStatus.Status}, {e.IoTHubStatus.Message}");
-    //if (e.IoTHubStatus.Status == Status.Disconnected)
-    //{
-    //    mqtt.Open();
-    //}
+    // You may want to reconnect or use a similar retry mechanism
+    ////if (e.IoTHubStatus.Status == Status.Disconnected)
+    ////{
+    ////    mqtt.Open();
+    ////}
 }
 
 string MethodCalbackTest(int rid, string payload)

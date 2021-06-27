@@ -65,12 +65,9 @@ namespace nanoFramework.Azure.Devices.Shared
             get
             {
                 int count = _twin.Count;
-                if (count > 0)
+                if ((count > 0) && Contains(VersionName))
                 {
-                    if (Contains(VersionName))
-                    {
-                        count--;
-                    }
+                    count--;
                 }
 
                 return count;
