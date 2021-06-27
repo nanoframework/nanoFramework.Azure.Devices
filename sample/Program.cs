@@ -3,10 +3,6 @@
 // See LICENSE file in the project root for full license information.
 //
 
-///
-/// NOTE: this demo uses the information outlined in https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-mqtt-support
-///
-
 using nanoFramework.Azure.Devices.Client;
 using nanoFramework.Azure.Devices.Shared;
 using nanoFramework.Networking;
@@ -78,8 +74,8 @@ try
 catch (Exception ex)
 {
     // We won't do anything
-    // This global try catch is to make sure whatever happen, we will safely be able to go
-    // To sleep
+    // This global try catch is to make sure whatever happen, we will safely be able to
+    // reboot or do anything else.
     Debug.WriteLine(ex.ToString());
 }
 
