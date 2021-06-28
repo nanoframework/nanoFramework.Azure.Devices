@@ -76,7 +76,6 @@ namespace nanoFramework.Azure.Devices.Shared
         /// <summary>
         /// Gets the Twin as a JSON string.
         /// </summary>
-        /// <param name="formatting">Optional. Formatting for the output JSON string.</param>
         /// <returns>JSON string</returns>
         public string ToJson()
         {
