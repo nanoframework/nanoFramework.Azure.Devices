@@ -6,7 +6,7 @@
                                                                                
 ===================================================================================
 
-API docs: https://docs.nanoframework.net/api
+API docs: https://docs.nanoframework.net/api/nanoFramework.Azure.Devices.Client
 
 Browse our samples repository: https://github.com/nanoframework/samples
 
