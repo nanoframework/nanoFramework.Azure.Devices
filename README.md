@@ -1,6 +1,6 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_Azure.Devices&metric=alert_status)](https://sonarcloud.io/dashboard?id=nanoframework_Azure.Devices) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_Azure.Devices&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nanoframework_Azure.Devices) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) [![#yourfirstpr](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/nanoframework/Home/blob/master/CONTRIBUTING.md) [![Discord](https://img.shields.io/discord/478725473862549535.svg?logo=discord&logoColor=white&label=Discord&color=7289DA)](https://discord.gg/gCyBu8T)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_Azure.Devices&metric=alert_status)](https://sonarcloud.io/dashboard?id=nanoframework_Azure.Devices) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_Azure.Devices&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nanoframework_Azure.Devices) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) [![#yourfirstpr](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/nanoframework/Home/blob/main/CONTRIBUTING.md) [![Discord](https://img.shields.io/discord/478725473862549535.svg?logo=discord&logoColor=white&label=Discord&color=7289DA)](https://discord.gg/gCyBu8T)
 
-![nanoFramework logo](https://github.com/nanoframework/Home/blob/master/resources/logo/nanoFramework-repo-logo.png)
+![nanoFramework logo](https://github.com/nanoframework/Home/blob/main/resources/logo/nanoFramework-repo-logo.png)
 
 -----
 
@@ -10,7 +10,7 @@
 
 | Component | Build Status | NuGet Package |
 |:-|---|---|
-| nanoFramework.Azure.Devices.Client | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.Azure.Devices.Client/_apis/build/status/nanoframework.Azure.Devices.Client?branchName=develop)](https://dev.azure.com/nanoframework/nanoFramework.Azure.Devices.Client/_build/latest?definitionId=7?branchName=master) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) |
+| nanoFramework.Azure.Devices.Client | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.Azure.Devices.Client/_apis/build/status/nanoframework.Azure.Devices.Client?branchName=develop)](https://dev.azure.com/nanoframework/nanoFramework.Azure.Devices.Client/_build/latest?definitionId=7?branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) |
 | nanoFramework.Azure.Devices.Client (preview) | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.Azure.Devices.Client/_apis/build/status/nanoframework.Azure.Devices.Client?branchName=develop)](https://dev.azure.com/nanoframework/nanoFramework.Azure.Devices.Client/_build/latest?definitionId=7?branchName=develop) | [![](https://badgen.net/badge/NuGet/preview/D7B023?icon=https://simpleicons.now.sh/azuredevops/fff)](https://dev.azure.com/nanoframework/feed/_packaging?_a=package&feed=sandbox&package=nanoFramework.Azure.Devices.Client&protocolType=NuGet&view=overview) |
 
 ## Usage
@@ -175,7 +175,7 @@ Join our Discord community [here](https://discord.gg/gCyBu8T).
 
 ## Credits
 
-The list of contributors to this project can be found at [CONTRIBUTORS](https://github.com/nanoframework/Home/blob/master/CONTRIBUTORS.md).
+The list of contributors to this project can be found at [CONTRIBUTORS](https://github.com/nanoframework/Home/blob/main/CONTRIBUTORS.md).
 
 ## License
 
