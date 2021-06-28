@@ -10,8 +10,8 @@
 
 | Component | Build Status | NuGet Package |
 |:-|---|---|
-| nanoFramework.Azure.Devices.Client | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.Azure.Devices.Client/_apis/build/status/nanoframework.Azure.Devices.Client?branchName=develop)](https://dev.azure.com/nanoframework/nanoFramework.Azure.Devices.Client/_build/latest?definitionId=7?branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) |
-| nanoFramework.Azure.Devices.Client (preview) | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.Azure.Devices.Client/_apis/build/status/nanoframework.Azure.Devices.Client?branchName=develop)](https://dev.azure.com/nanoframework/nanoFramework.Azure.Devices.Client/_build/latest?definitionId=7?branchName=develop) | [![](https://badgen.net/badge/NuGet/preview/D7B023?icon=https://simpleicons.now.sh/azuredevops/fff)](https://dev.azure.com/nanoframework/feed/_packaging?_a=package&feed=sandbox&package=nanoFramework.Azure.Devices.Client&protocolType=NuGet&view=overview) |
+| nanoFramework.Azure.Devices.Client | [![Build Status](https://dev.azure.com/nanoframework/Azure.Devices/_apis/build/status/nanoframework.nanoFramework.Azure.Devices?branchName=main)](https://dev.azure.com/nanoframework/Azure.Devices/_build/latest?definitionId=75&branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) |
+| nanoFramework.Azure.Devices.Client (preview) | [![Build Status](https://dev.azure.com/nanoframework/Azure.Devices/_apis/build/status/nanoframework.nanoFramework.Azure.Devices?branchName=develop)](https://dev.azure.com/nanoframework/Azure.Devices/_build/latest?definitionId=75&branchName=develop) | [![NuGet](https://img.shields.io/nuget/vpre/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) |
 
 ## Usage
 
