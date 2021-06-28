@@ -15,7 +15,7 @@
     <RootNamespace>nanoFramework.Azure.Devices.Client</RootNamespace>
     <AssemblyName>nanoFramework.Azure.Devices.Client</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
-    <DocumentationFile>bin\$(Configuration)\Azure.Devices.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\nanoFramework.Azure.Devices.Client.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
