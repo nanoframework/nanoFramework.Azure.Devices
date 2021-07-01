@@ -62,8 +62,8 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="iotHubName">The Azure IoT name fully qualified (ex: youriothub.azure-devices.net)</param>
         /// <param name="deviceId">The device ID which is the name of your device.</param>
         /// <param name="sasKey">One of the SAS Key either primary, either secondary.</param>
-        /// <param name="qosLevel">The default quality level delivery for the MQTT messages</param>
-        public DeviceClient(string iotHubName, string deviceId, string sasKey, byte qosLevel = MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE)
+        /// <param name="qosLevel">The default quality level delivery for the MQTT messages, default to the lower quality</param>
+        public DeviceClient(string iotHubName, string deviceId, string sasKey, byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
         {
             _clientCert = null;
             _privateKey = null;
@@ -83,8 +83,8 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="iotHubName">The Azure IoT name fully qualified (ex: youriothub.azure-devices.net)</param>
         /// <param name="deviceId">The device ID which is the name of your device.</param>
         /// <param name="clientCert">The certificate to connect the device containing both public and private key.</param>
-        /// <param name="qosLevel">The default quality level delivery for the MQTT messages</param>
-        public DeviceClient(string iotHubName, string deviceId, X509Certificate2 clientCert, byte qosLevel = MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE)
+        /// <param name="qosLevel">The default quality level delivery for the MQTT messages, default to the lower quality</param>
+        public DeviceClient(string iotHubName, string deviceId, X509Certificate2 clientCert, byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
         {
             _clientCert = clientCert;
             _privateKey = Convert.ToBase64String(clientCert.PrivateKey);
@@ -116,7 +116,7 @@ namespace nanoFramework.Azure.Devices.Client
         /// <summary>
         /// True if the device connected
         /// </summary>
-        public bool IsConnected => _mqttc.IsConnected;
+        public bool IsConnected => (_mqttc != null) && _mqttc.IsConnected;
 
         /// <summary>
         /// Open the connection with Azure IoT. This will connected to Azure IoT Hub the device.

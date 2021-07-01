@@ -19,6 +19,8 @@
 
 This Azure IoT Hub SDK is using MQTT. So you need to ensure you can connect to port 8883 using TLS protocol. If you are in an enterprise network, this may be blocked. In most cases, this is not an issue.
 
+The namespaces, the name of the classes and the methods try to get close to the .NET C# Azure IoT SDK. This should allow an easier portability of the code between both environment.
+
 ### Creating a DeviceClient
 
 You can connect to Azure IoT Hub using either a symmetric Key, either a certificate. The following example shows how to use a symmetric key:
@@ -81,6 +83,12 @@ You have to use the `SendMessage` function to send any kind of message or teleme
 ```csharp
 var isReceived = azureIoT.SendMessage($"{{\"Temperature\":42,\"Pressure\":1024}}", new CancellationTokenSource(5000).Token);
 Debug.WriteLine($"Message received by IoT Hub: {isReceived}");
+```
+
+Note: The message will be send with the default service quality you created the device. You won't get any answer for the quality 0. In this case, you can simplify it to:
+
+```csharp
+azureIoT.SendMessage($"{{\"Temperature\":42,\"Pressure\":1024}}");
 ```
 
 ### Cloud to device messages
@@ -146,6 +154,8 @@ string RaiseExceptionCallbackTest(int rid, string payload)
     throw new Exception("I got you, it's to test the 504");
 }
 ```
+
+**Important**: method names are case sensitive. So make sure you name your functions in C# the same way.
 
 ### Status update event
 
