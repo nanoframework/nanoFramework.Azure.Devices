@@ -21,6 +21,66 @@ This Azure IoT Hub SDK is using MQTT. So you need to ensure you can connect to p
 
 The namespaces, the name of the classes and the methods try to get close to the .NET C# Azure IoT SDK. This should allow an easier portability of the code between both environment.
 
+### Certificate
+
+You have 2 options to provide the right Azure IoT TLS certificate:
+
+- Pass it in the constructor
+- Store it into the device
+
+The [AzureCertificate](AzureCertificate) contains, for your convenience, the root certificated used to connect to Azure IoT. The current one, Baltimore Root CA is the one to use up to June 2022. Starting in June 2022, the Digicert Global Root 2 is the one to use. For more information, please read the following [blog](https://techcommunity.microsoft.com/t5/internet-of-things/azure-iot-tls-critical-changes-are-almost-here-and-why-you/ba-p/2393169).
+
+#### Thru the constructor
+
+You will have to embed the certificate into your code:
+
+```csharp
+const string AzureRootCA = @"-----BEGIN CERTIFICATE-----
+MIIDdzCCAl+gAwIBAgIEAgAAuTANBgkqhkiG9w0BAQUFADBaMQswCQYDVQQGEwJJ
+RTESMBAGA1UEChMJQmFsdGltb3JlMRMwEQYDVQQLEwpDeWJlclRydXN0MSIwIAYD
+VQQDExlCYWx0aW1vcmUgQ3liZXJUcnVzdCBSb290MB4XDTAwMDUxMjE4NDYwMFoX
+DTI1MDUxMjIzNTkwMFowWjELMAkGA1UEBhMCSUUxEjAQBgNVBAoTCUJhbHRpbW9y
+ZTETMBEGA1UECxMKQ3liZXJUcnVzdDEiMCAGA1UEAxMZQmFsdGltb3JlIEN5YmVy
+VHJ1c3QgUm9vdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKMEuyKr
+mD1X6CZymrV51Cni4eiVgLGw41uOKymaZN+hXe2wCQVt2yguzmKiYv60iNoS6zjr
+IZ3AQSsBUnuId9Mcj8e6uYi1agnnc+gRQKfRzMpijS3ljwumUNKoUMMo6vWrJYeK
+mpYcqWe4PwzV9/lSEy/CG9VwcPCPwBLKBsua4dnKM3p31vjsufFoREJIE9LAwqSu
+XmD+tqYF/LTdB1kC1FkYmGP1pWPgkAx9XbIGevOF6uvUA65ehD5f/xXtabz5OTZy
+dc93Uk3zyZAsuT3lySNTPx8kmCFcB5kpvcY67Oduhjprl3RjM71oGDHweI12v/ye
+jl0qhqdNkNwnGjkCAwEAAaNFMEMwHQYDVR0OBBYEFOWdWTCCR1jMrPoIVDaGezq1
+BE3wMBIGA1UdEwEB/wQIMAYBAf8CAQMwDgYDVR0PAQH/BAQDAgEGMA0GCSqGSIb3
+DQEBBQUAA4IBAQCFDF2O5G9RaEIFoN27TyclhAO992T9Ldcw46QQF+vaKSm2eT92
+9hkTI7gQCvlYpNRhcL0EYWoSihfVCr3FvDB81ukMJY2GQE/szKN+OMY3EU/t3Wgx
+jkzSswF07r51XgdIGn9w/xZchMB5hbgF/X++ZRGjD8ACtPhSNzkE1akxehi/oCr0
+Epn3o0WC4zxe9Z2etciefC7IpJ5OCBRLbf1wbWsaY71k5h+3zvDyny67G7fyUIhz
+ksLi4xaNmjICq44Y3ekQEe5+NauQrz4wlHrQMz2nZQ/1/I6eYs9HRCwBXbsdtTLS
+R9I4LtD+gdwyah617jzV/OeBHRnDJELqYzmp
+-----END CERTIFICATE-----
+";
+DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey, azureCert: new X509Certificate(AzureRootCA));
+```
+
+You can place your binary certificate in the resources as well and just get the certificate from it:
+
+```csharp
+X509Certificate azureRootCACert = new X509Certificate(Resources.GetBytes(Resources.BinaryResources.AzureCAcertificate));
+DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey, azureCert: azureRootCACert);
+```
+
+Note: when the certificate will expire, you will have to reflash fully the device with the new certificate.
+
+#### Storing the certificate into the device
+
+You can store the certificate into the device and not in the code, so if you have to change, the certificate, you'll just have to clean the current store and upload the new one. Edit the network properties:
+
+![edit device network](device-network.jpg)
+
+Navigate to the `General` tab:
+
+![device network certificate](device-network-certificate.jpg)
+
+Brose to choose your certificate, it can be in a binary (crt, der) or string form (pem, txt) and select ok. The certificate to connect will be selected automatically during the connection.
+
 ### Creating a DeviceClient
 
 You can connect to Azure IoT Hub using either a symmetric Key, either a certificate. The following example shows how to use a symmetric key:
@@ -31,6 +91,8 @@ const string IotBrokerAddress = "youriothub.azure-devices.net";
 const string SasKey = "yoursaskey";
 DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey);
 ```
+
+Note: please see the previous section to understand how to better pass the certificate for your usage. The example shows the certificate uploaded into the device and not in the code.
 
 ### Getting and updating Twin
 
