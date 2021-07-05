@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.20...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.21...HEAD)
+
+**Implemented enhancements:**
+
+- Adjusting SDK not to embed certificate and new Mqtt client [\#2](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/2)
+
+## [v1.0.0-preview.21](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.21) (2021-07-01)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.20...v1.0.0-preview.21)
 
 **Implemented enhancements:**
 
