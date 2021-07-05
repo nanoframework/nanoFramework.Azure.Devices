@@ -10,8 +10,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Web;
-using uPLibrary.Networking.M2Mqtt;
-using uPLibrary.Networking.M2Mqtt.Messages;
+using nanoFramework.M2Mqtt;
+using nanoFramework.M2Mqtt.Messages;
 
 namespace nanoFramework.Azure.Devices.Client
 {
@@ -40,6 +40,7 @@ namespace nanoFramework.Azure.Devices.Client
         private readonly ArrayList _waitForConfirmation = new ArrayList();
         private readonly object _lock = new object();
         private Timer _timerTokenRenew;
+        private readonly X509Certificate _azureRootCACert;
 
         /// <summary>
         /// Device twin updated event.
@@ -63,7 +64,8 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="deviceId">The device ID which is the name of your device.</param>
         /// <param name="sasKey">One of the SAS Key either primary, either secondary.</param>
         /// <param name="qosLevel">The default quality level delivery for the MQTT messages, default to the lower quality</param>
-        public DeviceClient(string iotHubName, string deviceId, string sasKey, byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
+        /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub</param>
+        public DeviceClient(string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null)
         {
             _clientCert = null;
             _privateKey = null;
@@ -75,6 +77,7 @@ namespace nanoFramework.Azure.Devices.Client
             _ioTHubStatus.Message = string.Empty;
             _deviceMessageTopic = $"devices/{_deviceId}/messages/devicebound/";
             QosLevel = qosLevel;
+            _azureRootCACert = azureCert;
         }
 
         /// <summary>
@@ -84,7 +87,8 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="deviceId">The device ID which is the name of your device.</param>
         /// <param name="clientCert">The certificate to connect the device containing both public and private key.</param>
         /// <param name="qosLevel">The default quality level delivery for the MQTT messages, default to the lower quality</param>
-        public DeviceClient(string iotHubName, string deviceId, X509Certificate2 clientCert, byte qosLevel = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE)
+        /// /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub</param>
+        public DeviceClient(string iotHubName, string deviceId, X509Certificate2 clientCert, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null)
         {
             _clientCert = clientCert;
             _privateKey = Convert.ToBase64String(clientCert.PrivateKey);
@@ -96,6 +100,7 @@ namespace nanoFramework.Azure.Devices.Client
             _ioTHubStatus.Message = string.Empty;
             _deviceMessageTopic = $"devices/{_deviceId}/messages/devicebound/";
             QosLevel = qosLevel;
+            _azureRootCACert = azureCert;
         }
 
         /// <summary>
@@ -111,7 +116,7 @@ namespace nanoFramework.Azure.Devices.Client
         /// <summary>
         /// The default level quality.
         /// </summary>
-        public byte QosLevel { get; set; }
+        public MqttQoSLevel QosLevel { get; set; }
 
         /// <summary>
         /// True if the device connected
@@ -124,18 +129,12 @@ namespace nanoFramework.Azure.Devices.Client
         /// <returns></returns>
         public bool Open()
         {
-            // nanoFramework socket implementation requires a valid root CA to authenticate with.
-            // This can be supplied to the caller (as it's doing on the code bellow) or the Root CA has to be stored in the certificate store
-            // Root CA for Azure from here: https://github.com/Azure/azure-iot-sdk-c/blob/master/certs/certs.c
-            // We are storing this certificate in the resources
-            X509Certificate azureRootCACert = new X509Certificate(Resources.GetBytes(Resources.BinaryResources.AzureRoot));
-
             // Creates MQTT Client with default port 8883 using TLS protocol
             _mqttc = new MqttClient(
                 _iotHubName,
                 8883,
                 true,
-                azureRootCACert,
+                _azureRootCACert,
                 _clientCert,
                 MqttSslProtocols.TLSv1_2);
 
@@ -147,47 +146,51 @@ namespace nanoFramework.Azure.Devices.Client
             _mqttc.ConnectionClosed += ClientConnectionClosed;
 
             // Now connect the device
-            Reconnect();
+            string key = _clientCert == null ? GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0)) : _privateKey;
+            _mqttc.Connect(
+                _deviceId,
+                $"{_iotHubName}/{_deviceId}/api-version=2020-09-30",
+                key,
+                false,
+                MqttQoSLevel.ExactlyOnce,
+                false, "$iothub/twin/GET/?$rid=999",
+                "Disconnected",
+                true,
+                60
+                );
 
             if (_mqttc.IsConnected)
             {
+                _mqttc.Subscribe(
+                    new[] {
+                        $"devices/{_deviceId}/messages/devicebound/#",
+                        "$iothub/twin/#",
+                        "$iothub/methods/POST/#"
+                    },
+                    new[] {
+                        MqttQoSLevel.AtLeastOnce,
+                        MqttQoSLevel.AtLeastOnce,
+                        MqttQoSLevel.AtLeastOnce
+                    }
+                );
+
                 _ioTHubStatus.Status = Status.Connected;
                 _ioTHubStatus.Message = string.Empty;
                 StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
-                _mqttc.Subscribe(
-                    new[] {
-                $"devices/{_deviceId}/messages/devicebound/#",
-                "$iothub/twin/#",
-                "$iothub/methods/POST/#"
-                    },
-                    new[] {
-                        MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE,
-                        MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE,
-                        MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE
-                    }
-                );
+                // We will renew 10 minutes before just in case
+                _timerTokenRenew = new Timer(TimerCallbackReconnect, null, new TimeSpan(23, 50, 0), TimeSpan.MaxValue);
             }
 
             return _mqttc.IsConnected;
         }
 
-        private void Reconnect()
+        /// <summary>
+        /// Reconnect to Azure Iot Hub
+        /// </summary>
+        public void Reconnect()
         {
             Close();
-            _mqttc.Connect(
-                _deviceId,
-                $"{_iotHubName}/{_deviceId}/api-version=2020-09-30",
-                _clientCert == null ? GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0)) : _privateKey,
-                false,
-                MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE,
-                false, "$iothub/twin/GET/?$rid=999",
-                "Disconnected",
-                false,
-                60
-                );
-
-            // We will renew 10 minutes before just in case
-            _timerTokenRenew = new Timer(TimerCallbackReconnect, null, new TimeSpan(23, 50, 0), TimeSpan.MaxValue);
+            Open();
         }
 
         private void TimerCallbackReconnect(object state)
@@ -204,12 +207,16 @@ namespace nanoFramework.Azure.Devices.Client
             if (_mqttc.IsConnected)
             {
                 _mqttc.Unsubscribe(new[] {
-                $"devices/{_deviceId}/messages/devicebound/#",
-                "$iothub/twin/#",
-                "$iothub/methods/POST/#"
+                    $"devices/{_deviceId}/messages/devicebound/#",
+                    "$iothub/twin/#",
+                    "$iothub/methods/POST/#"
                     });
                 _mqttc.Disconnect();
+                // Make sure all get disconnected, cleared 
+                Thread.Sleep(1000);
             }
+
+            _timerTokenRenew.Dispose();
         }
 
         /// <summary>
@@ -222,7 +229,7 @@ namespace nanoFramework.Azure.Devices.Client
         public Twin GetTwin(CancellationToken cancellationToken = default)
         {
             _twinReceived = false;
-            _mqttc.Publish($"{TwinDesiredPropertiesTopic}?$rid={Guid.NewGuid()}", Encoding.UTF8.GetBytes(""), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+            _mqttc.Publish($"{TwinDesiredPropertiesTopic}?$rid={Guid.NewGuid()}", Encoding.UTF8.GetBytes(""), MqttQoSLevel.AtLeastOnce, false);
 
             while (!_twinReceived && !cancellationToken.IsCancellationRequested)
             {
@@ -242,7 +249,7 @@ namespace nanoFramework.Azure.Devices.Client
         {
             string twin = reported.ToJson();
             Debug.WriteLine($"update twin: {twin}");
-            var rid = _mqttc.Publish($"{TwinReportedPropertiesTopic}?$rid={Guid.NewGuid()}", Encoding.UTF8.GetBytes(twin), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, false);
+            var rid = _mqttc.Publish($"{TwinReportedPropertiesTopic}?$rid={Guid.NewGuid()}", Encoding.UTF8.GetBytes(twin), MqttQoSLevel.AtLeastOnce, false);
             _ioTHubStatus.Status = Status.TwinUpdated;
             _ioTHubStatus.Message = string.Empty;
             StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
@@ -380,11 +387,11 @@ namespace nanoFramework.Azure.Devices.Client
                             try
                             {
                                 var res = mt.Invoke(rid, message);
-                                _mqttc.Publish($"$iothub/methods/res/200/?$rid={rid}", Encoding.UTF8.GetBytes(res), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                                _mqttc.Publish($"$iothub/methods/res/200/?$rid={rid}", Encoding.UTF8.GetBytes(res), MqttQoSLevel.AtLeastOnce, false);
                             }
                             catch (Exception ex)
                             {
-                                _mqttc.Publish($"$iothub/methods/res/504/?$rid={rid}", Encoding.UTF8.GetBytes($"{{\"Exception:\":\"{ex}\"}}"), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                                _mqttc.Publish($"$iothub/methods/res/504/?$rid={rid}", Encoding.UTF8.GetBytes($"{{\"Exception:\":\"{ex}\"}}"), MqttQoSLevel.AtLeastOnce, false);
                             }
                         }
                     }
