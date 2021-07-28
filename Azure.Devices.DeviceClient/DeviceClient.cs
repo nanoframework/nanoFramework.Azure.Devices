@@ -2,24 +2,21 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using nanoFramework.Azure.Devices.Shared;
+using nanoFramework.M2Mqtt;
+using nanoFramework.M2Mqtt.Messages;
 using System;
 using System.Collections;
 using System.Diagnostics;
-using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
-using System.Web;
-using nanoFramework.M2Mqtt;
-using nanoFramework.M2Mqtt.Messages;
 
 namespace nanoFramework.Azure.Devices.Client
 {
     /// <summary>
     /// Azure IoT Client SDK for .NET nanoFramework using MQTT
     /// </summary>
-    public class DeviceClient
-
+    public class DeviceClient : IDisposable
     {
         const string TwinReportedPropertiesTopic = "$iothub/twin/PATCH/properties/reported/";
         const string TwinDesiredPropertiesTopic = "$iothub/twin/GET/";
@@ -146,7 +143,7 @@ namespace nanoFramework.Azure.Devices.Client
             _mqttc.ConnectionClosed += ClientConnectionClosed;
 
             // Now connect the device
-            string key = _clientCert == null ? GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0)) : _privateKey;
+            string key = _clientCert == null ? Helper.GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0)) : _privateKey;
             _mqttc.Connect(
                 _deviceId,
                 $"{_iotHubName}/{_deviceId}/api-version=2020-09-30",
@@ -473,37 +470,26 @@ namespace nanoFramework.Azure.Devices.Client
             StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
         }
 
-        private string GetSharedAccessSignature(string keyName, string sharedAccessKey, string resource, TimeSpan tokenTimeToLive)
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            // http://msdn.microsoft.com/en-us/library/azure/dn170477.aspx
-            // the canonical Uri scheme is http because the token is not amqp specific
-            // signature is computed from joined encoded request Uri string and expiry string
-
-            var exp = DateTime.UtcNow.ToUnixTimeSeconds() + (long)tokenTimeToLive.TotalSeconds;
-
-            string expiry = exp.ToString();
-            string encodedUri = HttpUtility.UrlEncode(resource);
-
-            var hmacsha256 = new HMACSHA256(Convert.FromBase64String(sharedAccessKey));
-            byte[] hmac = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(encodedUri + "\n" + expiry));
-            string sig = Convert.ToBase64String(hmac);
-
-            if (keyName != null)
+            if (_mqttc != null)
             {
-                return String.Format(
-                "SharedAccessSignature sr={0}&sig={1}&se={2}&skn={3}",
-                encodedUri,
-                HttpUtility.UrlEncode(sig),
-                HttpUtility.UrlEncode(expiry),
-                HttpUtility.UrlEncode(keyName));
-            }
-            else
-            {
-                return String.Format(
-                    "SharedAccessSignature sr={0}&sig={1}&se={2}",
-                    encodedUri,
-                    HttpUtility.UrlEncode(sig),
-                    HttpUtility.UrlEncode(expiry));
+                // Making sure we unregister to events
+                _mqttc.MqttMsgPublishReceived -= ClientMqttMsgReceived;
+                _mqttc.MqttMsgPublished -= ClientMqttMsgPublished;
+                _mqttc.ConnectionClosed -= ClientConnectionClosed;
+                // Closing and waiting for the connection to be properly closed
+                Close();
+                while (_mqttc.IsConnected)
+                {
+                    Thread.Sleep(100);
+
+                }
+
+                // Cleaning
+                GC.SuppressFinalize(_mqttc);
+                _mqttc = null;
             }
         }
     }

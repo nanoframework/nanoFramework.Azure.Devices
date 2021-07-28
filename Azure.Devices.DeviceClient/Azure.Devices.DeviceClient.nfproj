@@ -30,11 +30,19 @@
   <ItemGroup>
     <Compile Include="CloudToDeviceMessage.cs" />
     <Compile Include="ConfirmationStatus.cs" />
+    <Compile Include="DeviceRegistrationResult.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="HMACSHA256.cs" />
     <Compile Include="IoTHubStatus.cs" />
     <Compile Include="MethodCalback.cs" />
     <Compile Include="DeviceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProvisioningDeviceClient.cs" />
+    <Compile Include="ProvisioningRegistrationAdditionalData.cs" />
+    <Compile Include="ProvisioningRegistrationStatusType.cs" />
+    <Compile Include="ProvisioningRegistrationSubstatusType.cs" />
+    <Compile Include="RegistrationOperationStatus.cs" />
+    <Compile Include="RegistrationState.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="StatusUpdatedEventArgs.cs" />
     <Compile Include="Twin.cs" />
@@ -46,8 +54,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="mscorlib, Version=1.10.5.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.CoreLibrary.1.10.5-preview.18\lib\mscorlib.dll</HintPath>
+    <Reference Include="mscorlib, Version=1.10.5.4, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.CoreLibrary.1.10.5\lib\mscorlib.dll</HintPath>
       <Private>True</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
