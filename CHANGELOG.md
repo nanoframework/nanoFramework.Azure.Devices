@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.21...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.23...HEAD)
+
+**Implemented enhancements:**
+
+- Adding Device Provisioning Service in Azure IoT SDK [\#3](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/3)
+
+## [v1.0.0-preview.23](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.23) (2021-07-05)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.21...v1.0.0-preview.23)
 
 **Implemented enhancements:**
 
