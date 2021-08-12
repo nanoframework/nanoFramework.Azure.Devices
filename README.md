@@ -13,9 +13,15 @@
 | nanoFramework.Azure.Devices.Client | [![Build Status](https://dev.azure.com/nanoframework/Azure.Devices/_apis/build/status/nanoframework.nanoFramework.Azure.Devices?branchName=main)](https://dev.azure.com/nanoframework/Azure.Devices/_build/latest?definitionId=75&branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) |
 | nanoFramework.Azure.Devices.Client (preview) | [![Build Status](https://dev.azure.com/nanoframework/Azure.Devices/_apis/build/status/nanoframework.nanoFramework.Azure.Devices?branchName=develop)](https://dev.azure.com/nanoframework/Azure.Devices/_build/latest?definitionId=75&branchName=develop) | [![NuGet](https://img.shields.io/nuget/vpre/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) |
 
+## See it in action
+
+You can watch this video from the Microsoft [IoT Show](https://aka.ms/iotshow) featuring the Azure SDK and a real life example with .NET nanoFramework:
+
+[![IoT Show](https://img.youtube.com/vi/TLYqRdmmj5k/0.jpg)](https://youtu.be/TLYqRdmmj5k)
+
 ## Usage
 
-**Importnat**: You **must** be connected to a network with a valid IP address **and** a valid date. Please check the examples with the Network Helpers on how to help you making sure you have both.
+**Important**: You **must** be connected to a network with a valid IP address **and** a valid date. Please check the examples with the Network Helpers on how to help you making sure you have both.
 
 This Azure IoT Hub SDK is using MQTT. So you need to ensure you can connect to port 8883 using TLS protocol. If you are in an enterprise network, this may be blocked. In most cases, this is not an issue.
 
