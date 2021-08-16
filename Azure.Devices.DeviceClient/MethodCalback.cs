@@ -9,5 +9,5 @@ namespace nanoFramework.Azure.Devices.Client
     /// <param name="rid">The request ID.</param>
     /// <param name="payload">The payload.</param>
     /// <returns></returns>
-    public delegate string MethodCalback(int rid, string payload);
+    public delegate string MethodCallback(int rid, string payload);
 }

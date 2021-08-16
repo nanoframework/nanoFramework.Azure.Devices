@@ -270,19 +270,19 @@ namespace nanoFramework.Azure.Devices.Client
         /// <summary>
         /// Add a callback method.
         /// </summary>
-        /// <param name="methodCalback">The callback method to add.</param>
-        public void AddMethodCallback(MethodCalback methodCalback)
+        /// <param name="methodCallback">The callback method to add.</param>
+        public void AddMethodCallback(MethodCallback methodCallback)
         {
-            _methodCallback.Add(methodCalback);
+            _methodCallback.Add(methodCallback);
         }
 
         /// <summary>
         /// Remove a callback method.
         /// </summary>
-        /// <param name="methodCalback">The callback method to remove.</param>
-        public void RemoveMethodCallback(MethodCalback methodCalback)
+        /// <param name="methodCallback">The callback method to remove.</param>
+        public void RemoveMethodCallback(MethodCallback methodCallback)
         {
-            _methodCallback.Remove(methodCalback);
+            _methodCallback.Remove(methodCallback);
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace nanoFramework.Azure.Devices.Client
                     _ioTHubStatus.Status = Status.DirectMethodCalled;
                     _ioTHubStatus.Message = $"{method}/{message}";
                     StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
-                    foreach (MethodCalback mt in _methodCallback)
+                    foreach (MethodCallback mt in _methodCallback)
                     {
                         string mtName = mt.Method.Name;
                         if (mtName.Contains(C9PatternMainStyle))
