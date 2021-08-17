@@ -80,10 +80,10 @@ namespace nanoFramework.Azure.Devices.Client
         /// <summary>
         /// Creates an <see cref="DeviceClient"/> class.
         /// </summary>
-        /// <param name="iotHubName">The Azure IoT name fully qualified (ex: youriothub.azure-devices.net)</param>
-        /// <param name="deviceId">The device ID which is the name of your device.</param>
-        /// <param name="clientCert">The certificate to connect the device containing both public and private key.</param>
-        /// <param name="qosLevel">The default quality level delivery for the MQTT messages, default to the lower quality</param>
+        /// <param name="iotHubName">Your Azure IoT Hub fully qualified domain name (example: youriothub.azure-devices.net).</param>
+        /// <param name="deviceId">The device ID (name of your device).</param>
+        /// <param name="clientCert">The certificate to connect the device (containing both public and private keys).</param>
+        /// <param name="qosLevel">The default quality of assurance level for delivery for the MQTT messages (defaults to the lowest quality).</param>
         /// /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub</param>
         public DeviceClient(string iotHubName, string deviceId, X509Certificate2 clientCert, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null)
         {
@@ -106,7 +106,7 @@ namespace nanoFramework.Azure.Devices.Client
         public Twin LastTwin => _twin;
 
         /// <summary>
-        /// The latests status.
+        /// The latest status.
         /// </summary>
         public IoTHubStatus IoTHubStatus => new IoTHubStatus(_ioTHubStatus);
 
@@ -116,17 +116,17 @@ namespace nanoFramework.Azure.Devices.Client
         public MqttQoSLevel QosLevel { get; set; }
 
         /// <summary>
-        /// True if the device connected
+        /// True if the device connected.
         /// </summary>
         public bool IsConnected => (_mqttc != null) && _mqttc.IsConnected;
 
         /// <summary>
-        /// Open the connection with Azure IoT. This will connected to Azure IoT Hub the device.
+        /// Open the connection with Azure IoT. This will initiate a connection from the device to the Azure IoT Hub instance.
         /// </summary>
         /// <returns></returns>
         public bool Open()
         {
-            // Creates MQTT Client with default port 8883 using TLS protocol
+            // Creates MQTT Client usinf the default port of 8883 and the TLS 1.2 protocol
             _mqttc = new MqttClient(
                 _iotHubName,
                 8883,
@@ -270,19 +270,19 @@ namespace nanoFramework.Azure.Devices.Client
         /// <summary>
         /// Add a callback method.
         /// </summary>
-        /// <param name="methodCalback">The callback method to add.</param>
-        public void AddMethodCallback(MethodCalback methodCalback)
+        /// <param name="methodCallback">The callback method to add.</param>
+        public void AddMethodCallback(MethodCallback methodCallback)
         {
-            _methodCallback.Add(methodCalback);
+            _methodCallback.Add(methodCallback);
         }
 
         /// <summary>
         /// Remove a callback method.
         /// </summary>
-        /// <param name="methodCalback">The callback method to remove.</param>
-        public void RemoveMethodCallback(MethodCalback methodCalback)
+        /// <param name="methodCallback">The callback method to remove.</param>
+        public void RemoveMethodCallback(MethodCallback methodCallback)
         {
-            _methodCallback.Remove(methodCalback);
+            _methodCallback.Remove(methodCallback);
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace nanoFramework.Azure.Devices.Client
                     _ioTHubStatus.Status = Status.DirectMethodCalled;
                     _ioTHubStatus.Message = $"{method}/{message}";
                     StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
-                    foreach (MethodCalback mt in _methodCallback)
+                    foreach (MethodCallback mt in _methodCallback)
                     {
                         string mtName = mt.Method.Name;
                         if (mtName.Contains(C9PatternMainStyle))
@@ -475,7 +475,7 @@ namespace nanoFramework.Azure.Devices.Client
         {
             if (_mqttc != null)
             {
-                // Making sure we unregister to events
+                // Making sure we unregister the registered events
                 _mqttc.MqttMsgPublishReceived -= ClientMqttMsgReceived;
                 _mqttc.MqttMsgPublished -= ClientMqttMsgPublished;
                 _mqttc.ConnectionClosed -= ClientConnectionClosed;
