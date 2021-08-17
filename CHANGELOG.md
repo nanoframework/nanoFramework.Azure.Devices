@@ -2,7 +2,19 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.23...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.25...HEAD)
+
+**Implemented enhancements:**
+
+- Corrects naming of `Callback` [\#5](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/5)
+
+**Documentation and other chores:**
+
+- Add IoT show in the docs [\#4](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/4)
+
+## [v1.0.0-preview.25](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.25) (2021-08-01)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.23...v1.0.0-preview.25)
 
 **Implemented enhancements:**
 
