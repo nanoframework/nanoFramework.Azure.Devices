@@ -34,7 +34,7 @@ You have 2 options to provide the right Azure IoT TLS certificate:
 - Pass it in the constructor
 - Store it into the device
 
-The [AzureCertificate](AzureCertificate) contains, for your convenience, the root certificated used to connect to Azure IoT. The current one, Baltimore Root CA is the one to use up to June 2022. Starting in June 2022, the Digicert Global Root 2 is the one to use. For more information, please read the following [blog](https://techcommunity.microsoft.com/t5/internet-of-things/azure-iot-tls-critical-changes-are-almost-here-and-why-you/ba-p/2393169).
+The [AzureCertificates](AzureCertificates) contains, for your convenience, the root certificated used to connect to Azure IoT. The current one, Baltimore Root CA is the one to use up to June 2022. Starting in June 2022, the Digicert Global Root 2 is the one to use. For more information, please read the following [blog](https://techcommunity.microsoft.com/t5/internet-of-things/azure-iot-tls-critical-changes-are-almost-here-and-why-you/ba-p/2393169).
 
 #### Thru the constructor
 
@@ -85,7 +85,7 @@ Navigate to the `General` tab:
 
 ![device network certificate](device-network-certificate.jpg)
 
-Brose to choose your certificate, it can be in a binary (crt, der) or string form (pem, txt) and select ok. The certificate to connect will be selected automatically during the connection.
+Browse to choose your certificate, it can be in a binary (crt, der) or string form (pem, txt) and select ok. The certificate to connect will be selected automatically during the connection.
 
 ### Creating a DeviceClient
 
@@ -129,7 +129,7 @@ reported.Add("sdk", 0.2);
 azureIoT.UpdateReportedProperties(reported);
 ```
 
-You have as well the option to wait for th twin update confirmation, in this case use a `CancellationToken` than can be cancelled. Otherwise the check will be ignore.
+You have as well the option to wait for the twin update confirmation, in this case use a `CancellationToken` that can be cancelled. Otherwise the check will be ignored.
 
 Note: the function will return false if the twin reception confirmation is not checked or if it did not arrive on time.
 
@@ -161,7 +161,7 @@ azureIoT.SendMessage($"{{\"Temperature\":42,\"Pressure\":1024}}");
 
 ### Cloud to device messages
 
-You can register an event to received the Cloud to device messages:
+You can register an event to receive Cloud to device messages:
 
 ```csharp
 azureIoT.CloudToDeviceMessage += CloudToDeviceMessageEvent;
@@ -195,7 +195,7 @@ Note: the `sender` is a `DeviceClient` class, you can then send a message back, 
 
 ### Method callback
 
-Method callback is supported as well. You can register and unregister your methods. Here are few examples:
+Method callback is supported as well. You can register and unregister your methods. Here are a few examples:
 
 ```csharp
 azureIoT.AddMethodCallback(MethodCallbackTest);
@@ -299,7 +299,7 @@ For symmetric key provisioning you only need the following elements:
 - The ID Scope
 - The device name
 - The device certificate
-- Make sure that your IoT Hub is as well aware of the root/intermediate certificate you are using otherwise you won't be able to connect to your IoT Hub once your device provisioned
+- Make sure that your IoT Hub is as well aware of the root/intermediate certificate you are using otherwise you won't be able to connect to your IoT Hub once your device is provisioned
 
 The code is then straight forward:
 
