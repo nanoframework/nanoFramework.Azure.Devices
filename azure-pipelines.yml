@@ -21,7 +21,7 @@ pool:
 
 variables:
   DOTNET_NOLOGO: true
-  solution: '**/*.sln'
+  solution: 'nanoFramework.Azure.Devices.Client.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   nugetPackageName: 'nanoFramework.Azure.Devices.Client'
