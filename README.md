@@ -23,20 +23,20 @@ You can watch this video from the Microsoft [IoT Show](https://aka.ms/iotshow) f
 
 **Important**: You **must** be connected to a network with a valid IP address **and** a valid date. Please check the examples with the Network Helpers on how to help you making sure you have both.
 
-This Azure IoT Hub SDK is using MQTT. So you need to ensure you can connect to port 8883 using TLS protocol. If you are in an enterprise network, this may be blocked. In most cases, this is not an issue.
+This Azure IoT Hub SDK is using MQTT. So you need to ensure you can connect to port 8883 using TLS protocol. If you are connected to an enterprise network, this may be blocked. In most cases, this is not an issue.
 
-The namespaces, the name of the classes and the methods try to get close to the .NET C# Azure IoT SDK. This should allow an easier portability of the code between both environment.
+The namespaces, the name of the classes and the methods try to get close to the .NET C# Azure IoT SDK. This should allow easier portability of the code between the full .Net framework and nanoFramwork environments.
 
 ### Certificate
 
 You have 2 options to provide the right Azure IoT TLS certificate:
 
-- Pass it in the constructor
+- Parse it into the constructor
 - Store it into the device
 
-The [AzureCertificates](AzureCertificates) contains, for your convenience, the root certificated used to connect to Azure IoT. The current one, Baltimore Root CA is the one to use up to June 2022. Starting in June 2022, the Digicert Global Root 2 is the one to use. For more information, please read the following [blog](https://techcommunity.microsoft.com/t5/internet-of-things/azure-iot-tls-critical-changes-are-almost-here-and-why-you/ba-p/2393169).
+The [AzureCertificates](AzureCertificates) contains, for your convenience, the root certificate used to connect to Azure IoT. The current one,  a Baltimore Root CA is the one to use up to June 2022. Starting from June 2022, the Digicert Global Root 2 is the one to use. For more information, please read the following [blog](https://techcommunity.microsoft.com/t5/internet-of-things/azure-iot-tls-critical-changes-are-almost-here-and-why-you/ba-p/2393169).
 
-#### Thru the constructor
+#### Through the constructor
 
 You will have to embed the certificate into your code:
 
@@ -66,18 +66,18 @@ R9I4LtD+gdwyah617jzV/OeBHRnDJELqYzmp
 DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey, azureCert: new X509Certificate(AzureRootCA));
 ```
 
-You can place your binary certificate in the resources as well and just get the certificate from it:
+You can place your binary certificate in the program resources as well and just get the certificate from it:
 
 ```csharp
 X509Certificate azureRootCACert = new X509Certificate(Resources.GetBytes(Resources.BinaryResources.AzureCAcertificate));
 DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey, azureCert: azureRootCACert);
 ```
 
-Note: when the certificate will expire, you will have to reflash fully the device with the new certificate.
+Note: when the certificate expires, you will have to fully reflash the device with the new certificate.
 
-#### Storing the certificate into the device
+#### Storing the certificate on the device
 
-You can store the certificate into the device and not in the code, so if you have to change, the certificate, you'll just have to clean the current store and upload the new one. Edit the network properties:
+You can store the certificate on the device flash and not in the code, so if you have to change the certificate, you'll just have to clean the current store and upload the new one. Edit the network properties:
 
 ![edit device network](device-network.jpg)
 
@@ -89,7 +89,7 @@ Browse to choose your certificate, it can be in a binary (crt, der) or string fo
 
 ### Creating a DeviceClient
 
-You can connect to Azure IoT Hub using either a symmetric Key, either a certificate. The following example shows how to use a symmetric key:
+You can connect to Azure IoT Hub using either a symmetric Key or a certificate. The following example shows how to use a symmetric key:
 
 ```csharp
 const string DeviceID = "nanoEdgeTwin";
@@ -98,7 +98,7 @@ const string SasKey = "yoursaskey";
 DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey);
 ```
 
-Note: please see the previous section to understand how to better pass the certificate for your usage. The example shows the certificate uploaded into the device and not in the code.
+Note: please see the previous section to understand how to better parse the certificate for your usage. The example shows the certificate uploaded into the device and not in the code.
 
 ### Getting and updating Twin
 
@@ -116,7 +116,7 @@ if (twin == null)
 Debug.WriteLine($"Twin DeviceID: {twin.DeviceId}, #desired: {twin.Properties.Desired.Count}, #reported: {twin.Properties.Reported.Count}");
 ```
 
-Note: it's important to use a `CancellationToken` that be cancelled after a certain amount of time. Otherwise, this will be blocking the thread up to the point the twin will be received. 
+Note: it's important to use a `CancellationToken` that will be cancelled after a certain amount of time. Otherwise, this will be blocking the thread up to the point the twin is received. 
 
 Twins have properties, reported and desired. They are collection and you can get or try to get any element.
 
@@ -129,11 +129,11 @@ reported.Add("sdk", 0.2);
 azureIoT.UpdateReportedProperties(reported);
 ```
 
-You have as well the option to wait for the twin update confirmation, in this case use a `CancellationToken` that can be cancelled. Otherwise the check will be ignored.
+You also have the option to wait for the twin update confirmation, in this case use a `CancellationToken` that can be cancelled. Otherwise the check will be ignored.
 
 Note: the function will return false if the twin reception confirmation is not checked or if it did not arrive on time.
 
-You can register as well for any twin update:
+You can also register for any twin update:
 
 ```csharp
 azureIoT.TwinUpated += TwinUpdatedEvent;
@@ -153,7 +153,7 @@ var isReceived = azureIoT.SendMessage($"{{\"Temperature\":42,\"Pressure\":1024}}
 Debug.WriteLine($"Message received by IoT Hub: {isReceived}");
 ```
 
-Note: The message will be send with the default service quality you created the device. You won't get any answer for the quality 0. In this case, you can simplify it to:
+Note: The message will be sent with the default service quality of service you created the device with. You won't get any answer for the quality `0`. In this case, you can simplify it to:
 
 ```csharp
 azureIoT.SendMessage($"{{\"Temperature\":42,\"Pressure\":1024}}");
@@ -223,7 +223,7 @@ string RaiseExceptionCallbackTest(int rid, string payload)
 }
 ```
 
-**Important**: method names are case sensitive. So make sure you name your functions in C# the same way.
+**Important**: method names are case sensitive. So make sure you name your functions in C# use the same case.
 
 ### Status update event
 
@@ -247,7 +247,7 @@ Note that those are status change based, so once the connect or disconnect event
 
 ## Azure IoT Device Provisioning Service (DPS) support
 
-This SDK supports as well Azure IoT Device Provisioning Service. Group and individual provisioning scenarios are supported either with a symmetric key either with certificates. To understand the mechanism behind DPS, it is recommended to read the [documentation](https://docs.microsoft.com/azure/iot-dps/).
+This SDK also supports the Azure IoT Device Provisioning Service. Group and individual provisioning scenarios are supported either with a symmetric key either with certificates. To understand the mechanism behind DPS, it is recommended to read the [documentation](https://docs.microsoft.com/azure/iot-dps/).
 
 ### Provisioning using symmetric key
 
