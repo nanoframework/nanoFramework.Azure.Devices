@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.42...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.44...HEAD)
+
+**Documentation and other chores:**
+
+- Bump MQTT version [\#15](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/15)
+
+## [v1.0.0-preview.44](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.44) (2021-10-19)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.42...v1.0.0-preview.44)
 
 **Documentation and other chores:**
 
