@@ -247,24 +247,22 @@ namespace nanoFramework.Azure.Devices.Client
             string twin = reported.ToJson();
             Debug.WriteLine($"update twin: {twin}");
             var rid = _mqttc.Publish($"{TwinReportedPropertiesTopic}?$rid={Guid.NewGuid()}", Encoding.UTF8.GetBytes(twin), MqttQoSLevel.AtLeastOnce, false);
+            ConfirmationStatus conf = new(rid);
             _ioTHubStatus.Status = Status.TwinUpdated;
             _ioTHubStatus.Message = string.Empty;
             StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
 
             if (cancellationToken.CanBeCanceled)
-            {
-                ConfirmationStatus conf = new(rid);
+            {                
                 _waitForConfirmation.Add(conf);
                 while (!conf.Received && !cancellationToken.IsCancellationRequested)
                 {
                     cancellationToken.WaitHandle.WaitOne(200, true);
                 }
-
-                _waitForConfirmation.Remove(conf);
-                return conf.Received;
             }
 
-            return false;
+            _waitForConfirmation.Remove(conf);
+            return conf.Received;
         }
 
         /// <summary>
