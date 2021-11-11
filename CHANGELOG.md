@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.48...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.50...HEAD)
+
+**Implemented enhancements:**
+
+- Improving twin property reporting [\#18](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/18)
+
+## [v1.0.0-preview.50](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.50) (2021-11-11)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.48...v1.0.0-preview.50)
 
 **Documentation and other chores:**
 
