@@ -5,19 +5,18 @@
     <version>$version$</version>
     <title>nanoFramework.Azure.Devices.Client</title>
     <authors>nanoFramework project contributors</authors>
-    <owners>nanoFramework project contributors,dotnetfoundation</owners>
+    <owners>nanoFramework,dotnetfoundation</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="file">LICENSE.md</license>
     <releaseNotes>
     </releaseNotes>
+    <readme>docs\README.md</readme>
     <developmentDependency>false</developmentDependency>
     <projectUrl>https://github.com/nanoframework/lib-nanoFramework.Azure.Devices.Client</projectUrl>
     <icon>images\nf-logo.png</icon>
     <repository type="git" url="https://github.com/nanoframework/nanoFramework.Azure.Devices" commit="$commit$" />
     <copyright>Copyright (c) .NET Foundation and Contributors</copyright>
-    <description>This package includes the .NET nanoFramework.Azure.Devices.Client assembly for nanoFramework C# projects.
-This is an SDK for Azure IoT Hub using MQTT broker.</description>
-    <summary>nanoFramework.Azure.Devices.Client assembly for nanoFramework C# projects</summary>
+    <description>This package includes the .NET nanoFramework.Azure.Devices.Client assembly for .NET nanoFramework C# projects..&#10;This is an SDK for Azure IoT Hub using MQTT broker.</description>
     <tags>nanoFramework C# csharp netmf netnf Microsoft.Azure.Devices nanoFramework.Azure.Devices</tags>
     <dependencies>
       <dependency id="nanoFramework.CoreLibrary" version="1.10.5" />
@@ -40,6 +39,7 @@ This is an SDK for Azure IoT Hub using MQTT broker.</description>
     <file src="Azure.Devices.DeviceClient\bin\Release\nanoFramework.Azure.Devices.Client.pe" target="lib\nanoFramework.Azure.Devices.Client.pe" />
     <file src="Azure.Devices.DeviceClient\bin\Release\nanoFramework.Azure.Devices.Client.xml" target="lib\nanoFramework.Azure.Devices.Client.xml" />
     <file src="assets\readme.txt" target="" />
+    <file src="README.md" target="docs\" />
     <file src="assets\nf-logo.png" target="images" />
     <file src="LICENSE.md" target="" />
   </files>
