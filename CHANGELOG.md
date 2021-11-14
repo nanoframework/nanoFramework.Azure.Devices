@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.55...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.59...HEAD)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.M2Mqtt from 5.0.2-preview.24 to 5.0.2-preview.26 [\#22](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/22)
+
+## [v1.0.0-preview.59](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.59) (2021-11-13)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.55...v1.0.0-preview.59)
 
 **Documentation and other chores:**
 
