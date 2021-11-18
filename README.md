@@ -100,6 +100,16 @@ DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey);
 
 Note: please see the previous section to understand how to better parse the certificate for your usage. The example shows the certificate uploaded into the device and not in the code.
 
+### Azure Plug&Play
+
+Azure Plug&Play is supported as well. You'll need to provide a model ID when creating the DeviceClient:
+
+```csharp
+DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey, modelID:"dtmi:com:example:Thermostat;1");
+```
+
+Note: the model ID has to be passed at the creation of the DeviceClient, it is not possible to pass it later on.
+
 ### Getting and updating Twin
 
 You can request your Azure IoT Twin simply by calling the `GetTwin` function.

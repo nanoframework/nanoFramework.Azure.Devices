@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using System.Web;
 
 namespace nanoFramework.Azure.Devices.Client
 {
@@ -62,7 +63,8 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="sasKey">One of the SAS Key either primary, either secondary.</param>
         /// <param name="qosLevel">The default quality level delivery for the MQTT messages, default to the lower quality</param>
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub</param>
-        public DeviceClient(string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null)
+        /// <param name="modelId">Azure Plug and Play model ID</param>
+        public DeviceClient(string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null, string modelId = null)
         {
             _clientCert = null;
             _privateKey = null;
@@ -75,6 +77,7 @@ namespace nanoFramework.Azure.Devices.Client
             _deviceMessageTopic = $"devices/{_deviceId}/messages/devicebound/";
             QosLevel = qosLevel;
             _azureRootCACert = azureCert;
+            ModelId = modelId;
         }
 
         /// <summary>
@@ -85,7 +88,8 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="clientCert">The certificate to connect the device (containing both public and private keys).</param>
         /// <param name="qosLevel">The default quality of assurance level for delivery for the MQTT messages (defaults to the lowest quality).</param>
         /// /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub</param>
-        public DeviceClient(string iotHubName, string deviceId, X509Certificate2 clientCert, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null)
+        /// /// <param name="modelId">Azure Plug and Play model ID</param>
+        public DeviceClient(string iotHubName, string deviceId, X509Certificate2 clientCert, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null, string modelId = null)
         {
             _clientCert = clientCert;
             _privateKey = Convert.ToBase64String(clientCert.PrivateKey);
@@ -98,7 +102,13 @@ namespace nanoFramework.Azure.Devices.Client
             _deviceMessageTopic = $"devices/{_deviceId}/messages/devicebound/";
             QosLevel = qosLevel;
             _azureRootCACert = azureCert;
+            ModelId = modelId;
         }
+
+        /// <summary>
+        /// Azure Plug and Play model ID
+        /// </summary>
+        public string ModelId { get; internal set; }
 
         /// <summary>
         /// The latest Twin received.
@@ -142,11 +152,18 @@ namespace nanoFramework.Azure.Devices.Client
             // event when connection has been dropped
             _mqttc.ConnectionClosed += ClientConnectionClosed;
 
+            string userName = $"{_iotHubName}/{_deviceId}/api-version=2020-09-30";
+            if (!string.IsNullOrEmpty(ModelId))
+            {
+                userName += $"&model-id={HttpUtility.UrlEncode(ModelId)}";
+                
+            }
+
             // Now connect the device
             string key = _clientCert == null ? Helper.GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0)) : _privateKey;
             _mqttc.Connect(
                 _deviceId,
-                $"{_iotHubName}/{_deviceId}/api-version=2020-09-30",
+                userName,
                 key,
                 false,
                 MqttQoSLevel.ExactlyOnce,
@@ -253,7 +270,7 @@ namespace nanoFramework.Azure.Devices.Client
             StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
 
             if (cancellationToken.CanBeCanceled)
-            {                
+            {
                 _waitForConfirmation.Add(conf);
                 while (!conf.Received && !cancellationToken.IsCancellationRequested)
                 {
