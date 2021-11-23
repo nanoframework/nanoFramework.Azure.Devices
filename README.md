@@ -100,9 +100,9 @@ DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey);
 
 Note: please see the previous section to understand how to better parse the certificate for your usage. The example shows the certificate uploaded into the device and not in the code.
 
-### Azure Plug&Play
+### Azure IoT Plug&Play
 
-Azure Plug&Play is supported as well. You'll need to provide a model ID when creating the DeviceClient:
+Azure IoT Plug&Play is supported as well. You'll need to provide a model ID when creating the DeviceClient:
 
 ```csharp
 DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey, modelID:"dtmi:com:example:Thermostat;1");
