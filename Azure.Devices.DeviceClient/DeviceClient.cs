@@ -156,7 +156,7 @@ namespace nanoFramework.Azure.Devices.Client
             if (!string.IsNullOrEmpty(ModelId))
             {
                 userName += $"&model-id={HttpUtility.UrlEncode(ModelId)}";
-                
+
             }
 
             // Now connect the device
@@ -276,9 +276,10 @@ namespace nanoFramework.Azure.Devices.Client
                 {
                     cancellationToken.WaitHandle.WaitOne(200, true);
                 }
+
+                _waitForConfirmation.Remove(conf);
             }
 
-            _waitForConfirmation.Remove(conf);
             return conf.Received;
         }
 
@@ -305,15 +306,23 @@ namespace nanoFramework.Azure.Devices.Client
         /// </summary>
         /// <param name="message">The message to send.</param>
         /// <param name="cancellationToken">A cancellation token. If you use the default one, the confirmation of delivery will not be awaited.</param>
+        /// <param name="dtdlComponentname">The DTDL component name.</param>
         /// <returns>True for successful message delivery.</returns>
-        public bool SendMessage(string message, CancellationToken cancellationToken = default)
+        public bool SendMessage(string message, CancellationToken cancellationToken = default, string dtdlComponentname = "")
         {
+            string topic = _telemetryTopic;
 
-            var rid = _mqttc.Publish(_telemetryTopic, Encoding.UTF8.GetBytes(message), QosLevel, false);
+            if (!string.IsNullOrEmpty(dtdlComponentname))
+            {
+                topic += $"$.sub={dtdlComponentname}";
+            }
+
+            var rid = _mqttc.Publish(topic, Encoding.UTF8.GetBytes(message), QosLevel, false);
+            ConfirmationStatus conf = new(rid);
 
             if (cancellationToken.CanBeCanceled)
             {
-                ConfirmationStatus conf = new(rid);
+
                 _waitForConfirmation.Add(conf);
                 while (!conf.Received && !cancellationToken.IsCancellationRequested)
                 {
@@ -321,10 +330,9 @@ namespace nanoFramework.Azure.Devices.Client
                 }
 
                 _waitForConfirmation.Remove(conf);
-                return conf.Received;
             }
 
-            return false;
+            return conf.Received;
         }
 
         private void ClientMqttMsgReceived(object sender, MqttMsgPublishEventArgs e)
