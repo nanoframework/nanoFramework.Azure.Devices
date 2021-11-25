@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.63...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.65...HEAD)
+
+**Implemented enhancements:**
+
+- Improving P&P facilitating writable property and improving documentation [\#25](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/25)
+
+## [v1.0.0-preview.65](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.65) (2021-11-23)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.63...v1.0.0-preview.65)
 
 **Documentation and other chores:**
 
