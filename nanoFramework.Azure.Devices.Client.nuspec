@@ -16,8 +16,7 @@
     <icon>images\nf-logo.png</icon>
     <repository type="git" url="https://github.com/nanoframework/nanoFramework.Azure.Devices" commit="$commit$" />
     <copyright>Copyright (c) .NET Foundation and Contributors</copyright>
-    <description>This package includes the .NET nanoFramework.Azure.Devices.Client assembly for .NET nanoFramework C# projects..
-This is an SDK for Azure IoT Hub using MQTT broker.</description>
+    <description>This package includes the .NET nanoFramework.Azure.Devices.Client assembly for .NET nanoFramework C# projects.&#10;This is an SDK for Azure IoT Hub using MQTT broker.</description>
     <tags>nanoFramework C# csharp netmf netnf Microsoft.Azure.Devices nanoFramework.Azure.Devices</tags>
     <dependencies>
       <dependency id="nanoFramework.CoreLibrary" version="1.10.5" />
