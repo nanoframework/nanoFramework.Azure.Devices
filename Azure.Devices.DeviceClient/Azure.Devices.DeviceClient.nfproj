@@ -37,6 +37,8 @@
     <Compile Include="MethodCallback.cs" />
     <Compile Include="DeviceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyAcknowledge.cs" />
+    <Compile Include="PropertyStatus.cs" />
     <Compile Include="ProvisioningDeviceClient.cs" />
     <Compile Include="ProvisioningRegistrationAdditionalData.cs" />
     <Compile Include="ProvisioningRegistrationStatusType.cs" />

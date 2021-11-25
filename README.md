@@ -110,6 +110,53 @@ DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey, mod
 
 Note: the model ID has to be passed at the creation of the DeviceClient, it is not possible to pass it later on.
 
+#### Reporting properties
+
+Reporting Plug & Play properties is supported. He is a comprehensive example and how you can check if you have received one property that you're interested in:
+
+```csharp
+const string TargetTemerature = "targetTemperature";
+DeviceClient azureIoT = new DeviceClient(Secrets.IotHub, Secrets.DeviceName, Secrets.SasKey, azureCert: new X509Certificate(Resource.GetBytes(Resource.BinaryResources.AzureRoot)), modelId: "dtmi:com:example:Thermostat;1");
+azureIoT.TwinUpated += AzureTwinUpdated;
+azureIoT.Open();
+
+void AzureTwinUpdated(object sender, TwinUpdateEventArgs e)
+{
+    if (e.Twin.Contains(TargetTemerature))
+    {
+        // We got an update for the target temperature
+        var target = e.Twin[TargetTemerature];
+        Debug.WriteLine($"Target temperature updated: {target}");
+        PropertyAcknowledge targetReport = new() { Version = (int)e.Twin.Version, Status = PropertyStatus.Completed, Description = "All perfect", Value = target };
+        TwinCollection twin = new TwinCollection();
+        twin.Add(TargetTemerature, targetReport.BuildAcknowledge());
+        azureIoT.UpdateReportedProperties(twin);
+    }
+}
+```
+
+In this example, the property we are interested in to receive is called `targetTemperature`. To receive its update, we are subscribing to the twin update. And we can get the value thu the `e.Twin[TargetTemerature]` once we've checked that the property exist.
+
+The patter to publish a writable property is then quite simple. it's about building a `PropertyAcknowledge`, creating a TwinCollection, adding it to it with the property name, here our `targetTemperature`. You can add more properties to report of course. Note that what you add to the TwinCollection is not directly the object but `BuildAcknowledge()`. One done, just ask the library to update the twin through the `UpdateReportedProperties` method.
+
+#### Receiving commands
+
+An IoT Plug & Play command is a method callback. See further in this document how you can use them. In our case, the method is called `getMaxMinReport`. The name of the method in C# **must** be the exact same as the name from the DTDL file.
+
+```csharp
+DeviceClient azureIoT = new DeviceClient(Secrets.IotHub, Secrets.DeviceName, Secrets.SasKey, azureCert: new X509Certificate(Resource.GetBytes(Resource.BinaryResources.AzureRoot)), modelId: "dtmi:com:example:Thermostat;1");
+azureIoT.AddMethodCallback(getMaxMinReport);
+azureIoT.Open();
+
+string getMaxMinReport(int rid, string payload)
+{
+    TemperatureReporting reporting = new() { avgTemp = 20, maxTemp = 42, minTemp = 12.34, startTime = DateTime.UtcNow.AddDays(-10), endTime = DateTime.UtcNow };
+    return JsonConvert.SerializeObject(reporting);
+}
+```
+
+In this example, the expected result is an object. Just populate the object and serialize it as a json as the command expect and return it. If any parameter to this command, it will be in the payload.
+
 ### Getting and updating Twin
 
 You can request your Azure IoT Twin simply by calling the `GetTwin` function.
