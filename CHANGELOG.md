@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.71...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.73...HEAD)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.System.Net.Http from 1.3.6-preview.7 to 1.3.6-preview.10 [\#28](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/28)
+
+## [v1.0.0-preview.73](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.73) (2021-12-01)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.71...v1.0.0-preview.73)
 
 **Documentation and other chores:**
 
