@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.73...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.75...HEAD)
+
+**Documentation and other chores:**
+
+- Update 1 nuget dependencies [\#29](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/29)
+
+## [v1.0.0-preview.75](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.75) (2021-12-01)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.73...v1.0.0-preview.75)
 
 **Documentation and other chores:**
 
