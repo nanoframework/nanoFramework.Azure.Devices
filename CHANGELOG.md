@@ -2,7 +2,39 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.91...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.99...HEAD)
+
+**Documentation and other chores:**
+
+- Update 2 NuGet dependencies [\#42](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/42)
+
+## [v1.0.0-preview.99](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.99) (2021-12-03)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.97...v1.0.0-preview.99)
+
+**Documentation and other chores:**
+
+- Update 2 NuGet dependencies [\#41](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/41)
+
+## [v1.0.0-preview.97](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.97) (2021-12-03)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.95...v1.0.0-preview.97)
+
+**Documentation and other chores:**
+
+- Update 4 NuGet dependencies [\#40](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/40)
+
+## [v1.0.0-preview.95](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.95) (2021-12-03)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.93...v1.0.0-preview.95)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.System.Net.Http from 1.3.6-preview.19 to 1.3.6-preview.20 [\#38](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/38)
+
+## [v1.0.0-preview.93](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.93) (2021-12-02)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.91...v1.0.0-preview.93)
 
 **Documentation and other chores:**
 
