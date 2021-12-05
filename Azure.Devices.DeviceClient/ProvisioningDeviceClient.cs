@@ -131,7 +131,7 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
             string registration;
             if ((data != null) && (!string.IsNullOrEmpty(data.JsonData)))
             {
-                registration = $"{{\"registrationId\":\"{_registrationId}\",\"payload\":\"{data.JsonData}\"}}";
+                registration = $"{{\"registrationId\":\"{_registrationId}\",\"payload\":{data.JsonData}}}";
             }
             else
             {
