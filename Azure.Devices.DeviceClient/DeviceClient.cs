@@ -39,6 +39,7 @@ namespace nanoFramework.Azure.Devices.Client
         private readonly object _lock = new object();
         private Timer _timerTokenRenew;
         private readonly X509Certificate _azureRootCACert;
+        private bool _isCertificate;
 
         /// <summary>
         /// Device twin updated event.
@@ -66,6 +67,7 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="modelId">Azure Plug and Play model ID</param>
         public DeviceClient(string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null, string modelId = null)
         {
+            _isCertificate = false;
             _clientCert = null;
             _privateKey = null;
             _iotHubName = iotHubName;
@@ -85,14 +87,16 @@ namespace nanoFramework.Azure.Devices.Client
         /// </summary>
         /// <param name="iotHubName">Your Azure IoT Hub fully qualified domain name (example: youriothub.azure-devices.net).</param>
         /// <param name="deviceId">The device ID (name of your device).</param>
-        /// <param name="clientCert">The certificate to connect the device (containing both public and private keys).</param>
+        /// <param name="clientCert">The certificate to connect the device (containing both public and private keys). Pass null if you are using the certificate store on the device</param>
         /// <param name="qosLevel">The default quality of assurance level for delivery for the MQTT messages (defaults to the lowest quality).</param>
         /// /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub</param>
         /// /// <param name="modelId">Azure Plug and Play model ID</param>
         public DeviceClient(string iotHubName, string deviceId, X509Certificate2 clientCert, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null, string modelId = null)
         {
+            _isCertificate = true;
             _clientCert = clientCert;
-            _privateKey = Convert.ToBase64String(clientCert.PrivateKey);
+            // In case we are using the store, the magic should happen automaticall
+            _privateKey = _clientCert != null ? Convert.ToBase64String(clientCert.PrivateKey) : null;
             _iotHubName = iotHubName;
             _deviceId = deviceId;
             _sasKey = null;
@@ -160,7 +164,7 @@ namespace nanoFramework.Azure.Devices.Client
             }
 
             // Now connect the device
-            string key = _clientCert == null ? Helper.GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0)) : _privateKey;
+            string key = _isCertificate ? _privateKey : Helper.GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0));
             _mqttc.Connect(
                 _deviceId,
                 userName,
