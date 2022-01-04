@@ -61,7 +61,7 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
             string idScope, string registrationId,
             X509Certificate securityProvider, X509Certificate azureCert = null)
         {
-            return new ProvisioningDeviceClient(globalDeviceEndpoint, idScope, registrationId, string.Empty, securityProvider, azureCert);
+            return new ProvisioningDeviceClient(globalDeviceEndpoint, idScope, registrationId, null, securityProvider, azureCert);
         }
 
         private ProvisioningDeviceClient(string globalDeviceEndpoint, string idScope, string registrationId, string securityProvider, X509Certificate deviceCert, X509Certificate azureCert)
@@ -80,7 +80,7 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
             _mqttc.MqttMsgPublishReceived += ClientMqttMsgReceived;
 
             // Now connect the device
-            string key = deviceCert == null ? Helper.GetSharedAccessSignature(null, securityProvider, $"{idScope}/registrations/{_registrationId}", new TimeSpan(24, 0, 0)) : string.Empty;
+            string key = securityProvider != null ? Helper.GetSharedAccessSignature(null, securityProvider, $"{idScope}/registrations/{_registrationId}", new TimeSpan(24, 0, 0)) : string.Empty;
             _mqttc.Connect(
                 _registrationId,
                 $"{idScope}/registrations/{_registrationId}/api-version=2019-03-31",
