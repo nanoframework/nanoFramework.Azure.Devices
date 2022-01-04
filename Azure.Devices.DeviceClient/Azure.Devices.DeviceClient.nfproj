@@ -61,11 +61,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.Json, Version=2.1.2.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Json.2.1.2-preview.3\lib\nanoFramework.Json.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.Json.2.1.2-preview.4\lib\nanoFramework.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.M2Mqtt, Version=5.0.2.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.M2Mqtt.5.0.2-preview.45\lib\nanoFramework.M2Mqtt.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.M2Mqtt.5.0.2-preview.46\lib\nanoFramework.M2Mqtt.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events, Version=1.10.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
