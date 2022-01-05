@@ -2,7 +2,99 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.115...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.128...HEAD)
+
+**Fixed bugs:**
+
+- Fix dps client to use device certificate correctly [\#60](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/60)
+
+**Documentation and other chores:**
+
+- Update 2 NuGet dependencies [\#62](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/62)
+
+## [v1.0.0-preview.128](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.128) (2022-01-04)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.127...v1.0.0-preview.128)
+
+**Documentation and other chores:**
+
+- Update 2 NuGet dependencies [\#59](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/59)
+
+## [v1.0.0-preview.127](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.127) (2022-01-03)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.126...v1.0.0-preview.127)
+
+**Documentation and other chores:**
+
+- Update 2 NuGet dependencies [\#58](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/58)
+
+## [v1.0.0-preview.126](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.126) (2022-01-03)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.125...v1.0.0-preview.126)
+
+**Fixed bugs:**
+
+- Adjusting certificate connection when stored on the device and not in code [\#49](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/49)
+
+## [v1.0.0-preview.125](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.125) (2022-01-03)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.124...v1.0.0-preview.125)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.System.Net.Http from 1.3.7-preview.5 to 1.3.7-preview.6 [\#57](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/57)
+
+## [v1.0.0-preview.124](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.124) (2022-01-03)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.123...v1.0.0-preview.124)
+
+**Documentation and other chores:**
+
+- Update 5 NuGet dependencies [\#56](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/56)
+
+## [v1.0.0-preview.123](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.123) (2021-12-31)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.122...v1.0.0-preview.123)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.M2Mqtt from 5.0.2-preview.44 to 5.0.2-preview.45 [\#55](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/55)
+
+## [v1.0.0-preview.122](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.122) (2021-12-31)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.121...v1.0.0-preview.122)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.M2Mqtt from 5.0.2-preview.43 to 5.0.2-preview.44 [\#54](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/54)
+
+## [v1.0.0-preview.121](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.121) (2021-12-30)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.120...v1.0.0-preview.121)
+
+**Documentation and other chores:**
+
+- Update 2 NuGet dependencies [\#53](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/53)
+
+## [v1.0.0-preview.120](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.120) (2021-12-29)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.119...v1.0.0-preview.120)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.M2Mqtt from 5.0.2-preview.41 to 5.0.2-preview.43 [\#52](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/52)
+
+## [v1.0.0-preview.119](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.119) (2021-12-28)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.117...v1.0.0-preview.119)
+
+**Documentation and other chores:**
+
+- Update 3 NuGet dependencies [\#51](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/51)
+
+## [v1.0.0-preview.117](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.117) (2021-12-17)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.115...v1.0.0-preview.117)
 
 **Documentation and other chores:**
 
