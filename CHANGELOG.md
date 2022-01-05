@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.128...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.130...HEAD)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.System.Net from 1.8.0-preview.3 to 1.8.0-preview.5 [\#63](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/63)
+
+## [v1.0.0-preview.130](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.130) (2022-01-05)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.128...v1.0.0-preview.130)
 
 **Fixed bugs:**
 
