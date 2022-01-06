@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.132...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.134...HEAD)
+
+**Fixed bugs:**
+
+- Fix Direct Method bug where a formatting error occurs after 10 succes… [\#61](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/61)
+
+## [v1.0.0-preview.134](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.134) (2022-01-06)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.132...v1.0.0-preview.134)
 
 **Documentation and other chores:**
 
