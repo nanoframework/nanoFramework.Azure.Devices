@@ -394,7 +394,7 @@ namespace nanoFramework.Azure.Devices.Client
                     const string C9PatternMainStyle = "<<Main>$>g__";
                     string method = e.Topic.Substring(DirectMethodTopic.Length);
                     string methodName = method.Substring(0, method.IndexOf('/'));
-                    int rid = Convert.ToInt32(method.Substring(method.IndexOf('=') + 1));
+                    int rid = Convert.ToInt32(method.Substring(method.IndexOf('=') + 1),16);
                     _ioTHubStatus.Status = Status.DirectMethodCalled;
                     _ioTHubStatus.Message = $"{method}/{message}";
                     StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
@@ -411,11 +411,11 @@ namespace nanoFramework.Azure.Devices.Client
                             try
                             {
                                 var res = mt.Invoke(rid, message);
-                                _mqttc.Publish($"$iothub/methods/res/200/?$rid={rid}", Encoding.UTF8.GetBytes(res), MqttQoSLevel.AtLeastOnce, false);
+                                _mqttc.Publish($"$iothub/methods/res/200/?$rid={rid:X}", Encoding.UTF8.GetBytes(res), MqttQoSLevel.AtLeastOnce, false);
                             }
                             catch (Exception ex)
                             {
-                                _mqttc.Publish($"$iothub/methods/res/504/?$rid={rid}", Encoding.UTF8.GetBytes($"{{\"Exception:\":\"{ex}\"}}"), MqttQoSLevel.AtLeastOnce, false);
+                                _mqttc.Publish($"$iothub/methods/res/504/?$rid={rid:X}", Encoding.UTF8.GetBytes($"{{\"Exception:\":\"{ex}\"}}"), MqttQoSLevel.AtLeastOnce, false);
                             }
                         }
                     }
