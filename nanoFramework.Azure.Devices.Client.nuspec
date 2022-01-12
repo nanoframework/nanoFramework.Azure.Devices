@@ -12,7 +12,7 @@
     </releaseNotes>
     <readme>docs\README.md</readme>
     <developmentDependency>false</developmentDependency>
-    <projectUrl>https://github.com/nanoframework/lib-nanoFramework.Azure.Devices.Client</projectUrl>
+    <projectUrl>https://github.com/nanoframework/nanoFramework.Azure.Devices</projectUrl>
     <icon>images\nf-logo.png</icon>
     <repository type="git" url="https://github.com/nanoframework/nanoFramework.Azure.Devices" commit="$commit$" />
     <copyright>Copyright (c) .NET Foundation and Contributors</copyright>
@@ -34,11 +34,11 @@ This is an SDK for Azure IoT Hub using MQTT broker.</description>
     </dependencies>
   </metadata>
   <files>
-    <file src="Azure.Devices.DeviceClient\bin\Release\nanoFramework.Azure.Devices.Client.dll" target="lib\nanoFramework.Azure.Devices.Client.dll" />
-    <file src="Azure.Devices.DeviceClient\bin\Release\nanoFramework.Azure.Devices.Client.pdb" target="lib\nanoFramework.Azure.Devices.Client.pdb" />
-    <file src="Azure.Devices.DeviceClient\bin\Release\nanoFramework.Azure.Devices.Client.pdbx" target="lib\nanoFramework.Azure.Devices.Client.pdbx" />
-    <file src="Azure.Devices.DeviceClient\bin\Release\nanoFramework.Azure.Devices.Client.pe" target="lib\nanoFramework.Azure.Devices.Client.pe" />
-    <file src="Azure.Devices.DeviceClient\bin\Release\nanoFramework.Azure.Devices.Client.xml" target="lib\nanoFramework.Azure.Devices.Client.xml" />
+    <file src="nanoFramework.Azure.Devices.Client\bin\Release\nanoFramework.Azure.Devices.Client.dll" target="lib\nanoFramework.Azure.Devices.Client.dll" />
+    <file src="nanoFramework.Azure.Devices.Client\bin\Release\nanoFramework.Azure.Devices.Client.pdb" target="lib\nanoFramework.Azure.Devices.Client.pdb" />
+    <file src="nanoFramework.Azure.Devices.Client\bin\Release\nanoFramework.Azure.Devices.Client.pdbx" target="lib\nanoFramework.Azure.Devices.Client.pdbx" />
+    <file src="nanoFramework.Azure.Devices.Client\bin\Release\nanoFramework.Azure.Devices.Client.pe" target="lib\nanoFramework.Azure.Devices.Client.pe" />
+    <file src="nanoFramework.Azure.Devices.Client\bin\Release\nanoFramework.Azure.Devices.Client.xml" target="lib\nanoFramework.Azure.Devices.Client.xml" />
     <file src="assets\readme.txt" target="" />
     <file src="README.md" target="docs\" />
     <file src="assets\nf-logo.png" target="images" />
