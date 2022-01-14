@@ -269,21 +269,20 @@ namespace nanoFramework.Azure.Devices.Client
             Debug.WriteLine($"update twin: {twin}");
             var rid = _mqttc.Publish($"{TwinReportedPropertiesTopic}?$rid={Guid.NewGuid()}", Encoding.UTF8.GetBytes(twin), MqttQoSLevel.AtLeastOnce, false);
             ConfirmationStatus conf = new(rid);
+            _waitForConfirmation.Add(conf);
             _ioTHubStatus.Status = Status.TwinUpdated;
             _ioTHubStatus.Message = string.Empty;
             StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
 
             if (cancellationToken.CanBeCanceled)
-            {
-                _waitForConfirmation.Add(conf);
+            {                
                 while (!conf.Received && !cancellationToken.IsCancellationRequested)
                 {
                     cancellationToken.WaitHandle.WaitOne(200, true);
-                }
-
-                _waitForConfirmation.Remove(conf);
+                }                
             }
 
+            _waitForConfirmation.Remove(conf);
             return conf.Received;
         }
 
@@ -323,19 +322,17 @@ namespace nanoFramework.Azure.Devices.Client
 
             var rid = _mqttc.Publish(topic, Encoding.UTF8.GetBytes(message), QosLevel, false);
             ConfirmationStatus conf = new(rid);
+            _waitForConfirmation.Add(conf);
 
             if (cancellationToken.CanBeCanceled)
-            {
-
-                _waitForConfirmation.Add(conf);
+            {                
                 while (!conf.Received && !cancellationToken.IsCancellationRequested)
                 {
                     cancellationToken.WaitHandle.WaitOne(200, true);
-                }
-
-                _waitForConfirmation.Remove(conf);
+                }                
             }
 
+            _waitForConfirmation.Remove(conf);
             return conf.Received;
         }
 
