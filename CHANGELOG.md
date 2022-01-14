@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.146...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.148...HEAD)
+
+**Fixed bugs:**
+
+- optimizing message ack [\#65](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/65)
+
+## [v1.0.0-preview.148](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.148) (2022-01-14)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.146...v1.0.0-preview.148)
 
 **Documentation and other chores:**
 
