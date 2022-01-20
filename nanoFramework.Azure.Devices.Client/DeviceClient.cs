@@ -65,7 +65,7 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="qosLevel">The default quality level delivery for the MQTT messages, default to the lower quality</param>
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub</param>
         /// <param name="modelId">Azure Plug and Play model ID</param>
-        public DeviceClient(string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null, string modelId = null)
+        public DeviceClient(string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce, X509Certificate azureCert = null, string modelId = null)
         {
             _isCertificate = false;
             _clientCert = null;
