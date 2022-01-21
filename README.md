@@ -302,6 +302,18 @@ void StatusUpdatedEvent(object sender, StatusUpdatedEventArgs e)
 
 Note that those are status change based, so once the connect or disconnect event arrives, they'll be replaced by other events as soon as something else happened like receiving a twin.
 
+### QoS Level
+
+By default, the device SDKs connect to an IoT Hub use QoS 1 for message exchange with the IoT hub. You can change this by setting the `qosLevel` argument of the `DeviceClient` constructor.
+
+Here are existing QoS levels that you can use:
+
+* AtMostOnce: The broker/client will deliver the message once, with no confirmation.
+* AtLeastOnce: The broker/client will deliver the message at least once, with confirmation required.
+* ExactlyOnce: The broker/client will deliver the message exactly once by using a four step handshake.
+
+While it's possible to configure QoS 0 (AtMostOnce) for faster message exchange, you should note that the delivery isn't guaranteed nor acknowledged. For this reason, QoS 0 is often referred as "fire and forget".
+
 ## Azure IoT Device Provisioning Service (DPS) support
 
 This SDK also supports the Azure IoT Device Provisioning Service. Group and individual provisioning scenarios are supported either with a symmetric key either with certificates. To understand the mechanism behind DPS, it is recommended to read the [documentation](https://docs.microsoft.com/azure/iot-dps/).
@@ -336,7 +348,7 @@ if(myDevice.Status != ProvisioningRegistrationStatusType.Assigned)
 }
 
 // You can then create the device
-var device = new DeviceClient(myDevice.AssignedHub, myDevice.DeviceId, SasKey, nanoFramework.M2Mqtt.Messages.MqttQoSLevel.AtMostOnce, azureCA);
+var device = new DeviceClient(myDevice.AssignedHub, myDevice.DeviceId, SasKey, nanoFramework.M2Mqtt.Messages.MqttQoSLevel.AtLeastOnce, azureCA);
 // Open it and continue like for the previous sections
 var res = device.Open();
 if(!res)
@@ -395,7 +407,7 @@ if(myDevice.Status != ProvisioningRegistrationStatusType.Assigned)
 }
 
 // You can then create the device
-var device = new DeviceClient(myDevice.AssignedHub, myDevice.DeviceId, deviceCert, nanoFramework.M2Mqtt.Messages.MqttQoSLevel.AtMostOnce, azureCA);
+var device = new DeviceClient(myDevice.AssignedHub, myDevice.DeviceId, deviceCert, nanoFramework.M2Mqtt.Messages.MqttQoSLevel.AtLeastOnce, azureCA);
 // Open it and continue like for the previous sections
 var res = device.Open();
 if(!res)
