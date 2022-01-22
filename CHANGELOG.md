@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.170...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.172...HEAD)
+
+**Fixed bugs:**
+
+- Adding tests, fixing TwinCollection [\#88](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/88)
+
+## [v1.0.0-preview.172](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.172) (2022-01-21)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.170...v1.0.0-preview.172)
 
 **Documentation and other chores:**
 
