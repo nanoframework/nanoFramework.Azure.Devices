@@ -82,17 +82,7 @@ namespace nanoFramework.Azure.Devices.Shared
 
         public object this[string propertyName]
         {
-            get
-            {
-                try
-                {
-                    return _twin[propertyName];
-                }
-                catch
-                {
-                    return null;
-                }
-            }
+            get => _twin[propertyName];
 
             set => _twin[propertyName] = value;
         }
@@ -126,19 +116,18 @@ namespace nanoFramework.Azure.Devices.Shared
         /// <returns>True if the specified property is present; otherwise, false.</returns>
         public bool Contains(string propertyName)
         {
-            try
+            foreach (string key in _twin.Keys)
             {
-                var obj = _twin[propertyName];
-                return true;
+                if (key == propertyName)
+                {
+                    return true;
+                }
             }
-            catch
-            {
-                // That means it doesn't exist
-                return false;
-            }
+
+            return false;
         }
 
         /// <inheritdoc />
-        public IEnumerator GetEnumerator() => _twin as IEnumerator;
+        public IEnumerator GetEnumerator() => _twin.GetEnumerator();
     }
 }
