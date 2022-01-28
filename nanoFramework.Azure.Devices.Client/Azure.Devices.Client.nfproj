@@ -61,11 +61,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.Json, Version=2.1.2.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Json.2.1.2-preview.20\lib\nanoFramework.Json.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.Json.2.1.2-preview.23\lib\nanoFramework.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.M2Mqtt, Version=5.0.2.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.M2Mqtt.5.0.2-preview.65\lib\nanoFramework.M2Mqtt.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.M2Mqtt.5.0.2-preview.68\lib\nanoFramework.M2Mqtt.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events, Version=1.10.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
@@ -77,11 +77,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.System.Collections, Version=1.4.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.System.Collections.1.4.0-preview.9\lib\nanoFramework.System.Collections.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.System.Collections.1.4.0-preview.12\lib\nanoFramework.System.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.System.Text, Version=1.1.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.System.Text.1.1.3-preview.9\lib\nanoFramework.System.Text.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.System.Text.1.1.3-preview.11\lib\nanoFramework.System.Text.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net, Version=1.8.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
@@ -93,7 +93,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Threading, Version=1.0.4.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.System.Threading.1.0.4-preview.10\lib\System.Threading.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.System.Threading.1.0.4-preview.12\lib\System.Threading.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Windows.Storage.Streams, Version=1.12.4.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
