@@ -37,6 +37,7 @@
     <Compile Include="MethodCallback.cs" />
     <Compile Include="DeviceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SHA256.cs" />
     <Compile Include="PropertyAcknowledge.cs" />
     <Compile Include="PropertyStatus.cs" />
     <Compile Include="ProvisioningDeviceClient.cs" />
@@ -98,10 +99,6 @@
     </Reference>
     <Reference Include="System.Threading, Version=1.0.4.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.System.Threading.1.0.4-preview.16\lib\System.Threading.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Windows.Storage.Streams, Version=1.12.4.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Windows.Storage.Streams.1.12.4-preview.16\lib\Windows.Storage.Streams.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
