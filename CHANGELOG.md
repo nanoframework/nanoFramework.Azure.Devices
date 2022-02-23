@@ -2,7 +2,19 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.215...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.217...HEAD)
+
+**Implemented enhancements:**
+
+- Exposing Sha256 class [\#118](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/118)
+
+**Documentation and other chores:**
+
+- Update 1 NuGet dependencies [\#117](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/117)
+
+## [v1.0.0-preview.217](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.217) (2022-02-17)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.215...v1.0.0-preview.217)
 
 **Documentation and other chores:**
 
