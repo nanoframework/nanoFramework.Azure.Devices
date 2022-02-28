@@ -62,7 +62,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.Json, Version=2.1.2.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Json.2.1.2-preview.44\lib\nanoFramework.Json.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.Json.2.1.2-preview.47\lib\nanoFramework.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.M2Mqtt, Version=5.0.2.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
@@ -94,7 +94,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http, Version=1.4.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.System.Net.Http.1.4.0-preview.28\lib\System.Net.Http.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.System.Net.Http.1.4.0-preview.29\lib\System.Net.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Threading, Version=1.0.4.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
