@@ -163,13 +163,12 @@ namespace nanoFramework.Azure.Devices.Client
             }
 
             // compose product info
-            StringBuilder productInfo = new StringBuilder();
-            productInfo.Append("nano;");
-            productInfo.Append($"azrsdk{ThisAssembly.AssemblyInformationalVersion};");
-            productInfo.Append($"{Runtime.Native.SystemInfo.TargetName}");
+            string productInfo = "nano;";
+            productInfo += $"azrsdk{ThisAssembly.AssemblyInformationalVersion};";
+            productInfo += $"{Runtime.Native.SystemInfo.TargetName}";
 
             // add to user name
-            userName += $"&DeviceClientType={HttpUtility.UrlEncode(productInfo.ToString())}";
+            userName += $"&DeviceClientType={HttpUtility.UrlEncode(productInfo)}";
 
             // Now connect the device
             string key = _isCertificate ? _privateKey : Helper.GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0));
