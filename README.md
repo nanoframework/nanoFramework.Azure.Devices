@@ -313,6 +313,20 @@ Here are existing QoS levels that you can use:
 
 While it's possible to configure QoS 0 (AtMostOnce) for faster message exchange, you should note that the delivery isn't guaranteed nor acknowledged. For this reason, QoS 0 is often referred as "fire and forget".
 
+## Module support
+
+Modules are supported, you will have to use the constructor to pass the module ID either with a SAS token, either with a certificate. The rest fully works like a normal device. Everything is fully supported including module direct method, telemetry and of course twins!
+
+For example here with a SAS token. Note that the certificates are fully supported as well. And if you are not storing the Azure root certificate on the device, you'll need to pass it in the constructor.
+
+```csharp
+const string DeviceID = "nanoEdgeTwin";
+const string ModuleID = "myModule";
+const string IotBrokerAddress = "youriothub.azure-devices.net";
+const string SasKey = "yoursaskey";
+DeviceClient module = new DeviceClient(IotBrokerAddress, DeviceID, ModuleID, SasKey);
+```
+
 ## Azure IoT Device Provisioning Service (DPS) support
 
 This SDK also supports the Azure IoT Device Provisioning Service. Group and individual provisioning scenarios are supported either with a symmetric key either with certificates. To understand the mechanism behind DPS, it is recommended to read the [documentation](https://docs.microsoft.com/azure/iot-dps/).
