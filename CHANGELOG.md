@@ -1,5 +1,22 @@
 # Changelog
 
+## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0...HEAD)
+
+**Implemented enhancements:**
+
+- Add module support [\#174](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/174)
+- Add telemetry data [\#153](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/153)
+
+**Documentation and other chores:**
+
+- Update 1 NuGet dependencies [\#173](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/173)
+
+## [v1.0.0](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0) (2022-03-30)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.255...v1.0.0)
+
 ## [v1.0.0-preview.255](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0-preview.255) (2022-03-28)
 
 [Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.0-preview.252...v1.0.0-preview.255)
