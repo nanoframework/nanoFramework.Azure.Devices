@@ -22,7 +22,7 @@ namespace nanoFramework.Azure.Devices.Client
         private const string TwinReportedPropertiesTopic = "$iothub/twin/PATCH/properties/reported/";
         private const string TwinDesiredPropertiesTopic = "$iothub/twin/GET/";
         private const string DirectMethodTopic = "$iothub/methods/POST/";
-        private const string ApiVersion = "2020-09-30";
+        private const string ApiVersion = "2021-04-12";
 
         private readonly string _iotHubName;
         private readonly string _deviceId;
@@ -68,10 +68,33 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// <param name="modelId">Azure Plug and Play model ID.</param>
         public DeviceClient(string iotHubName, string deviceId, string moduleId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce, X509Certificate azureCert = null, string modelId = null)
-            : this(iotHubName, deviceId, sasKey, qosLevel, azureCert, modelId)
+
         {
+            _isCertificate = false;
+            _clientCert = null;
+            _privateKey = null;
+            _iotHubName = iotHubName;
+            ModelId = modelId;
             ModuleId = moduleId;
-            _telemetryTopic = $"devices/{_deviceId}/modules/{ModuleId}/messages/events/";
+            _sasKey = sasKey;
+            QosLevel = qosLevel;
+            _azureRootCACert = azureCert;
+
+            if (string.IsNullOrEmpty(moduleId))
+            {
+                _telemetryTopic = $"devices/{deviceId}/messages/events/";
+                _deviceId = deviceId;
+            }
+            else
+            {
+                _telemetryTopic = $"devices/{deviceId}/modules/{ModuleId}/messages/events/";
+                _deviceId = deviceId + "/" + moduleId;
+            }
+
+            _deviceMessageTopic = $"devices/{_deviceId}/messages/devicebound/";
+
+            _ioTHubStatus.Status = Status.Disconnected;
+            _ioTHubStatus.Message = string.Empty;
         }
 
         /// <summary>
@@ -85,10 +108,32 @@ namespace nanoFramework.Azure.Devices.Client
         /// /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// /// <param name="modelId">Azure Plug and Play model ID.</param>
         public DeviceClient(string iotHubName, string deviceId, string moduleId, X509Certificate2 clientCert, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null, string modelId = null)
-            : this(iotHubName, deviceId, clientCert, qosLevel, azureCert, modelId)
         {
+            _isCertificate = true;
+            _clientCert = clientCert;
+            // In case we are using the store, the magic should happen automaticall
+            _privateKey = _clientCert != null ? Convert.ToBase64String(clientCert.PrivateKey) : null;
+            _iotHubName = iotHubName;
+            ModelId = modelId;
             ModuleId = moduleId;
-            _telemetryTopic = $"devices/{_deviceId}/modules/{ModuleId}/messages/events/";
+            QosLevel = qosLevel;
+            _azureRootCACert = azureCert;
+
+            if (string.IsNullOrEmpty(moduleId))
+            {
+                _telemetryTopic = $"devices/{deviceId}/messages/events/";
+                _deviceId = deviceId;
+            }
+            else
+            {
+                _telemetryTopic = $"devices/{deviceId}/modules/{ModuleId}/messages/events/";
+                _deviceId = deviceId + "/" + moduleId;
+            }
+
+            _deviceMessageTopic = $"devices/{_deviceId}/messages/devicebound/";
+
+            _ioTHubStatus.Status = Status.Disconnected;
+            _ioTHubStatus.Message = string.Empty;
         }
 
         /// <summary>
@@ -101,20 +146,8 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// <param name="modelId">Azure Plug and Play model ID.</param>
         public DeviceClient(string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce, X509Certificate azureCert = null, string modelId = null)
+            : this(iotHubName, deviceId, string.Empty, sasKey, qosLevel, azureCert, modelId)
         {
-            _isCertificate = false;
-            _clientCert = null;
-            _privateKey = null;
-            _iotHubName = iotHubName;
-            _deviceId = deviceId;
-            _sasKey = sasKey;
-            _telemetryTopic = $"devices/{_deviceId}/messages/events/";
-            _ioTHubStatus.Status = Status.Disconnected;
-            _ioTHubStatus.Message = string.Empty;
-            _deviceMessageTopic = $"devices/{_deviceId}/messages/devicebound/";
-            QosLevel = qosLevel;
-            _azureRootCACert = azureCert;
-            ModelId = modelId;
         }
 
         /// <summary>
@@ -127,21 +160,8 @@ namespace nanoFramework.Azure.Devices.Client
         /// /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// /// <param name="modelId">Azure Plug and Play model ID.</param>
         public DeviceClient(string iotHubName, string deviceId, X509Certificate2 clientCert, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null, string modelId = null)
+             : this(iotHubName, deviceId, string.Empty, clientCert, qosLevel, azureCert, modelId)
         {
-            _isCertificate = true;
-            _clientCert = clientCert;
-            // In case we are using the store, the magic should happen automaticall
-            _privateKey = _clientCert != null ? Convert.ToBase64String(clientCert.PrivateKey) : null;
-            _iotHubName = iotHubName;
-            _deviceId = deviceId;
-            _sasKey = null;
-            _telemetryTopic = $"devices/{_deviceId}/messages/events/";
-            _ioTHubStatus.Status = Status.Disconnected;
-            _ioTHubStatus.Message = string.Empty;
-            _deviceMessageTopic = $"devices/{_deviceId}/messages/devicebound/";
-            QosLevel = qosLevel;
-            _azureRootCACert = azureCert;
-            ModelId = modelId;
         }
 
         /// <summary>
@@ -196,7 +216,7 @@ namespace nanoFramework.Azure.Devices.Client
             // event when connection has been dropped
             _mqttc.ConnectionClosed += ClientConnectionClosed;
 
-            string userName = $"{_iotHubName}/{_deviceId}{(string.IsNullOrEmpty(ModuleId) ? string.Empty : $"/{ModuleId}")}/api-version={ApiVersion}";
+            string userName = $"{_iotHubName}/{_deviceId}/?api-version={ApiVersion}";
             if (!string.IsNullOrEmpty(ModelId))
             {
                 userName += $"&model-id={HttpUtility.UrlEncode(ModelId)}";
