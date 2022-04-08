@@ -7,6 +7,9 @@ using System;
 
 namespace System.Security.Cryptography
 {
+    /// <summary>
+    /// Computes the SHA256 hash for the input data.
+    /// </summary>
     public class SHA256
     {
         // Number used in SHA256 hash function 
@@ -28,6 +31,9 @@ namespace System.Security.Cryptography
         /// <returns></returns>
         public static SHA256 Create() => new SHA256();
 
+        /// <summary>
+        /// Initializes a new instance of SHA256.
+        /// </summary>
         protected SHA256()
         { }
 
