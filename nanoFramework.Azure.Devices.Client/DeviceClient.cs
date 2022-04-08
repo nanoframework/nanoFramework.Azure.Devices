@@ -222,6 +222,14 @@ namespace nanoFramework.Azure.Devices.Client
                 userName += $"&model-id={HttpUtility.UrlEncode(ModelId)}";
             }
 
+            // compose product info
+            string productInfo = "nano;";
+            productInfo += $"azrsdk{ThisAssembly.AssemblyInformationalVersion};";
+            productInfo += $"{Runtime.Native.SystemInfo.TargetName}";
+
+            // add to user name
+            userName += $"&DeviceClientType={HttpUtility.UrlEncode(productInfo)}";
+
             // Now connect the device
             string key = _isCertificate ? _privateKey : Helper.GetSharedAccessSignature(null, _sasKey, $"{_iotHubName}/devices/{_deviceId}", new TimeSpan(24, 0, 0));
             _mqttc.Connect(
