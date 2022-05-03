@@ -11,6 +11,8 @@
 
 **Documentation and other chores:**
 
+- Update 1 NuGet dependencies [\#177](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/177)
+- Update 1 NuGet dependencies [\#175](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/175)
 - Update 1 NuGet dependencies [\#173](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/173)
 
 ## [v1.0.0](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.0) (2022-03-30)
