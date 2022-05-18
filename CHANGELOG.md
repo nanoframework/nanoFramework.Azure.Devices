@@ -2,7 +2,16 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.1.4...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.1.6...HEAD)
+
+**Implemented enhancements:**
+
+- Fix enrolment when using client certificate [\#181](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/181)
+- Improvements in telemetry [\#180](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/180)
+
+## [v1.0.1.6](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.1.6) (2022-05-03)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.1.4...v1.0.1.6)
 
 **Documentation and other chores:**
 
