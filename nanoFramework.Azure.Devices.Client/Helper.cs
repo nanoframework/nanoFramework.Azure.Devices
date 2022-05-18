@@ -43,5 +43,16 @@ namespace nanoFramework.Azure.Devices
                     HttpUtility.UrlEncode(expiry));
             }
         }
+
+        public static void ComposeTelemetryInformation(ref string userName)
+        {
+            // compose product info
+            string productInfo = "nano;";
+            productInfo += $"azrsdk{ThisAssembly.AssemblyVersion};";
+            productInfo += $"{Runtime.Native.SystemInfo.TargetName}";
+
+            // add to user name
+            userName += $"&DeviceClientType={HttpUtility.UrlEncode(productInfo)}";
+        }
     }
 }

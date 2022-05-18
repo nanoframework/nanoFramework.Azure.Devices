@@ -76,6 +76,10 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
                deviceCert,
                MqttSslProtocols.TLSv1_2);
 
+            string userName = $"{idScope}/registrations/{_registrationId}/api-version=2019-03-31";
+
+            Helper.ComposeTelemetryInformation(ref userName);
+
             // Handler for received messages on the subscribed topics
             _mqttc.MqttMsgPublishReceived += ClientMqttMsgReceived;
 
@@ -83,7 +87,7 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
             string key = securityProvider != null ? Helper.GetSharedAccessSignature(null, securityProvider, $"{idScope}/registrations/{_registrationId}", new TimeSpan(24, 0, 0)) : string.Empty;
             _mqttc.Connect(
                 _registrationId,
-                $"{idScope}/registrations/{_registrationId}/api-version=2019-03-31",
+                userName,
                 key,
                 false,
                 MqttQoSLevel.ExactlyOnce,
