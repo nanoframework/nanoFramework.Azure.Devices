@@ -371,6 +371,34 @@ if(!res)
 }
 ```
 
+In case a [DPS model](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md) is going to be used, the ID of the model has to be passed to the ProvisioningDeviceClient and DeviceClient constructor.
+The code above requires the following changes.
+
+Add the model ID as a constant:
+
+```csharp
+public const string ModelId = "dtmi:orgpal:palthree:palthree_demo_0;1";
+
+```
+
+Create the additional payload information with the model ID to be sent along the registration with DPS and pass that to the call to `Register()`.
+
+```csharp
+var pnpPayload = new ProvisioningRegistrationAdditionalData
+{
+    JsonData = PnpConvention.CreateDpsPayload(ModelId),
+};
+
+var myDevice = provisioning.Register(pnpPayload, new CancellationTokenSource(60000).Token);
+
+```
+
+Create the device client passing the model ID to the respective parameter in the constructor.
+
+```csharp
+var device = new DeviceClient(myDevice.AssignedHub, myDevice.DeviceId, SasKey, nanoFramework.M2Mqtt.Messages.MqttQoSLevel.AtLeastOnce, azureCA, ModelId);
+```
+
 Note: like for the `DeviceClient` you need to make sure you are connected to a network properly and also have a proper data and time set on the device.
 
 ### Provisioning using certificates
