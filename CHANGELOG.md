@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.1.12...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.1.14...HEAD)
+
+**Implemented enhancements:**
+
+- Add Pnp convention helper class [\#184](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/184)
+
+## [v1.0.1.14](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.1.14) (2022-05-18)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.1.12...v1.0.1.14)
 
 **Documentation and other chores:**
 
