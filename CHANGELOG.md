@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.1.14...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.1.16...HEAD)
+
+**Implemented enhancements:**
+
+- Fix of the wrong spelled event name TwinUpated [\#185](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/185)
+
+## [v1.0.1.16](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.0.1.16) (2022-05-19)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.0.1.14...v1.0.1.16)
 
 **Implemented enhancements:**
 
