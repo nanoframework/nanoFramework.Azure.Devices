@@ -116,7 +116,7 @@ Reporting Plug & Play properties is supported. He is a comprehensive example and
 ```csharp
 const string TargetTemerature = "targetTemperature";
 DeviceClient azureIoT = new DeviceClient(Secrets.IotHub, Secrets.DeviceName, Secrets.SasKey, azureCert: new X509Certificate(Resource.GetBytes(Resource.BinaryResources.AzureRoot)), modelId: "dtmi:com:example:Thermostat;1");
-azureIoT.TwinUpated += AzureTwinUpdated;
+azureIoT.TwinUpdated += AzureTwinUpdated;
 azureIoT.Open();
 
 void AzureTwinUpdated(object sender, TwinUpdateEventArgs e)
@@ -192,11 +192,11 @@ Note: the function will return false if the twin reception confirmation is not c
 You can also register for any twin update:
 
 ```csharp
-azureIoT.TwinUpated += TwinUpdatedEvent;
+azureIoT.TwinUpdated += TwinUpdatedEvent;
 
 void TwinUpdatedEvent(object sender, TwinUpdateEventArgs e)
 {
-    Debug.WriteLine($"Twin update received:  {e.Twin.Count}");
+    Debug.WriteLine($"Twin update received: {e.Twin.Count}");
 }
 ```
 

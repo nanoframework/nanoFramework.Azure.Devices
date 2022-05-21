@@ -44,7 +44,7 @@ namespace nanoFramework.Azure.Devices.Client
         /// <summary>
         /// Device twin updated event.
         /// </summary>
-        public event TwinUpdated TwinUpated;
+        public event TwinUpdated TwinUpdated;
 
         /// <summary>
         /// Status change event.
@@ -67,7 +67,6 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// <param name="modelId">Azure Plug and Play model ID.</param>
         public DeviceClient(string iotHubName, string deviceId, string moduleId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce, X509Certificate azureCert = null, string modelId = null)
-
         {
             _clientCert = null;
             _iotHubName = iotHubName;
@@ -416,7 +415,7 @@ namespace nanoFramework.Azure.Devices.Client
                     }
                     else if (e.Topic.StartsWith("$iothub/twin/PATCH/properties/desired/"))
                     {
-                        TwinUpated?.Invoke(this, new TwinUpdateEventArgs(new TwinCollection(message)));
+                        TwinUpdated?.Invoke(this, new TwinUpdateEventArgs(new TwinCollection(message)));
                         _ioTHubStatus.Status = Status.TwinUpdateReceived;
                         _ioTHubStatus.Message = string.Empty;
                         StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
