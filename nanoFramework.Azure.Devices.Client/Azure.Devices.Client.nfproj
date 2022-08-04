@@ -66,8 +66,8 @@
       <HintPath>..\packages\nanoFramework.Json.2.2.6\lib\nanoFramework.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nanoFramework.M2Mqtt, Version=5.1.6.63910, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.6\lib\nanoFramework.M2Mqtt.dll</HintPath>
+    <Reference Include="nanoFramework.M2Mqtt, Version=5.1.9.48899, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.9\lib\nanoFramework.M2Mqtt.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events, Version=1.10.0.3, Culture=neutral, PublicKeyToken=c07d481e9758c731">
@@ -94,8 +94,8 @@
       <HintPath>..\packages\nanoFramework.System.Net.1.10.8\lib\System.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Net.Http, Version=1.5.6.23758, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.System.Net.Http.1.5.6\lib\System.Net.Http.dll</HintPath>
+    <Reference Include="System.Net.Http, Version=1.5.8.37180, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.System.Net.Http.1.5.8\lib\System.Net.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Threading, Version=1.0.4.3, Culture=neutral, PublicKeyToken=c07d481e9758c731">
