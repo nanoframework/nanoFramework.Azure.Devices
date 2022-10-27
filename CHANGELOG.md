@@ -2,7 +2,19 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.1.83...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.1.85...HEAD)
+
+**Implemented enhancements:**
+
+- Improve disconnection and reconnection [\#253](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/253)
+
+**Documentation and other chores:**
+
+- Update 1 NuGet dependencies [\#252](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/252)
+
+## [v1.1.85](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.1.85) (2022-10-26)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.1.83...v1.1.85)
 
 **Documentation and other chores:**
 
