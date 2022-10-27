@@ -32,7 +32,7 @@ namespace nanoFramework.Azure.Devices.Client
         private readonly string _deviceMessageTopic;
         private Twin _twin;
         private bool _twinReceived;
-        private MqttClient _mqttc;
+        private MqttClient _mqttc = null;
         private readonly IoTHubStatus _ioTHubStatus = new IoTHubStatus();
         private readonly ArrayList _methodCallback = new ArrayList();
         private readonly ArrayList _waitForConfirmation = new ArrayList();
@@ -279,19 +279,24 @@ namespace nanoFramework.Azure.Devices.Client
         /// </summary>
         public void Close()
         {
-            if (_mqttc.IsConnected)
+            if (_mqttc != null)
             {
-                _mqttc.Unsubscribe(new[] {
+                if (_mqttc.IsConnected)
+                {
+                    _mqttc.Unsubscribe(new[] {
                     $"devices/{_deviceId}/messages/devicebound/#",
                     "$iothub/twin/#",
                     "$iothub/methods/POST/#"
                     });
+                }
+
                 _mqttc.Disconnect();
+                _mqttc.Close();
                 // Make sure all get disconnected, cleared 
                 Thread.Sleep(1000);
             }
 
-            _timerTokenRenew.Dispose();
+            _timerTokenRenew?.Dispose();
         }
 
         /// <summary>
