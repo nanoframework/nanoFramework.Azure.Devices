@@ -309,7 +309,13 @@ namespace nanoFramework.Azure.Devices.Client
         public Twin GetTwin(CancellationToken cancellationToken = default)
         {
             _twinReceived = false;
-            _mqttc.Publish($"{TwinDesiredPropertiesTopic}?$rid={Guid.NewGuid()}", Encoding.UTF8.GetBytes(""), MqttQoSLevel.AtLeastOnce, false);
+            _mqttc.Publish(
+                $"{TwinDesiredPropertiesTopic}?$rid={Guid.NewGuid()}",
+                Encoding.UTF8.GetBytes(""),
+                null,
+                new ArrayList(),
+                MqttQoSLevel.AtLeastOnce,
+                false);
 
             while (!_twinReceived && !cancellationToken.IsCancellationRequested)
             {
@@ -329,7 +335,13 @@ namespace nanoFramework.Azure.Devices.Client
         {
             string twin = reported.ToJson();
             Debug.WriteLine($"update twin: {twin}");
-            var rid = _mqttc.Publish($"{TwinReportedPropertiesTopic}?$rid={Guid.NewGuid()}", Encoding.UTF8.GetBytes(twin), MqttQoSLevel.AtLeastOnce, false);
+            var rid = _mqttc.Publish(
+                $"{TwinReportedPropertiesTopic}?$rid={Guid.NewGuid()}",
+                Encoding.UTF8.GetBytes(twin),
+                null,
+                new ArrayList(),
+                MqttQoSLevel.AtLeastOnce,
+                false);
             ConfirmationStatus conf = new(rid);
             _waitForConfirmation.Add(conf);
             _ioTHubStatus.Status = Status.TwinUpdated;
@@ -382,7 +394,13 @@ namespace nanoFramework.Azure.Devices.Client
                 topic += $"$.sub={dtdlComponentname}";
             }
 
-            var rid = _mqttc.Publish(topic, Encoding.UTF8.GetBytes(message), QosLevel, false);
+            var rid = _mqttc.Publish(
+                topic,
+                Encoding.UTF8.GetBytes(message),
+                null,
+                new ArrayList(),
+                QosLevel,
+                false);
             ConfirmationStatus conf = new(rid);
             _waitForConfirmation.Add(conf);
 
@@ -470,11 +488,23 @@ namespace nanoFramework.Azure.Devices.Client
                             try
                             {
                                 var res = mt.Invoke(rid, message);
-                                _mqttc.Publish($"$iothub/methods/res/200/?$rid={rid:X}", Encoding.UTF8.GetBytes(res), MqttQoSLevel.AtLeastOnce, false);
+                                _mqttc.Publish(
+                                    $"$iothub/methods/res/200/?$rid={rid:X}",
+                                    Encoding.UTF8.GetBytes(res),
+                                    null,
+                                    new ArrayList(),
+                                    MqttQoSLevel.AtLeastOnce,
+                                    false);
                             }
                             catch (Exception ex)
                             {
-                                _mqttc.Publish($"$iothub/methods/res/504/?$rid={rid:X}", Encoding.UTF8.GetBytes($"{{\"Exception:\":\"{ex}\"}}"), MqttQoSLevel.AtLeastOnce, false);
+                                _mqttc.Publish(
+                                    $"$iothub/methods/res/504/?$rid={rid:X}",
+                                    Encoding.UTF8.GetBytes($"{{\"Exception:\":\"{ex}\"}}"),
+                                    null,
+                                    new ArrayList(),
+                                    MqttQoSLevel.AtLeastOnce,
+                                    false);
                             }
                         }
                     }
