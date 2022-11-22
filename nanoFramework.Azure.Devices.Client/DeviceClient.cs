@@ -56,6 +56,11 @@ namespace nanoFramework.Azure.Devices.Client
         /// </summary>
         public event CloudToDeviceMessage CloudToDeviceMessage;
 
+        internal DeviceClient()
+        {
+            // required for Unit Tests
+        }
+
         /// <summary>
         /// Creates an <see cref="DeviceClient"/> class.
         /// </summary>
@@ -382,12 +387,53 @@ namespace nanoFramework.Azure.Devices.Client
         /// Send a message to Azure IoT.
         /// </summary>
         /// <param name="message">The message to send.</param>
+        /// <param name="contentType">Content of the application message.</param>
+        /// <param name="cancellationToken">A cancellation token. If you use the default one, the confirmation of delivery will not be awaited.</param>
+        /// <returns>True for successful message delivery.</returns>
+        public bool SendMessage(
+            string message,
+            string contentType,
+            CancellationToken cancellationToken = default)
+        {
+            return SendMessage(
+                message,
+                contentType,
+                new ArrayList(),
+                cancellationToken,
+                null);
+        }
+
+        /// <summary>
+        /// Send a message to Azure IoT.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        /// <param name="contentType">Content of the application message.</param>
+        /// <param name="userProperties">User properties to add to the application message.</param>
         /// <param name="cancellationToken">A cancellation token. If you use the default one, the confirmation of delivery will not be awaited.</param>
         /// <param name="dtdlComponentname">The DTDL component name.</param>
         /// <returns>True for successful message delivery.</returns>
-        public bool SendMessage(string message, CancellationToken cancellationToken = default, string dtdlComponentname = "")
+        public bool SendMessage(
+            string message,
+            string contentType,
+            ArrayList userProperties,
+            CancellationToken cancellationToken = default,
+            string dtdlComponentname = "")
         {
-            string topic = _telemetryTopic;
+            StringBuilder topic = new(_telemetryTopic);
+
+            // add content type to property bag, if there is one
+            if(!string.IsNullOrEmpty(contentType))
+            {
+                topic.Append(EncodeContentType(contentType));
+                topic.Append("&");
+            }
+
+            // add user properties to property bag, if they exist
+            if(userProperties.Count > 0)
+            {
+                topic.Append(EncodeUserProperties(userProperties));
+                topic.Append("&");
+            }
 
             if (!string.IsNullOrEmpty(dtdlComponentname))
             {
@@ -395,12 +441,13 @@ namespace nanoFramework.Azure.Devices.Client
             }
 
             var rid = _mqttc.Publish(
-                topic,
+                topic.ToString(),
                 Encoding.UTF8.GetBytes(message),
                 null,
                 new ArrayList(),
                 QosLevel,
                 false);
+
             ConfirmationStatus conf = new(rid);
             _waitForConfirmation.Add(conf);
 
@@ -413,7 +460,47 @@ namespace nanoFramework.Azure.Devices.Client
             }
 
             _waitForConfirmation.Remove(conf);
+
             return conf.Received;
+        }
+
+        internal string EncodeContentType(string contentType)
+        {
+            return $"$.ct={HttpUtility.UrlEncode(contentType)}&$.ce=utf-8";
+        }
+
+        internal string EncodeUserProperties(ArrayList userProperties)
+        {
+            StringBuilder encodedUserProperties = new();
+
+            foreach (UserProperty property in userProperties)
+            {
+                if (!property.GetType().Equals(typeof(UserProperty)))
+                {
+#pragma warning disable S3928 // OK to use this in .NET nanoFramework without the argument name
+                    throw new ArgumentException();
+#pragma warning restore S3928 // Parameter names used into ArgumentException constructors should match an existing one 
+                }
+
+                if (string.IsNullOrEmpty(property.Name) || string.IsNullOrEmpty(property.Value))
+                {
+#pragma warning disable S3928 // OK to use this in .NET nanoFramework without the argument name
+                    throw new ArgumentException();
+#pragma warning restore S3928 // Parameter names used into ArgumentException constructors should match an existing one 
+                }
+                else
+                {
+                    encodedUserProperties.Append(HttpUtility.UrlEncode(property.Name));
+                    encodedUserProperties.Append("=");
+                    encodedUserProperties.Append(HttpUtility.UrlEncode(property.Value));
+                    encodedUserProperties.Append("&");
+                }
+            }
+
+            // remove trailing '&'
+            return encodedUserProperties.ToString(
+                0,
+                encodedUserProperties.Length - 1);
         }
 
         private void ClientMqttMsgReceived(object sender, MqttMsgPublishEventArgs e)
