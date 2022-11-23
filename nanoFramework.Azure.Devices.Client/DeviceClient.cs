@@ -391,7 +391,7 @@ namespace nanoFramework.Azure.Devices.Client
 
             if (!string.IsNullOrEmpty(dtdlComponentname))
             {
-                topic += $"$.sub={dtdlComponentname}";
+                topic += $"$.sub={HttpUtility.UrlEncode(dtdlComponentname)}";
             }
 
             var rid = _mqttc.Publish(
