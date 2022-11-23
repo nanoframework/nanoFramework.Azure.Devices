@@ -407,6 +407,26 @@ namespace nanoFramework.Azure.Devices.Client
         /// Send a message to Azure IoT.
         /// </summary>
         /// <param name="message">The message to send.</param>
+        /// <param name="cancellationToken">A cancellation token. If you use the default one, the confirmation of delivery will not be awaited.</param>
+        /// <param name="dtdlComponentname">The DTDL component name.</param>
+        /// <returns>True for successful message delivery.</returns>
+        public bool SendMessage(
+            string message,
+            CancellationToken cancellationToken = default,
+            string dtdlComponentname = "")
+        {
+            return SendMessage(
+                message,
+                null,
+                new ArrayList(),
+                cancellationToken,
+                null);
+        }
+
+        /// <summary>
+        /// Send a message to Azure IoT.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
         /// <param name="contentType">Content of the application message.</param>
         /// <param name="userProperties">User properties to add to the application message.</param>
         /// <param name="cancellationToken">A cancellation token. If you use the default one, the confirmation of delivery will not be awaited.</param>
