@@ -422,14 +422,14 @@ namespace nanoFramework.Azure.Devices.Client
             StringBuilder topic = new(_telemetryTopic);
 
             // add content type to property bag, if there is one
-            if(!string.IsNullOrEmpty(contentType))
+            if (!string.IsNullOrEmpty(contentType))
             {
                 topic.Append(EncodeContentType(contentType));
                 topic.Append("&");
             }
 
             // add user properties to property bag, if they exist
-            if(userProperties.Count > 0)
+            if (userProperties.Count > 0)
             {
                 topic.Append(EncodeUserProperties(userProperties));
                 topic.Append("&");
@@ -437,11 +437,19 @@ namespace nanoFramework.Azure.Devices.Client
 
             if (!string.IsNullOrEmpty(dtdlComponentname))
             {
-                topic += $"$.sub={HttpUtility.UrlEncode(dtdlComponentname)}";
+                topic.Append($"$.sub={HttpUtility.UrlEncode(dtdlComponentname)}");
+            }
+
+            var topicName = topic.ToString();
+
+            // remove trailing '&' if there is one
+            if (topicName.EndsWith("&"))
+            {
+                topicName = topicName.Substring(0, topicName.Length - 1);
             }
 
             var rid = _mqttc.Publish(
-                topic.ToString(),
+                topicName,
                 Encoding.UTF8.GetBytes(message),
                 null,
                 new ArrayList(),
