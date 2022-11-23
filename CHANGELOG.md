@@ -2,7 +2,19 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.1.97...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.1.101...HEAD)
+
+**Implemented enhancements:**
+
+- Add support for message with content type and user properties [\#263](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/263)
+
+**Fixed bugs:**
+
+- DTDL component name is now URL encoded in SendMessage [\#264](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/264)
+
+## [v1.1.101](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.1.101) (2022-11-23)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.1.97...v1.1.101)
 
 **Documentation and other chores:**
 
