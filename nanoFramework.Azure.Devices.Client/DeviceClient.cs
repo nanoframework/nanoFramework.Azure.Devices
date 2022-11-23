@@ -429,7 +429,8 @@ namespace nanoFramework.Azure.Devices.Client
             }
 
             // add user properties to property bag, if they exist
-            if (userProperties.Count > 0)
+            if (userProperties != null
+                && userProperties.Count > 0)
             {
                 topic.Append(EncodeUserProperties(userProperties));
                 topic.Append("&");
