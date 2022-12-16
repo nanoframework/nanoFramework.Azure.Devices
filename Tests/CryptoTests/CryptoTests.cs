@@ -18,7 +18,7 @@ namespace CryptoTests
             var res = hashsha256.ComputeHash(buff);
 
             // Assert
-            Assert.Equal(expected, res);
+            CollectionAssert.AreEqual(expected, res);
         }
 
         [TestMethod]
@@ -33,7 +33,7 @@ namespace CryptoTests
             var res = sha256.ComputeHash(buff);
 
             // Assert
-            Assert.Equal(expected, res);
+            CollectionAssert.AreEqual(expected, res);
         }
     }
 }
