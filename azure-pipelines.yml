@@ -50,7 +50,7 @@ steps:
   parameters:
     sonarCloudProject: 'nanoframework_Azure.Devices'
     runUnitTests: true
-    unitTestRunsettings: '$(System.DefaultWorkingDirectory)\.runsettings'
+    unitTestRunsettings: '$(System.DefaultWorkingDirectory)/Tests/CryptoTests/nano.runsettings'
 
 # step from template @ nf-tools repo
 # report error
