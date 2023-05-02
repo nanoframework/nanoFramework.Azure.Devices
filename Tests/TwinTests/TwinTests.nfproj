@@ -25,6 +25,9 @@
     <RestoreLockedMode Condition="'$(TF_BUILD)' == 'True' or '$(ContinuousIntegrationBuild)' == 'True'">true</RestoreLockedMode>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
+  <PropertyGroup>
+    <RunSettingsFilePath>$(MSBuildProjectDirectory)\nano.runsettings</RunSettingsFilePath>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="TwinTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -38,12 +41,12 @@
       <HintPath>..\..\packages\nanoFramework.System.Collections.1.5.18\lib\nanoFramework.System.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nanoFramework.TestFramework, Version=2.1.60.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\packages\nanoFramework.TestFramework.2.1.60\lib\nanoFramework.TestFramework.dll</HintPath>
+    <Reference Include="nanoFramework.TestFramework, Version=2.1.71.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\..\packages\nanoFramework.TestFramework.2.1.71\lib\nanoFramework.TestFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.UnitTestLauncher, Version=0.0.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\packages\nanoFramework.TestFramework.2.1.60\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
+      <HintPath>..\..\packages\nanoFramework.TestFramework.2.1.71\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -54,18 +57,9 @@
     <ProjectReference Include="..\..\nanoFramework.Azure.Devices.Client\Azure.Devices.Client.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
-  <!-- MANUAL UPDATE HERE -->
   <ProjectExtensions>
     <ProjectCapabilities>
       <ProjectConfigurationsDeclaredAsItems />
     </ProjectCapabilities>
   </ProjectExtensions>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <WarningText>Update the Import path in nfproj to the correct nanoFramework.TestFramework NuGet package folder.</WarningText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\nanoFramework.TestFramework.2.1.60\build\nanoFramework.TestFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\nanoFramework.TestFramework.2.1.60\build\nanoFramework.TestFramework.targets'))" />
-    <Error Condition="!Exists('..\..\packages\nanoFramework.TestFramework.2.1.60\build\nanoFramework.TestFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\nanoFramework.TestFramework.2.1.60\build\nanoFramework.TestFramework.targets'))" />
-  </Target>
-  <Import Project="..\..\packages\nanoFramework.TestFramework.2.1.60\build\nanoFramework.TestFramework.targets" Condition="Exists('..\..\packages\nanoFramework.TestFramework.2.1.60\build\nanoFramework.TestFramework.targets')" />
 </Project>
