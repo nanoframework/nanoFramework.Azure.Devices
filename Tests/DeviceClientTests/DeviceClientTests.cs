@@ -22,7 +22,7 @@ namespace DeviceClientTests
         private static string _propertyThreeValue = "string with $/#% chars";
 
         private static UserProperty _userProperty1 = new(_propertyOneName, _propertyOneValue);
-        private static UserProperty _userProperty2 = new(_propertyTwoName, _propertyTwoValue.ToString());
+        private static UserProperty _userProperty2 = new(_propertyTwoName, _propertyTwoValue.ToString("N2"));
         private static UserProperty _userProperty3 = new(_propertyThreeName, _propertyThreeValue);
 
         private static UserProperty _userPropertyBad1 = new(null, _propertyOneValue);
