@@ -48,7 +48,7 @@ namespace nanoFramework.Azure.Devices
         {
             // compose product info
             string productInfo = "nano;";
-            productInfo += $"azrsdk{ThisAssembly.AssemblyVersion};";
+           // productInfo += $"azrsdk{ThisAssembly.AssemblyVersion};";
             productInfo += $"{Runtime.Native.SystemInfo.TargetName}";
 
             // add to user name

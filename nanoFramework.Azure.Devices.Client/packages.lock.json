@@ -14,18 +14,6 @@
         "resolved": "2.2.99",
         "contentHash": "WWyvmtVDwrld8KYEeWAKGXcCTVMtkyuVaNtmrOB/WpRagCfE3i2IP776Ubrk5GXYCfI3Pta1uMqvV2N8WfaZBg=="
       },
-      "nanoFramework.M2Mqtt": {
-        "type": "Direct",
-        "requested": "[5.1.79, 5.1.79]",
-        "resolved": "5.1.79",
-        "contentHash": "jYAh6bkg018h8UrnblFgUjAKCiEp40uT+mMCUvzs3t4NJZHOUemv5QfrZz+j2NLhdn4iML2XeedLcKiE5ZDsAw=="
-      },
-      "nanoFramework.Runtime.Events": {
-        "type": "Direct",
-        "requested": "[1.11.6, 1.11.6]",
-        "resolved": "1.11.6",
-        "contentHash": "xkltRh/2xKaZ9zmPHbVr32s1k+e17AInUBhzxKKkUDicJKF39yzTShSklb1OL6DBER5z71SpkGLyl9IdMK9l6w=="
-      },
       "nanoFramework.Runtime.Native": {
         "type": "Direct",
         "requested": "[1.6.6, 1.6.6]",
@@ -44,18 +32,6 @@
         "resolved": "1.1.38",
         "contentHash": "qEtu/lMDtr5kPKc939vO3uX8h+W0/+Qx2N3Zx005JxqGiL71e4ScecEyGPIp8v1MzRd9pkoxInUb6jOAh+eyXA=="
       },
-      "nanoFramework.System.Net": {
-        "type": "Direct",
-        "requested": "[1.10.52, 1.10.52]",
-        "resolved": "1.10.52",
-        "contentHash": "XKxtB7DYUnuePJRgBi37kLLAOzVcGk4l3YU7MgHv5RlIdN0pECQiv/DJXVt1HiGBQc318Zn8Zrd4uO5Nelxrig=="
-      },
-      "nanoFramework.System.Net.Http": {
-        "type": "Direct",
-        "requested": "[1.5.99, 1.5.99]",
-        "resolved": "1.5.99",
-        "contentHash": "q611hrYfuZL+4n/JiFSguLK+0VYWiX34tQzgkC7mogpeNRobtAY9mgQe0urL++o1V1IKzit5W1bvUb2LN0ErWg=="
-      },
       "nanoFramework.System.Text": {
         "type": "Direct",
         "requested": "[1.2.37, 1.2.37]",
@@ -67,12 +43,6 @@
         "requested": "[1.1.19, 1.1.19]",
         "resolved": "1.1.19",
         "contentHash": "HjnY0DNoFnU+t1GiH8Wgf7pJCD9yMOcLVtAZXVAhstMKisVN/MDj9TvfXxZScRIz7ZDoZYUnb+Ixfl6rqyppvA=="
-      },
-      "Nerdbank.GitVersioning": {
-        "type": "Direct",
-        "requested": "[3.6.133, 3.6.133]",
-        "resolved": "3.6.133",
-        "contentHash": "VZWMd5YAeDxpjWjAP/X6bAxnRMiEf6tES/ITN0X5CHJgkWLLeHGmEALivmTAfYM6P+P/3Szy6VCITUAkqjcHVw=="
       }
     }
   }

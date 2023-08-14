@@ -19,7 +19,7 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
     {
         const string DpsSubscription = "$dps/registrations/res/#";
 
-        private MqttClient _mqttc;
+        private IMqttClient _mqttc;
         private readonly string _deviceEndPoint;
         private long _requestId;
         private string _registrationId;
@@ -42,9 +42,9 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
         public static ProvisioningDeviceClient Create(
             string globalDeviceEndpoint,
             string idScope, string registrationId,
-            string securityProvider, X509Certificate azureCert = null)
+            string securityProvider, X509Certificate azureCert = null, IMqttClient mqtt = null)
         {
-            return new ProvisioningDeviceClient(globalDeviceEndpoint, idScope, registrationId, securityProvider, null, azureCert);
+            return new ProvisioningDeviceClient(globalDeviceEndpoint, idScope, registrationId, securityProvider, null, azureCert, mqtt);
         }
 
         /// <summary>
@@ -59,16 +59,17 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
         public static ProvisioningDeviceClient Create(
             string globalDeviceEndpoint,
             string idScope, string registrationId,
-            X509Certificate securityProvider, X509Certificate azureCert = null)
+            X509Certificate securityProvider, X509Certificate azureCert = null, IMqttClient mqtt = null)
         {
-            return new ProvisioningDeviceClient(globalDeviceEndpoint, idScope, registrationId, null, securityProvider, azureCert);
+            return new ProvisioningDeviceClient(globalDeviceEndpoint, idScope, registrationId, null, securityProvider, azureCert, mqtt);
         }
 
-        private ProvisioningDeviceClient(string globalDeviceEndpoint, string idScope, string registrationId, string securityProvider, X509Certificate deviceCert, X509Certificate azureCert)
+        private ProvisioningDeviceClient(string globalDeviceEndpoint, string idScope, string registrationId, string securityProvider, X509Certificate deviceCert, X509Certificate azureCert, IMqttClient mqtt)
         {
             _registrationId = registrationId;
             _deviceEndPoint = globalDeviceEndpoint;
-            _mqttc = new MqttClient(
+            _mqttc = mqtt;
+            _mqttc.Init(
                _deviceEndPoint,
                8883,
                true,

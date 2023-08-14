@@ -32,7 +32,7 @@ namespace nanoFramework.Azure.Devices.Client
         private readonly string _deviceMessageTopic;
         private Twin _twin;
         private bool _twinReceived;
-        private MqttClient _mqttc = null;
+        private IMqttClient _mqttc = null;
         private readonly IoTHubStatus _ioTHubStatus = new IoTHubStatus();
         private readonly ArrayList _methodCallback = new ArrayList();
         private readonly ArrayList _waitForConfirmation = new ArrayList();
@@ -197,10 +197,15 @@ namespace nanoFramework.Azure.Devices.Client
         /// Open the connection with Azure IoT. This will initiate a connection from the device to the Azure IoT Hub instance.
         /// </summary>
         /// <returns>True if open.</returns>
-        public bool Open()
+        public bool Open(IMqttClient mqtt = null)
         {
             // Creates MQTT Client usinf the default port of 8883 and the TLS 1.2 protocol
-            _mqttc = new MqttClient(
+            if (mqtt != null)
+            {
+                _mqttc = mqtt;
+            }
+
+            _mqttc.Init(
                 _iotHubName,
                 8883,
                 true,
