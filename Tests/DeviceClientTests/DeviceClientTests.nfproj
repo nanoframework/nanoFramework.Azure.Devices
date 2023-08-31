@@ -91,7 +91,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\nanoFramework.Azure.Devices.Client.Independent\Azure.Devices.Client.Independent.nfproj" />
+    <ProjectReference Include="..\..\nanoFramework.Azure.Devices.Client.FullyManaged\Azure.Devices.Client.FullyManaged.nfproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.lock.json" />

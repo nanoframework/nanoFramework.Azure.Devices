@@ -7,7 +7,7 @@ using nanoFramework.M2Mqtt.Messages;
 using System;
 using System.Collections;
 using System.Diagnostics;
-#if !INDEPENDENT
+#if !FULLYMANAGED
 using System.Security.Cryptography.X509Certificates;
 #endif
 using System.Text;
@@ -34,7 +34,7 @@ namespace nanoFramework.Azure.Devices.Client
         private readonly string _deviceMessageTopic;
         private Twin _twin;
         private bool _twinReceived;
-#if INDEPENDENT
+#if FULLYMANAGED
         private IMqttClient _mqttc = null;
         private readonly byte[] _azureRootCACert;
         private readonly byte[] _clientCert;
@@ -82,7 +82,7 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// <param name="modelId">Azure Plug and Play model ID.</param>
         public DeviceClient(string iotHubName, string deviceId, string moduleId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce,
-#if INDEPENDENT
+#if FULLYMANAGED
             byte[] azureCert = null,
 #else
             X509Certificate azureCert = null,
@@ -125,13 +125,13 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// <param name="modelId">Azure Plug and Play model ID.</param>
         public DeviceClient(string iotHubName, string deviceId, string moduleId,
-#if INDEPENDENT
+#if FULLYMANAGED
             byte[] clientCert = null,
 #else
             X509Certificate2 clientCert,
 #endif
             MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce,
-#if INDEPENDENT
+#if FULLYMANAGED
             byte[] azureCert = null,
 #else
             X509Certificate azureCert = null,
@@ -173,7 +173,7 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// <param name="modelId">Azure Plug and Play model ID.</param>
         public DeviceClient(string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce,
-#if INDEPENDENT
+#if FULLYMANAGED
             byte[] azureCert = null,
 #else
             X509Certificate azureCert = null,
@@ -193,13 +193,13 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// <param name="modelId">Azure Plug and Play model ID.</param>
         public DeviceClient(string iotHubName, string deviceId,
-#if INDEPENDENT
+#if FULLYMANAGED
             byte[] clientCert = null,
 #else
             X509Certificate2 clientCert,
 #endif
             MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce,
-#if INDEPENDENT
+#if FULLYMANAGED
             byte[] azureCert = null,
 #else
             X509Certificate azureCert = null,
@@ -242,17 +242,17 @@ namespace nanoFramework.Azure.Devices.Client
         /// <summary>
         /// Open the connection with Azure IoT. This will initiate a connection from the device to the Azure IoT Hub instance.
         /// </summary>
-#if INDEPENDENT
+#if FULLYMANAGED
         /// <param name="mqtt">The MQTT client to use.</param>
 #endif
         /// <returns>True if open.</returns>
         public bool Open(
-#if INDEPENDENT
+#if FULLYMANAGED
             IMqttClient mqtt = null
 #endif
             )
         {
-#if INDEPENDENT
+#if FULLYMANAGED
             // Creates MQTT Client using the default port of 8883 and the TLS 1.2 protocol
             _mqttc = mqtt ?? throw new ArgumentNullException();
 

@@ -19,7 +19,7 @@
     <DocumentationFile>bin\$(Configuration)\nanoFramework.Azure.Devices.Client.xml</DocumentationFile>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <RestoreLockedMode Condition="'$(TF_BUILD)' == 'True' or '$(ContinuousIntegrationBuild)' == 'True'">true</RestoreLockedMode>
-    <DefineConstants>INDEPENDENT</DefineConstants>
+    <DefineConstants>FULLYMANAGED</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
