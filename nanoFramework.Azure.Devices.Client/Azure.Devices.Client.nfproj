@@ -24,7 +24,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>
@@ -36,6 +36,9 @@
     <Compile Include="DeviceRegistrationResult.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="HMACSHA256.cs" />
+    <Compile Include="HttpUtility.cs">
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="IoTHubStatus.cs" />
     <Compile Include="MethodCallback.cs" />
     <Compile Include="DeviceClient.cs" />
@@ -61,14 +64,20 @@
     <Content Include="packages.lock.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\nanoFramework.IoT.Device\devices\AtModem\AtModem.nfproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="mscorlib">
       <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Json">
       <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.Json.2.2.99\lib\nanoFramework.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.M2Mqtt">
+      <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.94\lib\nanoFramework.M2Mqtt.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.M2Mqtt.Core">
+      <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.94\lib\nanoFramework.M2Mqtt.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.Runtime.Events">
+      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.Runtime.Events.1.11.6\lib\nanoFramework.Runtime.Events.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Native">
       <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.Runtime.Native.1.6.6\lib\nanoFramework.Runtime.Native.dll</HintPath>
@@ -81,6 +90,9 @@
     </Reference>
     <Reference Include="System.IO.Streams">
       <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.System.IO.Streams.1.1.38\lib\System.IO.Streams.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net">
+      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.System.Net.1.10.52\lib\System.Net.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading">
       <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.System.Threading.1.1.19\lib\System.Threading.dll</HintPath>

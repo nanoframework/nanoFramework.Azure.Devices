@@ -4,7 +4,7 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
+using System.Web.Private;
 
 namespace nanoFramework.Azure.Devices
 {

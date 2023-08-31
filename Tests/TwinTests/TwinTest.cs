@@ -23,16 +23,16 @@ namespace TwinTests
             };
             TwinCollection twin = new(twinHash);
 
-            Assert.True(twin.Contains("something"), "something");
-            Assert.Equal("22", (string)twin["something"]);
-            Assert.True(twin.Contains("else"), "else");
-            Assert.Equal(42, (int)twin["else"]);
-            Assert.True(twin.Contains("null"), "null");
+            Assert.IsTrue(twin.Contains("something"), "something");
+            Assert.AreEqual("22", (string)twin["something"]);
+            Assert.IsTrue(twin.Contains("else"), "else");
+            Assert.AreEqual(42, (int)twin["else"]);
+            Assert.IsTrue(twin.Contains("null"), "null");
             var nullresult = twin["null"];
-            Assert.Null(nullresult);
+            Assert.IsNull(nullresult);
 
-            Assert.False(twin.Contains("nothing"), "nothing");
-            Assert.Null(twin["nothing"]);
+            Assert.IsFalse(twin.Contains("nothing"), "nothing");
+            Assert.IsNull(twin["nothing"]);
         }
 
         [TestMethod]
@@ -51,23 +51,23 @@ namespace TwinTests
             {
                 if (coll.Key.ToString() == "something")
                 {
-                    Assert.Equal("22", coll.Value.ToString());
+                    Assert.AreEqual("22", coll.Value.ToString());
                 }
 
                 if (coll.Key.ToString() == "else")
                 {
-                    Assert.Equal(42, (int)coll.Value);
+                    Assert.AreEqual(42, (int)coll.Value);
                 }
 
                 if (coll.Key.ToString() == "null")
                 {
-                    Assert.Null(coll.Value);
+                    Assert.IsNull(coll.Value);
                 }
 
                 count++;
             }
 
-            Assert.Equal(3, count);
+            Assert.AreEqual(3, count);
         }
     }
 }

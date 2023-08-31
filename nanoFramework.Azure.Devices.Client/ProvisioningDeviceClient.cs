@@ -6,7 +6,9 @@ using nanoFramework.M2Mqtt.Messages;
 using System;
 using System.Collections;
 using System.Diagnostics;
+#if !INDEPENDENT
 using System.Security.Cryptography.X509Certificates;
+#endif
 using System.Text;
 using System.Threading;
 
@@ -18,8 +20,11 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
     public class ProvisioningDeviceClient : IDisposable
     {
         const string DpsSubscription = "$dps/registrations/res/#";
-
+#if INDEPENDENT
         private IMqttClient _mqttc;
+#else
+        private MqttClient _mqttc;
+#endif
         private readonly string _deviceEndPoint;
         private long _requestId;
         private string _registrationId;
@@ -38,13 +43,30 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
         /// <param name="registrationId">The registration ID</param>
         /// <param name="securityProvider">The security provider instance.</param>
         /// <param name="azureCert">The Azure root certificate, leave it null if you have it stored in the device.</param>
+#if INDEPENDENT
+        /// <param name="mqtt">The MQTT client instance.</param>
+#endif
         /// <returns>An instance of the ProvisioningDeviceClient</returns>
         public static ProvisioningDeviceClient Create(
             string globalDeviceEndpoint,
             string idScope, string registrationId,
-            string securityProvider, X509Certificate azureCert = null, IMqttClient mqtt = null)
+            string securityProvider,
+#if INDEPENDENT
+            byte[] azureCert = null
+#else
+            X509Certificate azureCert = null
+#endif
+
+#if INDEPENDENT
+            , IMqttClient mqtt = null
+#endif
+            )
         {
-            return new ProvisioningDeviceClient(globalDeviceEndpoint, idScope, registrationId, securityProvider, null, azureCert, mqtt);
+            return new ProvisioningDeviceClient(globalDeviceEndpoint, idScope, registrationId, securityProvider, null, azureCert
+#if INDEPENDENT
+                , mqtt
+#endif
+                );
         }
 
         /// <summary>
@@ -55,19 +77,50 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
         /// <param name="registrationId">The registration ID</param>
         /// <param name="securityProvider">The security provider instance.</param>
         /// <param name="azureCert">The Azure root certificate, leave it null if you have it stored in the device.</param>
+#if INDEPENDENT
+        /// <param name="mqtt">The MQTT client instance.</param>
+#endif
         /// <returns>An instance of the ProvisioningDeviceClient</returns>
         public static ProvisioningDeviceClient Create(
             string globalDeviceEndpoint,
             string idScope, string registrationId,
-            X509Certificate securityProvider, X509Certificate azureCert = null, IMqttClient mqtt = null)
+#if INDEPENDENT
+            byte[] securityProvider, 
+            byte[] azureCert = null
+#else
+            X509Certificate securityProvider,
+            X509Certificate azureCert = null
+#endif
+
+#if INDEPENDENT
+            , IMqttClient mqtt = null
+#endif
+            )
         {
-            return new ProvisioningDeviceClient(globalDeviceEndpoint, idScope, registrationId, null, securityProvider, azureCert, mqtt);
+            return new ProvisioningDeviceClient(globalDeviceEndpoint, idScope, registrationId, null, securityProvider, azureCert
+#if INDEPENDENT
+                , mqtt
+#endif
+                );
         }
 
-        private ProvisioningDeviceClient(string globalDeviceEndpoint, string idScope, string registrationId, string securityProvider, X509Certificate deviceCert, X509Certificate azureCert, IMqttClient mqtt)
+        private ProvisioningDeviceClient(string globalDeviceEndpoint, string idScope, string registrationId, string securityProvider,
+#if INDEPENDENT
+            byte[] deviceCert, 
+            byte[] azureCert
+#else
+            X509Certificate deviceCert,
+            X509Certificate azureCert
+#endif
+#if INDEPENDENT
+            , IMqttClient mqtt
+#endif
+            )
         {
             _registrationId = registrationId;
             _deviceEndPoint = globalDeviceEndpoint;
+
+#if INDEPENDENT
             _mqttc = mqtt;
             _mqttc.Init(
                _deviceEndPoint,
@@ -76,7 +129,15 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
                azureCert,
                deviceCert,
                MqttSslProtocols.TLSv1_2);
-
+#else
+            _mqttc = new MqttClient(
+               _deviceEndPoint,
+               8883,
+               true,
+               azureCert,
+               deviceCert,
+               MqttSslProtocols.TLSv1_2);
+#endif
             string userName = $"{idScope}/registrations/{_registrationId}/api-version=2019-03-31";
 
             Helper.ComposeTelemetryInformation(ref userName);
