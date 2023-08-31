@@ -20,12 +20,6 @@
         "resolved": "5.1.94",
         "contentHash": "zGfpP1ViNZfRqkPx+X1R6f6EmIxDiIzlAzdzsI1EhcKGl0zoK1oi9SsLAtB5bpcEC8CiUUYw6MgcsQfx6Bsd4Q=="
       },
-      "nanoFramework.Runtime.Events": {
-        "type": "Direct",
-        "requested": "[1.11.6, 1.11.6]",
-        "resolved": "1.11.6",
-        "contentHash": "xkltRh/2xKaZ9zmPHbVr32s1k+e17AInUBhzxKKkUDicJKF39yzTShSklb1OL6DBER5z71SpkGLyl9IdMK9l6w=="
-      },
       "nanoFramework.Runtime.Native": {
         "type": "Direct",
         "requested": "[1.6.6, 1.6.6]",
