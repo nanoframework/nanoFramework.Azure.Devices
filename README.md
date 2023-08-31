@@ -324,9 +324,9 @@ By default, the device SDKs connect to an IoT Hub use QoS 1 for message exchange
 
 Here are existing QoS levels that you can use:
 
-* AtMostOnce: The broker/client will deliver the message once, with no confirmation.
-* AtLeastOnce: The broker/client will deliver the message at least once, with confirmation required.
-* ExactlyOnce: The broker/client will deliver the message exactly once by using a four step handshake.
+- AtMostOnce: The broker/client will deliver the message once, with no confirmation.
+- AtLeastOnce: The broker/client will deliver the message at least once, with confirmation required.
+- ExactlyOnce: The broker/client will deliver the message exactly once by using a four step handshake.
 
 While it's possible to configure QoS 0 (AtMostOnce) for faster message exchange, you should note that the delivery isn't guaranteed nor acknowledged. For this reason, QoS 0 is often referred as "fire and forget".
 
