@@ -22,8 +22,7 @@ Use the nanoFrameowrk.Azure.Devices.Client if you want to use native wifi and MQ
     <dependencies>
       <dependency id="nanoFramework.CoreLibrary" version="1.14.2" />
       <dependency id="nanoFramework.Json" version="2.2.99" />
-      <dependency id="nanoFramework.M2Mqtt" version="5.1.79" />
-      <dependency id="nanoFramework.System.Net.Http" version="1.5.99" />
+      <dependency id="nanoFramework.M2Mqtt.Core" version="5.1.94" />
     </dependencies>
   </metadata>
   <files>
