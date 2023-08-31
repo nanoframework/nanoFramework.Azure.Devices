@@ -55,6 +55,12 @@
         "requested": "[1.1.19, 1.1.19]",
         "resolved": "1.1.19",
         "contentHash": "HjnY0DNoFnU+t1GiH8Wgf7pJCD9yMOcLVtAZXVAhstMKisVN/MDj9TvfXxZScRIz7ZDoZYUnb+Ixfl6rqyppvA=="
+      },
+      "Nerdbank.GitVersioning": {
+        "type": "Direct",
+        "requested": "[3.6.133, 3.6.133]",
+        "resolved": "3.6.133",
+        "contentHash": "VZWMd5YAeDxpjWjAP/X6bAxnRMiEf6tES/ITN0X5CHJgkWLLeHGmEALivmTAfYM6P+P/3Szy6VCITUAkqjcHVw=="
       }
     }
   }

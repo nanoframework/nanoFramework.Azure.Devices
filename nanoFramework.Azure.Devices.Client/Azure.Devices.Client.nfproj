@@ -65,10 +65,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
-      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
+      <HintPath>..\\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Json">
-      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.Json.2.2.99\lib\nanoFramework.Json.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.Json.2.2.99\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.M2Mqtt">
       <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.94\lib\nanoFramework.M2Mqtt.dll</HintPath>
@@ -77,25 +77,25 @@
       <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.94\lib\nanoFramework.M2Mqtt.Core.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events">
-      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.Runtime.Events.1.11.6\lib\nanoFramework.Runtime.Events.dll</HintPath>
+      <HintPath>..\nanoFramework.Runtime.Events.1.11.6\lib\nanoFramework.Runtime.Events.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Native">
-      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.Runtime.Native.1.6.6\lib\nanoFramework.Runtime.Native.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.Runtime.Native.1.6.6\lib\nanoFramework.Runtime.Native.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.System.Collections">
-      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.System.Collections.1.5.18\lib\nanoFramework.System.Collections.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.System.Collections.1.5.18\lib\nanoFramework.System.Collections.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.System.Text">
-      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.System.Text.1.2.37\lib\nanoFramework.System.Text.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.System.Text.1.2.37\lib\nanoFramework.System.Text.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Streams">
-      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.System.IO.Streams.1.1.38\lib\System.IO.Streams.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.System.IO.Streams.1.1.38\lib\System.IO.Streams.dll</HintPath>
     </Reference>
     <Reference Include="System.Net">
-      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.System.Net.1.10.52\lib\System.Net.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.System.Net.1.10.52\lib\System.Net.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading">
-      <HintPath>..\..\nanoFramework.IoT.Device\devices\AtModem\packages\nanoFramework.System.Threading.1.1.19\lib\System.Threading.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.System.Threading.1.1.19\lib\System.Threading.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -111,8 +111,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <!--<Error Condition="!Exists('..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.props'))" />-->
-    <!--<Error Condition="!Exists('..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.targets'))" />-->
+    <Error Condition="!Exists('..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.props'))" />
+    <Error Condition="!Exists('..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.targets'))" />
   </Target>
-  <!--<Import Project="..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.targets')" />-->
+  <Import Project="..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\packages\Nerdbank.GitVersioning.3.6.133\build\Nerdbank.GitVersioning.targets')" />
 </Project>
