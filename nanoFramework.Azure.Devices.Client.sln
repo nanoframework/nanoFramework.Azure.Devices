@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "DeviceClientTests", "Tests\DeviceClientTests\DeviceClientTests.nfproj", "{557EF898-6CF2-4CBC-AE29-72F387FF0EE0}"
 EndProject
-Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "nanoFramework.Azure.Devices.Client.Independent", "nanoFramework.Azure.Devices.Client.Independent\Azure.Devices.Client.Independent.nfproj", "{6812990A-95D9-4C74-A315-A668720098F6}"
+Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "Azure.Devices.Client.Independent", "nanoFramework.Azure.Devices.Client.Independent\Azure.Devices.Client.Independent.nfproj", "{6812990A-95D9-4C74-A315-A668720098F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
