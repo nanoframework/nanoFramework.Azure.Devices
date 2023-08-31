@@ -13,7 +13,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>nanoFramework.Azure.Devices.Client</RootNamespace>
+    <RootNamespace>nanoFramework.Azure.Devices</RootNamespace>
     <AssemblyName>nanoFramework.Azure.Devices.Client</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
     <DocumentationFile>bin\$(Configuration)\nanoFramework.Azure.Devices.Client.xml</DocumentationFile>
