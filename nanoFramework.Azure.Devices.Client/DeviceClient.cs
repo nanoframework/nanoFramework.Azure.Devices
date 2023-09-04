@@ -30,7 +30,7 @@ namespace nanoFramework.Azure.Devices.Client
         private readonly string _deviceId;
         private readonly string _sasKey;
         private readonly string _telemetryTopic;
-        
+
         private readonly string _deviceMessageTopic;
         private Twin _twin;
         private bool _twinReceived;
@@ -48,7 +48,7 @@ namespace nanoFramework.Azure.Devices.Client
         private readonly ArrayList _methodCallback = new ArrayList();
         private readonly ArrayList _waitForConfirmation = new ArrayList();
         private readonly object _lock = new object();
-        private Timer _timerTokenRenew;        
+        private Timer _timerTokenRenew;
         private bool _hasClientCertificate;
 
         /// <summary>
@@ -209,6 +209,25 @@ namespace nanoFramework.Azure.Devices.Client
         {
         }
 
+#if FULLYMANAGED
+        /// <summary>
+        /// Creates an <see cref="DeviceClient"/> class.
+        /// </summary>
+        /// <param name="mqttc">The MQTT client to use.</param>
+        /// <param name="iotHubName">Your Azure IoT Hub fully qualified domain name (example: youriothub.azure-devices.net).</param>
+        /// <param name="deviceId">The device ID (name of your device).</param>
+        /// <param name="clientCert">The certificate to connect the device (containing both public and private keys). Pass null if you are using the certificate store on the device.</param>
+        /// <param name="qosLevel">The default quality of assurance level for delivery for the MQTT messages (defaults to the lowest quality).</param>
+        /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
+        /// <param name="modelId">Azure Plug and Play model ID.</param>
+        public DeviceClient(IMqttClient mqttc, string iotHubName, string deviceId, byte[] clientCert = null, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, byte[] azureCert = null, string modelId = null) :
+            this(iotHubName, deviceId, clientCert, qosLevel, azureCert, modelId)
+        {
+            _mqttc = mqttc ?? throw new ArgumentNullException();
+
+        }
+#endif
+
         /// <summary>
         /// Azure Plug and Play model ID.
         /// </summary>
@@ -242,20 +261,11 @@ namespace nanoFramework.Azure.Devices.Client
         /// <summary>
         /// Open the connection with Azure IoT. This will initiate a connection from the device to the Azure IoT Hub instance.
         /// </summary>
-#if FULLYMANAGED
-        /// <param name="mqtt">The MQTT client to use.</param>
-#endif
         /// <returns>True if open.</returns>
-        public bool Open(
-#if FULLYMANAGED
-            IMqttClient mqtt = null
-#endif
-            )
+        public bool Open()
         {
 #if FULLYMANAGED
-            // Creates MQTT Client using the default port of 8883 and the TLS 1.2 protocol
-            _mqttc = mqtt ?? throw new ArgumentNullException();
-
+            // Creates MQTT Client using the default port of 8883 and the TLS 1.2 protocol            
             _mqttc.Init(
                 _iotHubName,
                 8883,
