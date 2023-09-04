@@ -7,10 +7,12 @@ using nanoFramework.M2Mqtt.Messages;
 using System;
 using System.Collections;
 using System.Diagnostics;
+#if !FULLYMANAGED
 using System.Security.Cryptography.X509Certificates;
+#endif
 using System.Text;
 using System.Threading;
-using System.Web;
+using System.Web.Private;
 
 namespace nanoFramework.Azure.Devices.Client
 {
@@ -28,17 +30,25 @@ namespace nanoFramework.Azure.Devices.Client
         private readonly string _deviceId;
         private readonly string _sasKey;
         private readonly string _telemetryTopic;
-        private readonly X509Certificate2 _clientCert;
+
         private readonly string _deviceMessageTopic;
         private Twin _twin;
         private bool _twinReceived;
+#if FULLYMANAGED
+        private IMqttClient _mqttc = null;
+        private readonly byte[] _azureRootCACert;
+        private readonly byte[] _clientCert;
+
+#else
         private MqttClient _mqttc = null;
+        private readonly X509Certificate _azureRootCACert;
+        private readonly X509Certificate2 _clientCert;
+#endif
         private readonly IoTHubStatus _ioTHubStatus = new IoTHubStatus();
         private readonly ArrayList _methodCallback = new ArrayList();
         private readonly ArrayList _waitForConfirmation = new ArrayList();
         private readonly object _lock = new object();
         private Timer _timerTokenRenew;
-        private readonly X509Certificate _azureRootCACert;
         private bool _hasClientCertificate;
 
         /// <summary>
@@ -71,7 +81,13 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="qosLevel">The default quality level delivery for the MQTT messages, default to the lower quality.</param>
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// <param name="modelId">Azure Plug and Play model ID.</param>
-        public DeviceClient(string iotHubName, string deviceId, string moduleId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce, X509Certificate azureCert = null, string modelId = null)
+        public DeviceClient(string iotHubName, string deviceId, string moduleId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce,
+#if FULLYMANAGED
+            byte[] azureCert = null,
+#else
+            X509Certificate azureCert = null,
+#endif
+            string modelId = null)
         {
             _clientCert = null;
             _iotHubName = iotHubName;
@@ -103,12 +119,24 @@ namespace nanoFramework.Azure.Devices.Client
         /// </summary>
         /// <param name="iotHubName">Your Azure IoT Hub fully qualified domain name (example: youriothub.azure-devices.net).</param>
         /// <param name="deviceId">The device ID (name of your device).</param>
-        /// /// <param name="moduleId">The module ID which is attached to the device ID.</param>
+        /// <param name="moduleId">The module ID which is attached to the device ID.</param>
         /// <param name="clientCert">The certificate to connect the device (containing both public and private keys). Pass null if you are using the certificate store on the device.</param>
         /// <param name="qosLevel">The default quality of assurance level for delivery for the MQTT messages (defaults to the lowest quality).</param>
-        /// /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
-        /// /// <param name="modelId">Azure Plug and Play model ID.</param>
-        public DeviceClient(string iotHubName, string deviceId, string moduleId, X509Certificate2 clientCert, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null, string modelId = null)
+        /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
+        /// <param name="modelId">Azure Plug and Play model ID.</param>
+        public DeviceClient(string iotHubName, string deviceId, string moduleId,
+#if FULLYMANAGED
+            byte[] clientCert = null,
+#else
+            X509Certificate2 clientCert,
+#endif
+            MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce,
+#if FULLYMANAGED
+            byte[] azureCert = null,
+#else
+            X509Certificate azureCert = null,
+#endif
+            string modelId = null)
         {
             _hasClientCertificate = true;
             _clientCert = clientCert;
@@ -144,7 +172,13 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="qosLevel">The default quality level delivery for the MQTT messages, default to the lower quality.</param>
         /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
         /// <param name="modelId">Azure Plug and Play model ID.</param>
-        public DeviceClient(string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce, X509Certificate azureCert = null, string modelId = null)
+        public DeviceClient(string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce,
+#if FULLYMANAGED
+            byte[] azureCert = null,
+#else
+            X509Certificate azureCert = null,
+#endif
+            string modelId = null)
             : this(iotHubName, deviceId, string.Empty, sasKey, qosLevel, azureCert, modelId)
         {
         }
@@ -156,12 +190,43 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="deviceId">The device ID (name of your device).</param>
         /// <param name="clientCert">The certificate to connect the device (containing both public and private keys). Pass null if you are using the certificate store on the device.</param>
         /// <param name="qosLevel">The default quality of assurance level for delivery for the MQTT messages (defaults to the lowest quality).</param>
-        /// /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
-        /// /// <param name="modelId">Azure Plug and Play model ID.</param>
-        public DeviceClient(string iotHubName, string deviceId, X509Certificate2 clientCert, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, X509Certificate azureCert = null, string modelId = null)
+        /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
+        /// <param name="modelId">Azure Plug and Play model ID.</param>
+        public DeviceClient(string iotHubName, string deviceId,
+#if FULLYMANAGED
+            byte[] clientCert = null,
+#else
+            X509Certificate2 clientCert,
+#endif
+            MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce,
+#if FULLYMANAGED
+            byte[] azureCert = null,
+#else
+            X509Certificate azureCert = null,
+#endif
+            string modelId = null)
              : this(iotHubName, deviceId, string.Empty, clientCert, qosLevel, azureCert, modelId)
         {
         }
+
+#if FULLYMANAGED
+        /// <summary>
+        /// Creates an <see cref="DeviceClient"/> class.
+        /// </summary>
+        /// <param name="mqttc">The MQTT client to use.</param>
+        /// <param name="iotHubName">Your Azure IoT Hub fully qualified domain name (example: youriothub.azure-devices.net).</param>
+        /// <param name="deviceId">The device ID (name of your device).</param>
+        /// <param name="clientCert">The certificate to connect the device (containing both public and private keys). Pass null if you are using the certificate store on the device.</param>
+        /// <param name="qosLevel">The default quality of assurance level for delivery for the MQTT messages (defaults to the lowest quality).</param>
+        /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
+        /// <param name="modelId">Azure Plug and Play model ID.</param>
+        public DeviceClient(IMqttClient mqttc, string iotHubName, string deviceId, byte[] clientCert = null, MqttQoSLevel qosLevel = MqttQoSLevel.AtMostOnce, byte[] azureCert = null, string modelId = null) :
+            this(iotHubName, deviceId, clientCert, qosLevel, azureCert, modelId)
+        {
+            _mqttc = mqttc ?? throw new ArgumentNullException();
+
+        }
+#endif
 
         /// <summary>
         /// Azure Plug and Play model ID.
@@ -199,7 +264,17 @@ namespace nanoFramework.Azure.Devices.Client
         /// <returns>True if open.</returns>
         public bool Open()
         {
-            // Creates MQTT Client usinf the default port of 8883 and the TLS 1.2 protocol
+#if FULLYMANAGED
+            // Creates MQTT Client using the default port of 8883 and the TLS 1.2 protocol            
+            _mqttc.Init(
+                _iotHubName,
+                8883,
+                true,
+                _azureRootCACert,
+                _clientCert,
+                MqttSslProtocols.TLSv1_2);
+#else
+            // Creates MQTT Client using the default port of 8883 and the TLS 1.2 protocol
             _mqttc = new MqttClient(
                 _iotHubName,
                 8883,
@@ -207,11 +282,14 @@ namespace nanoFramework.Azure.Devices.Client
                 _azureRootCACert,
                 _clientCert,
                 MqttSslProtocols.TLSv1_2);
+#endif
 
             // Handler for received messages on the subscribed topics
             _mqttc.MqttMsgPublishReceived += ClientMqttMsgReceived;
+
             // Handler for publisher
             _mqttc.MqttMsgPublished += ClientMqttMsgPublished;
+
             // event when connection has been dropped
             _mqttc.ConnectionClosed += ClientConnectionClosed;
 
@@ -257,6 +335,7 @@ namespace nanoFramework.Azure.Devices.Client
                 _ioTHubStatus.Status = Status.Connected;
                 _ioTHubStatus.Message = string.Empty;
                 StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
+
                 // We will renew 10 minutes before just in case
                 _timerTokenRenew = new Timer(TimerCallbackReconnect, null, new TimeSpan(23, 50, 0), TimeSpan.MaxValue);
             }
@@ -297,6 +376,7 @@ namespace nanoFramework.Azure.Devices.Client
 
                 _mqttc.Disconnect();
                 _mqttc.Close();
+
                 // Make sure all get disconnected, cleared 
                 Thread.Sleep(1000);
             }

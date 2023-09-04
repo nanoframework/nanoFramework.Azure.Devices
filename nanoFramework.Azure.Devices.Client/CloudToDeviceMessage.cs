@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections;
-using System.Web;
+using System.Web.Private;
 
 namespace nanoFramework.Azure.Devices.Client
 {

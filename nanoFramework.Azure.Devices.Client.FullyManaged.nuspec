@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>nanoFramework.Azure.Devices.Client.FullyManaged</id>
+    <version>$version$</version>
+    <title>nanoFramework.Azure.Devices.Client.FullyManaged</title>
+    <authors>nanoframework</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE.md</license>
+    <releaseNotes>
+    </releaseNotes>
+    <readme>docs\README.md</readme>
+    <developmentDependency>false</developmentDependency>
+    <projectUrl>https://github.com/nanoframework/nanoFramework.Azure.Devices</projectUrl>
+    <icon>images\nf-logo.png</icon>
+    <repository type="git" url="https://github.com/nanoframework/nanoFramework.Azure.Devices" commit="$commit$" />
+    <copyright>Copyright (c) .NET Foundation and Contributors</copyright>
+    <description>This package includes the .NET nanoFramework.Azure.Devices.Client.FullyManaged assembly for .NET nanoFramework C# projects.
+This is an SDK for Azure IoT Hub using a MQTT broker interface. This is Independent of hardware typically used with a modem.
+Use the nanoFrameowrk.Azure.Devices.Client if you want to use native wifi and MQTT broker.</description>
+    <tags>nanoFramework C# csharp netmf netnf Microsoft.Azure.Devices Microsoft.Azure.Devices.Client nanoFramework.Azure.Devices.Client.FullyManaged</tags>
+    <dependencies>
+      <dependency id="nanoFramework.CoreLibrary" version="1.14.2" />
+      <dependency id="nanoFramework.Json" version="2.2.99" />
+      <dependency id="nanoFramework.M2Mqtt.Core" version="5.1.94" />
+      <dependency id="nanoFramework.Runtime.Native" version="1.6.6" />
+      <dependency id="nanoFramework.System.Threading" version="1.1.19" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="nanoFramework.Azure.Devices.Client.FullyManaged\bin\Release\nanoFramework.Azure.Devices.Client.dll" target="lib\nanoFramework.Azure.Devices.Client.dll" />
+    <file src="nanoFramework.Azure.Devices.Client.FullyManaged\bin\Release\nanoFramework.Azure.Devices.Client.pdb" target="lib\nanoFramework.Azure.Devices.Client.pdb" />
+    <file src="nanoFramework.Azure.Devices.Client.FullyManaged\bin\Release\nanoFramework.Azure.Devices.Client.pdbx" target="lib\nanoFramework.Azure.Devices.Client.pdbx" />
+    <file src="nanoFramework.Azure.Devices.Client.FullyManaged\bin\Release\nanoFramework.Azure.Devices.Client.pe" target="lib\nanoFramework.Azure.Devices.Client.pe" />
+    <file src="nanoFramework.Azure.Devices.Client.FullyManaged\bin\Release\nanoFramework.Azure.Devices.Client.xml" target="lib\nanoFramework.Azure.Devices.Client.xml" />
+    <file src="assets\readme.txt" target="" />
+    <file src="README.md" target="docs\" />
+    <file src="assets\nf-logo.png" target="images" />
+    <file src="LICENSE.md" target="" />
+  </files>
+</package>

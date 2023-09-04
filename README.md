@@ -1,4 +1,4 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_Azure.Devices&metric=alert_status)](https://sonarcloud.io/dashboard?id=nanoframework_Azure.Devices) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_Azure.Devices&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nanoframework_Azure.Devices) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) [![#yourfirstpr](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/nanoframework/Home/blob/main/CONTRIBUTING.md) [![Discord](https://img.shields.io/discord/478725473862549535.svg?logo=discord&logoColor=white&label=Discord&color=7289DA)](https://discord.gg/gCyBu8T)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_Azure.Devices&metric=alert_status)](https://sonarcloud.io/dashboard?id=nanoframework_Azure.Devices) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_Azure.Devices&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nanoframework_Azure.Devices) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.Azure.Devices.Client.FullyManaged.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client.FullyManaged/) [![#yourfirstpr](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/nanoframework/Home/blob/main/CONTRIBUTING.md) [![Discord](https://img.shields.io/discord/478725473862549535.svg?logo=discord&logoColor=white&label=Discord&color=7289DA)](https://discord.gg/gCyBu8T)
 
 ![nanoFramework logo](https://raw.githubusercontent.com/nanoframework/Home/main/resources/logo/nanoFramework-repo-logo.png)
 
@@ -11,12 +11,19 @@
 | Component | Build Status | NuGet Package |
 |:-|---|---|
 | nanoFramework.Azure.Devices.Client | [![Build Status](https://dev.azure.com/nanoframework/Azure.Devices/_apis/build/status/nanoFramework.Azure.Devices?repoName=nanoframework%2FnanoFramework.Azure.Devices&branchName=main)](https://dev.azure.com/nanoframework/Azure.Devices/_build/latest?definitionId=75&repoName=nanoframework%2FnanoFramework.Azure.Devices&branchName=main)| [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Azure.Devices.Client.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client/) |
+| nanoFramework.Azure.Devices.Client.FullyManaged | [![Build Status](https://dev.azure.com/nanoframework/Azure.Devices/_apis/build/status/nanoFramework.Azure.Devices?repoName=nanoframework%2FnanoFramework.Azure.Devices&branchName=main)](https://dev.azure.com/nanoframework/Azure.Devices/_build/latest?definitionId=75&repoName=nanoframework%2FnanoFramework.Azure.Devices&branchName=main)| [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Azure.Devices.Client.FullyManaged.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Azure.Devices.Client.FullyManaged/) |
 
 ## See it in action
 
 You can watch this video from the Microsoft [IoT Show](https://aka.ms/iotshow) featuring the Azure SDK and a real life example with .NET nanoFramework:
 
 [![IoT Show](https://img.youtube.com/vi/TLYqRdmmj5k/0.jpg)](https://youtu.be/TLYqRdmmj5k)
+
+## nanoFramework.Azure.Devices.Client vs nanoFramework.Azure.Devices.Client.FullyManaged
+
+The `nanoFramework.Azure.Devices.Client.FullyManaged` nuget has been build to be **independent of the native hardware** you are running on. So it will not use the X509Certificate but rather a byte array. It will not use the `nanoFramework.M2Mqtt` library but rather an abstraction called `nanoFramework.M2Mqtt.Core` using an interface.
+
+The main scenario this does allow is to bring your own MQTT broker and run on devices without System.Net so devices without any native networking. This does allow to connect through a modem implementing an MQTT client. You can reuse almost fully the same code you're using for native network enabled devices and the ones using a modem.
 
 ## Usage
 
@@ -64,6 +71,8 @@ R9I4LtD+gdwyah617jzV/OeBHRnDJELqYzmp
 ";
 DeviceClient azureIoT = new DeviceClient(IotBrokerAddress, DeviceID, SasKey, azureCert: new X509Certificate(AzureRootCA));
 ```
+
+> Note: when using the FullyManaged library, you will have to pass a `byte[]` rather than a `X509Certificate`. The broker you'll use may or may not support PEM or DER certificate. Please make sure you will use the proper one by checking the vendor documentation. A PEM certificate is a base64 encoded version of the DER certificate, usually found with the `.crt` extension.
 
 You can place your binary certificate in the program resources as well and just get the certificate from it:
 
@@ -200,6 +209,8 @@ void TwinUpdatedEvent(object sender, TwinUpdateEventArgs e)
 }
 ```
 
+> Note: some modem have limitations in the length of the message. The message is what contains the twins. Make sure you'll check the limitations when using the FullyManaged library.
+
 ### Sending message
 
 You have to use the `SendMessage` function to send any kind of message or telemetry to Azure IoT. As for the other function, you have the possibility to ensure delivery with a `CancellationToken` than can be cancelled. If one that can't be cancelled is used, the delivery insurance will be ignored and the function will return false.
@@ -249,6 +260,8 @@ void CloudToDeviceMessageEvent(object sender, CloudToDeviceMessageEventArgs e)
 
 Note: the `sender` is a `DeviceClient` class, you can then send a message back, a confirmation or any logic you've put in place.
 
+> Note: some modem have limitations in the length of the message and topic length. The topic length is what contains the property bag. Make sure you'll check the limitations when using the FullyManaged library.
+
 ### Method callback
 
 Method callback is supported as well. You can register and unregister your methods. Here are a few examples:
@@ -281,6 +294,8 @@ string RaiseExceptionCallbackTest(int rid, string payload)
 
 **Important**: method names are case sensitive. So make sure you name your functions in C# use the same case.
 
+> Note: some modem have limitations in the length of the message. The message is what contains the payload. Make sure you'll check the limitations when using the FullyManaged library.
+
 ### Status update event
 
 A status update event is available:
@@ -299,6 +314,8 @@ void StatusUpdatedEvent(object sender, StatusUpdatedEventArgs e)
 }
 ```
 
+> Note: some modem have limitations in the MQTT implementation so you may not get all the updates. Make sure you'll check the limitations when using the FullyManaged library.
+
 Note that those are status change based, so once the connect or disconnect event arrives, they'll be replaced by other events as soon as something else happened like receiving a twin.
 
 ### QoS Level
@@ -307,9 +324,9 @@ By default, the device SDKs connect to an IoT Hub use QoS 1 for message exchange
 
 Here are existing QoS levels that you can use:
 
-* AtMostOnce: The broker/client will deliver the message once, with no confirmation.
-* AtLeastOnce: The broker/client will deliver the message at least once, with confirmation required.
-* ExactlyOnce: The broker/client will deliver the message exactly once by using a four step handshake.
+- AtMostOnce: The broker/client will deliver the message once, with no confirmation.
+- AtLeastOnce: The broker/client will deliver the message at least once, with confirmation required.
+- ExactlyOnce: The broker/client will deliver the message exactly once by using a four step handshake.
 
 While it's possible to configure QoS 0 (AtMostOnce) for faster message exchange, you should note that the delivery isn't guaranteed nor acknowledged. For this reason, QoS 0 is often referred as "fire and forget".
 
@@ -461,6 +478,8 @@ if(!res)
 ### Additional payload
 
 Additional payload is supported as well. You can set it up as as json string in the `ProvisioningRegistrationAdditionalData` class when calling the `Register` function. When the device has been provisioned, you may have as well additional payload provided.
+
+> Note: some modem have limitations in the length of the message. The message is what contains the payload. Make sure you'll check the limitations when using the FullyManaged library.
 
 ## Feedback and documentation
 

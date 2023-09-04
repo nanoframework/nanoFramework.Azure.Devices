@@ -35,7 +35,7 @@ namespace DeviceClientTests
 
             var encodedProperties = client.EncodeUserProperties(new ArrayList() { _userProperty1, _userProperty2, _userProperty3 });
 
-            Assert.Equal(encodedProperties, "prop1=iAmValue1&prop2=33.44&prop3=string+with+%24%2F%23%25+chars");
+            Assert.AreEqual(encodedProperties, "prop1=iAmValue1&prop2=33.44&prop3=string+with+%24%2F%23%25+chars");
         }
 
         [TestMethod]
@@ -43,28 +43,28 @@ namespace DeviceClientTests
         {
             DeviceClient client = new();
 
-            Assert.Throws(typeof(ArgumentException), () =>
+            Assert.ThrowsException(typeof(ArgumentException), () =>
                 {
                     client.EncodeUserProperties(new ArrayList() { _userProperty3, _userPropertyBad1 });
                 },
                 "Expecting ArgumentException with invalid user property 01."
             );
 
-            Assert.Throws(typeof(ArgumentException), () =>
+            Assert.ThrowsException(typeof(ArgumentException), () =>
                 {
                     client.EncodeUserProperties(new ArrayList() { _userPropertyBad2, _userProperty3 });
                 },
                 "Expecting ArgumentException with invalid user property 02."
             );
 
-            Assert.Throws(typeof(InvalidCastException), () =>
+            Assert.ThrowsException(typeof(InvalidCastException), () =>
                 {
                     client.EncodeUserProperties(new ArrayList() { _userProperty1, "Invalid property" });
                 },
                 "Expecting ArgumentException with invalid user property 03."
             );
 
-            Assert.Throws(typeof(InvalidCastException), () =>
+            Assert.ThrowsException(typeof(InvalidCastException), () =>
                 {
                     client.EncodeUserProperties(new ArrayList() { 8888888, "Invalid property" });
                 },
@@ -79,7 +79,7 @@ namespace DeviceClientTests
         {
             DeviceClient client = new();
 
-            Assert.Equal(
+            Assert.AreEqual(
                 client.EncodeContentType(contentType),
                 encodedContentType);
         }
