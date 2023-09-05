@@ -1,5 +1,17 @@
 # Changelog
 
+## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.2.1...HEAD)
+
+**Implemented enhancements:**
+
+- Add missing constructor in FullyManaged [\#301](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/301)
+
+## [v1.2.1](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.2.1) (2023-09-04)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.1.145...v1.2.1)
+
 ## [v1.1.145](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.1.145) (2023-08-28)
 
 [Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.1.143...v1.1.145)
