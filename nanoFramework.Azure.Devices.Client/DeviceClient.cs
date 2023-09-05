@@ -183,6 +183,25 @@ namespace nanoFramework.Azure.Devices.Client
         {
         }
 
+#if FULLYMANAGED
+        /// <summary>
+        /// Creates an <see cref="DeviceClient"/> class.
+        /// </summary>
+        /// <param name="mqttc">The MQTT client to use.</param>
+        /// <param name="iotHubName">The Azure IoT name fully qualified (ex: youriothub.azure-devices.net).</param>
+        /// <param name="deviceId">The device ID which is the name of your device.</param>
+        /// <param name="sasKey">One of the SAS Key either primary, either secondary.</param>
+        /// <param name="qosLevel">The default quality level delivery for the MQTT messages, default to the lower quality.</param>
+        /// <param name="azureCert">Azure certificate for the connection to Azure IoT Hub.</param>
+        /// <param name="modelId">Azure Plug and Play model ID.</param>
+        public DeviceClient(IMqttClient mqttc, string iotHubName, string deviceId, string sasKey, MqttQoSLevel qosLevel = MqttQoSLevel.AtLeastOnce, byte[] azureCert = null, string modelId = null) :
+            this(iotHubName, deviceId, sasKey, qosLevel, azureCert, modelId)
+        {
+            _mqttc = mqttc ?? throw new ArgumentNullException();
+
+        }
+#endif
+
         /// <summary>
         /// Creates an <see cref="DeviceClient"/> class.
         /// </summary>
