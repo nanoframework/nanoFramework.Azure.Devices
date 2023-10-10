@@ -32,80 +32,80 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\CloudToDeviceMessage.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\CloudToDeviceMessage.cs">
       <Link>CloudToDeviceMessage.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\ConfirmationStatus.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\ConfirmationStatus.cs">
       <Link>ConfirmationStatus.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\DeviceRegistrationResult.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\DeviceRegistrationResult.cs">
       <Link>DeviceRegistrationResult.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\Helper.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\Helper.cs">
       <Link>Helper.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\HMACSHA256.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\HMACSHA256.cs">
       <Link>HMACSHA256.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\HttpUtility.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\HttpUtility.cs">
       <Link>HttpUtility.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\IoTHubStatus.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\IoTHubStatus.cs">
       <Link>IoTHubStatus.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\MethodCallback.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\MethodCallback.cs">
       <Link>MethodCallback.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\DeviceClient.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\DeviceClient.cs">
       <Link>DeviceClient.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\PlugAndPlay\PnpConvention.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\PlugAndPlay\PnpConvention.cs">
       <Link>PlugAndPlay\PnpConvention.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\nanoFramework.azure.Devices.Client\SHA256.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\SHA256.cs">
       <Link>SHA256.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\PropertyAcknowledge.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\PropertyAcknowledge.cs">
       <Link>PropertyAcknowledge.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\PropertyStatus.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\PropertyStatus.cs">
       <Link>PropertyStatus.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\ProvisioningDeviceClient.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\ProvisioningDeviceClient.cs">
       <Link>ProvisioningDeviceClient.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\ProvisioningRegistrationAdditionalData.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\ProvisioningRegistrationAdditionalData.cs">
       <Link>ProvisioningRegistrationAdditionalData.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\ProvisioningRegistrationStatusType.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\ProvisioningRegistrationStatusType.cs">
       <Link>ProvisioningRegistrationStatusType.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\ProvisioningRegistrationSubstatusType.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\ProvisioningRegistrationSubstatusType.cs">
       <Link>ProvisioningRegistrationSubstatusType.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\RegistrationOperationStatus.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\RegistrationOperationStatus.cs">
       <Link>RegistrationOperationStatus.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\RegistrationState.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\RegistrationState.cs">
       <Link>RegistrationState.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\Status.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\Status.cs">
       <Link>Status.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\StatusUpdatedEventArgs.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\StatusUpdatedEventArgs.cs">
       <Link>StatusUpdatedEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\Twin.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\Twin.cs">
       <Link>Twin.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\TwinCollection.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\TwinCollection.cs">
       <Link>TwinCollection.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\TwinProperties.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\TwinProperties.cs">
       <Link>TwinProperties.cs</Link>
     </Compile>
-    <Compile Include="..\nanoFramework.azure.Devices.Client\TwinUpdateEventArgs.cs" >
+    <Compile Include="..\nanoFramework.azure.Devices.Client\TwinUpdateEventArgs.cs">
       <Link>TwinUpdateEventArgs.cs</Link>
     </Compile>
   </ItemGroup>
@@ -113,8 +113,9 @@
     <Reference Include="mscorlib">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.Json">
-      <HintPath>..\packages\nanoFramework.Json.2.2.99\lib\nanoFramework.Json.dll</HintPath>
+    <Reference Include="nanoFramework.Json, Version=2.2.101.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.Json.2.2.101\lib\nanoFramework.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="nanoFramework.M2Mqtt.Core">
       <HintPath>..\packages\nanoFramework.M2Mqtt.Core.5.1.94\lib\nanoFramework.M2Mqtt.Core.dll</HintPath>
