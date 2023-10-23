@@ -50,6 +50,8 @@ namespace nanoFramework.Azure.Devices.Client
         private readonly object _lock = new object();
         private Timer _timerTokenRenew;
         private bool _hasClientCertificate;
+        private bool _isDisposed = false;
+        private bool _isClosed = true;
 
         /// <summary>
         /// Device twin updated event.
@@ -359,6 +361,7 @@ namespace nanoFramework.Azure.Devices.Client
                 _timerTokenRenew = new Timer(TimerCallbackReconnect, null, new TimeSpan(23, 50, 0), TimeSpan.MaxValue);
             }
 
+            _isClosed = !_mqttc.IsConnected;
             return _mqttc.IsConnected;
         }
 
@@ -382,6 +385,11 @@ namespace nanoFramework.Azure.Devices.Client
         /// </summary>
         public void Close()
         {
+            if (_isClosed)
+            {
+                return;
+            }
+
             if (_mqttc != null)
             {
                 if (_mqttc.IsConnected)
@@ -394,13 +402,21 @@ namespace nanoFramework.Azure.Devices.Client
                 }
 
                 _mqttc.Disconnect();
-                _mqttc.Close();
+                try
+                {
+                    _mqttc.Close();
+                }
+                catch
+                {
+                    // Nothing on purpose, we want to make sure we can continue
+                }
 
                 // Make sure all get disconnected, cleared 
                 Thread.Sleep(1000);
             }
 
             _timerTokenRenew?.Dispose();
+            _isClosed = true;
         }
 
         /// <summary>
@@ -804,6 +820,12 @@ namespace nanoFramework.Azure.Devices.Client
         /// <inheritdoc/>
         public void Dispose()
         {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _isDisposed = true;
             if (_mqttc != null)
             {
                 // Making sure we unregister the registered events
@@ -815,7 +837,6 @@ namespace nanoFramework.Azure.Devices.Client
                 while (_mqttc.IsConnected)
                 {
                     Thread.Sleep(100);
-
                 }
 
                 // Cleaning
