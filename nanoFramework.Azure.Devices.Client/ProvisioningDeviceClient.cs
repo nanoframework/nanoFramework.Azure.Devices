@@ -34,6 +34,7 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
         private ProvisioningRegistrationStatusType _status = ProvisioningRegistrationStatusType.Unassigned;
         private DeviceRegistrationResult _result = null;
         private bool _isMessageProcessed = false;
+        private bool _isDisposed = false;
 
         /// <summary>
         /// Creates an instance of the Device Provisioning Client.
@@ -228,9 +229,17 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
         {
             // We need to clean everything now
             _mqttc.MqttMsgPublishReceived -= ClientMqttMsgReceived;
-            _mqttc.Unsubscribe(new[] {
+            try
+            {
+                _mqttc.Unsubscribe(new[] {
                         DpsSubscription
                     });
+            }
+            catch
+            {
+                // Nothing on purpose, just cleaning
+            }
+
             _mqttc.Disconnect();
             while (_mqttc.IsConnected)
             {
@@ -337,6 +346,12 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
         /// <inheritdoc/>
         public void Dispose()
         {
+            if(_isDisposed)
+            {
+                return;
+            }
+
+            _isDisposed = true;
             if (_mqttc != null)
             {
                 CleanAll();
