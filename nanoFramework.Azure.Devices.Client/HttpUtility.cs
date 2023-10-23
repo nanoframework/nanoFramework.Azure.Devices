@@ -201,7 +201,7 @@ namespace System.Web.Private
         /// <summary>
         /// Converts a string that has been encoded for transmission in a URL into a decoded string.
         /// </summary>
-        /// <param name="str">The string to decode./param>
+        /// <param name="str">The string to decode.</param>
         /// <returns>The decoded URL</returns>
         public static string UrlDecode(string str)
         {
