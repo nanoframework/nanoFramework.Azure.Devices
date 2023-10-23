@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.2.5...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.2.7...HEAD)
+
+**Implemented enhancements:**
+
+- Improving dispose in DeviceClient and ProvisioningDeviceClient [\#304](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/304)
+
+## [v1.2.7](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.2.7) (2023-10-10)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.2.5...v1.2.7)
 
 **Documentation and other chores:**
 
