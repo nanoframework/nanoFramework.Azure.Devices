@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.2.12...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.2.14...HEAD)
+
+**Implemented enhancements:**
+
+- Adjusting DPS for memory performance optimization on small devices [\#311](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/311)
+
+## [v1.2.14](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.2.14) (2023-11-10)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.2.12...v1.2.14)
 
 **Documentation and other chores:**
 
