@@ -32,9 +32,11 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
         private DateTime _retryInitTime;
         private string _operationId;
         private ProvisioningRegistrationStatusType _status = ProvisioningRegistrationStatusType.Unassigned;
+        private ProvisioningRegistrationStatusType _statusLast = ProvisioningRegistrationStatusType.Unassigned;
         private DeviceRegistrationResult _result = null;
         private bool _isMessageProcessed = false;
         private bool _isDisposed = false;
+        private string _message = null;
 
         /// <summary>
         /// Creates an instance of the Device Provisioning Client.
@@ -205,10 +207,12 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
                 registration = $"{{\"registrationId\":\"{_registrationId}\"}}";
             }
 
-            var ret = _mqttc.Publish($"$dps/registrations/PUT/iotdps-register/?$rid={_requestId}", Encoding.UTF8.GetBytes(registration));
+            _mqttc.Publish($"$dps/registrations/PUT/iotdps-register/?$rid={_requestId}", Encoding.UTF8.GetBytes(registration));
 
             while ((!cancellationToken.IsCancellationRequested) && (_status != ProvisioningRegistrationStatusType.Assigned))
             {
+                // We force to clean the memory at this stage, for constrained devices
+                Runtime.Native.GC.Run(true);
                 Thread.Sleep(200);
                 // Don't ask for a new message if we are already processing one
                 if ((_retry > 0) && (!_isMessageProcessed))
@@ -222,6 +226,35 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
             }
 
             CleanAll();
+
+            // Creating a DeviceRegistrationResult only when it's needed
+            // One more time cleaning the memory for small devices, a bit of performances penalties
+            Runtime.Native.GC.Run(true);
+            if (!string.IsNullOrEmpty(_message))
+            {
+                var opeStat = (RegistrationOperationStatus)nanoFramework.Json.JsonConvert.DeserializeObject(_message, typeof(RegistrationOperationStatus));
+                var reg = opeStat.registrationState;
+                var status = AssignStatus(opeStat.status);
+                if (_statusLast == ProvisioningRegistrationStatusType.Assigned)
+                {
+                    ProvisioningRegistrationSubstatusType sub = ProvisioningRegistrationSubstatusType.InitialAssignment;
+                    if (reg.substatus == "deviceDataMigrated")
+                    {
+                        sub = ProvisioningRegistrationSubstatusType.DeviceDataMigrated;
+                    }
+                    else if (reg.substatus == "deviceDataReset")
+                    {
+                        sub = ProvisioningRegistrationSubstatusType.DeviceDataReset;
+                    }
+
+                    _result = new(reg.registrationId, reg.createdDateTimeUtc, reg.assignedHub, reg.deviceId, status, sub, string.Empty, reg.lastUpdatedDateTimeUtc, reg.errorCode, reg.errorMessage, reg.etag, opeStat.registrationState.payload);
+                }
+                else
+                {
+                    _result = new(reg.registrationId, reg.createdDateTimeUtc, reg.assignedHub, reg.deviceId, status, string.Empty, reg.lastUpdatedDateTimeUtc, reg.errorCode, reg.errorMessage, reg.etag);
+                }
+            }
+
             return _result ?? new DeviceRegistrationResult(_registrationId, DateTime.UtcNow, string.Empty, string.Empty, _status, string.Empty, DateTime.UtcNow, -1, $"Unknown error, cancellation requested: {cancellationToken.IsCancellationRequested}", string.Empty);
         }
 
@@ -263,9 +296,9 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
                 // The message after the publish looks like that:
                 // $dps/registrations/res/202/?$rid={request_id}&retry-after=x
                 // x is the retry-after value in seconds
+                var opeStat = (RegistrationOperationStatusSimple)Json.JsonConvert.DeserializeObject(message, typeof(RegistrationOperationStatusSimple));
                 if (e.Topic.StartsWith($"$dps/registrations/res/202/?$rid={_requestId}"))
                 {
-                    var opeStat = (RegistrationOperationStatusSimple)Json.JsonConvert.DeserializeObject(message, typeof(RegistrationOperationStatusSimple));
                     _operationId = opeStat.operationId;
                     status = AssignStatus(opeStat.status);
                     _retry = Convert.ToInt32(e.Topic.Substring(e.Topic.LastIndexOf('=') + 1));
@@ -275,28 +308,10 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
                 {
                     // This is to avoid having multiple messages to process
                     _isMessageProcessed = true;
-                    var opeStat = (RegistrationOperationStatus)Json.JsonConvert.DeserializeObject(message, typeof(RegistrationOperationStatus));
                     _operationId = opeStat.operationId;
                     status = AssignStatus(opeStat.status);
-                    var reg = opeStat.registrationState;
-                    if (_status == ProvisioningRegistrationStatusType.Assigned)
-                    {
-                        ProvisioningRegistrationSubstatusType sub = ProvisioningRegistrationSubstatusType.InitialAssignment;
-                        if (reg.substatus == "deviceDataMigrated")
-                        {
-                            sub = ProvisioningRegistrationSubstatusType.DeviceDataMigrated;
-                        }
-                        else if (reg.substatus == "deviceDataReset")
-                        {
-                            sub = ProvisioningRegistrationSubstatusType.DeviceDataReset;
-                        }
-
-                        _result = new(reg.registrationId, reg.createdDateTimeUtc, reg.assignedHub, reg.deviceId, status, sub, string.Empty, reg.lastUpdatedDateTimeUtc, reg.errorCode, reg.errorMessage, reg.etag, opeStat.registrationState.payload);
-                    }
-                    else
-                    {
-                        _result = new(reg.registrationId, reg.createdDateTimeUtc, reg.assignedHub, reg.deviceId, status, string.Empty, reg.lastUpdatedDateTimeUtc, reg.errorCode, reg.errorMessage, reg.etag);
-                    }
+                    _message = message;
+                    _statusLast = _status;
                 }
                 else if (!_isMessageProcessed)
                 {
@@ -346,7 +361,7 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
         /// <inheritdoc/>
         public void Dispose()
         {
-            if(_isDisposed)
+            if (_isDisposed)
             {
                 return;
             }
