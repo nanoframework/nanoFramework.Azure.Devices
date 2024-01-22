@@ -2,7 +2,17 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.2.14...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.2.16...HEAD)
+
+**Documentation and other chores:**
+
+- Update 2 NuGet dependencies [\#314](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/314)
+- Update 1 NuGet dependencies [\#313](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/313)
+- Update Documentation for Azure IoT Hub Communication with New DigiCert Global Root G2 Certificate [\#312](https://github.com/nanoframework/nanoFramework.Azure.Devices/pull/312)
+
+## [v1.2.16](https://github.com/nanoframework/nanoFramework.Azure.Devices/tree/v1.2.16) (2023-11-23)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.Azure.Devices/compare/v1.2.14...v1.2.16)
 
 **Implemented enhancements:**
 
