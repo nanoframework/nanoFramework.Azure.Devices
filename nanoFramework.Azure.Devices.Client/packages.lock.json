@@ -16,9 +16,9 @@
       },
       "nanoFramework.M2Mqtt": {
         "type": "Direct",
-        "requested": "[5.1.128, 5.1.128]",
-        "resolved": "5.1.128",
-        "contentHash": "kdvePdcCcbQlAlue1qHXbtjkWR0xq4okuot3IcPtoiuQJZKC0DUrwL/F25Y4jwpDn5Ywv8EUQNsTatvk1fYvfQ=="
+        "requested": "[5.1.130, 5.1.130]",
+        "resolved": "5.1.130",
+        "contentHash": "+/McfeWhEt5LlhWdVzAkO88YcP/i56Ih3u+3l+AzlKxt1xb7f0bywwFacozx9AgU0tdVAl8GIa27AeYLhBI18Q=="
       },
       "nanoFramework.Runtime.Events": {
         "type": "Direct",
