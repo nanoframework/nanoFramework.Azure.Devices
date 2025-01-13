@@ -16,9 +16,9 @@
       },
       "nanoFramework.M2Mqtt": {
         "type": "Direct",
-        "requested": "[5.1.154, 5.1.154]",
-        "resolved": "5.1.154",
-        "contentHash": "6pOPT1TfiQNdXWt3no2CGSJC2d4doK+k9BpZxv3hklOwISwH0XeKpLHpha53JR6j+1qxN1CzHOpRNVvpCdFD8w=="
+        "requested": "[5.1.158, 5.1.158]",
+        "resolved": "5.1.158",
+        "contentHash": "D9cbiGsrmX3Gfbrk9uA51KN0V/c0nCjLHXuecAQtOSctRx4YsRRlcrqlji2SBIYWv1uUf1jAPfbctPsxvL5VjQ=="
       },
       "nanoFramework.Runtime.Events": {
         "type": "Direct",
@@ -40,21 +40,21 @@
       },
       "nanoFramework.System.IO.Streams": {
         "type": "Direct",
-        "requested": "[1.1.75, 1.1.75]",
-        "resolved": "1.1.75",
-        "contentHash": "1wI+DeqR2osn9CRBw/DWaWB/5MBOIvaHHBLqjupW+Ew7e2neIWetOHc+J5yUGTZlxR38CgExpd1ddCXCDLtLWg=="
+        "requested": "[1.1.77, 1.1.77]",
+        "resolved": "1.1.77",
+        "contentHash": "zCEUBldDYkA1f02bdkz7VSLa/2NDRBtclS61ujcXs7IvfFcNF1qY2lLTCoPnznxAvJqPGoN49CbGbW9D4hJH3g=="
       },
       "nanoFramework.System.Net": {
         "type": "Direct",
-        "requested": "[1.11.12, 1.11.12]",
-        "resolved": "1.11.12",
-        "contentHash": "ByDjj0b4Mx/kVq8QN/ta5lpgksUUqXo39EX64dXj10pOB58gsUhZ0EYq3Pi3Sx4lLe43e9kd+Zv/YpXI078rMA=="
+        "requested": "[1.11.15, 1.11.15]",
+        "resolved": "1.11.15",
+        "contentHash": "DVpqt6h01ooItNupYb9B7S+jzZWPZpqv6mTbSvKNmjZ+C0hvn8nLVb45RZaAJnq10d/UP3QEFlDRq6HnJMZkoQ=="
       },
       "nanoFramework.System.Text": {
         "type": "Direct",
-        "requested": "[1.2.54, 1.2.54]",
-        "resolved": "1.2.54",
-        "contentHash": "k3OutSNRMs9di42LQ+5GbpHBY07aMEZWGkaS3Mj3ZU4cWqJc4deFGzRd+LBFQl1mRGdQaM5sl/euTZdcg8R9Zg=="
+        "requested": "[1.3.1, 1.3.1]",
+        "resolved": "1.3.1",
+        "contentHash": "6BFCg7LUeN0Xx1R4QQF6HKDb3BnihtYY7X47IIkfFmsIurJbu643HyidhTxG/BwK4UYWRMC/Io4s/KdsLs6WlA=="
       },
       "nanoFramework.System.Threading": {
         "type": "Direct",
@@ -64,9 +64,9 @@
       },
       "Nerdbank.GitVersioning": {
         "type": "Direct",
-        "requested": "[3.7.112, 3.7.112]",
-        "resolved": "3.7.112",
-        "contentHash": "j0jcfnTjvhytRanVR34Gaj6RFKk8EDmVhRW7929nWjCo8tzBxsa3XmFmbSGDA6nWXGhfehTixWhPgGWAbz+NQA=="
+        "requested": "[3.7.115, 3.7.115]",
+        "resolved": "3.7.115",
+        "contentHash": "EpXamaAdRfG/BMxGgvZlTM0npRnkmXUjAj8OdNKd17t4oN+2nvjdv/KnFmzOOMDqvlwB49UCwtOHJrAQTfUBtQ=="
       }
     }
   }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Nerdbank.GitVersioning.3.7.112\build\Nerdbank.GitVersioning.props" Condition="Exists('..\packages\Nerdbank.GitVersioning.3.7.112\build\Nerdbank.GitVersioning.props')" />
+  <Import Project="..\packages\Nerdbank.GitVersioning.3.7.115\build\Nerdbank.GitVersioning.props" Condition="Exists('..\packages\Nerdbank.GitVersioning.3.7.115\build\Nerdbank.GitVersioning.props')" />
   <PropertyGroup Label="Globals">
     <NanoFrameworkProjectSystemPath>$(MSBuildExtensionsPath)\nanoFramework\v1.0\</NanoFrameworkProjectSystemPath>
   </PropertyGroup>
@@ -70,11 +70,11 @@
     <Reference Include="nanoFramework.Json, Version=2.2.154.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.Json.2.2.154\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.M2Mqtt, Version=5.1.154.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.154\lib\nanoFramework.M2Mqtt.dll</HintPath>
+    <Reference Include="nanoFramework.M2Mqtt, Version=5.1.158.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.158\lib\nanoFramework.M2Mqtt.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.M2Mqtt.Core, Version=5.1.154.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.154\lib\nanoFramework.M2Mqtt.Core.dll</HintPath>
+    <Reference Include="nanoFramework.M2Mqtt.Core, Version=5.1.158.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.158\lib\nanoFramework.M2Mqtt.Core.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events, Version=1.11.18.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.Runtime.Events.1.11.18\lib\nanoFramework.Runtime.Events.dll</HintPath>
@@ -85,14 +85,14 @@
     <Reference Include="nanoFramework.System.Collections, Version=1.5.45.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.System.Collections.1.5.45\lib\nanoFramework.System.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.System.Text, Version=1.2.54.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.System.Text.1.2.54\lib\nanoFramework.System.Text.dll</HintPath>
+    <Reference Include="nanoFramework.System.Text, Version=1.3.1.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.System.Text.1.3.1\lib\nanoFramework.System.Text.dll</HintPath>
     </Reference>
-    <Reference Include="System.IO.Streams, Version=1.1.75.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.System.IO.Streams.1.1.75\lib\System.IO.Streams.dll</HintPath>
+    <Reference Include="System.IO.Streams, Version=1.1.77.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.System.IO.Streams.1.1.77\lib\System.IO.Streams.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net, Version=1.11.12.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.System.Net.1.11.12\lib\System.Net.dll</HintPath>
+    <Reference Include="System.Net, Version=1.11.15.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.System.Net.1.11.15\lib\System.Net.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading, Version=1.1.32.63105, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.System.Threading.1.1.32\lib\System.Threading.dll</HintPath>
@@ -111,8 +111,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Nerdbank.GitVersioning.3.7.112\build\Nerdbank.GitVersioning.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nerdbank.GitVersioning.3.7.112\build\Nerdbank.GitVersioning.props'))" />
-    <Error Condition="!Exists('..\packages\Nerdbank.GitVersioning.3.7.112\build\Nerdbank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nerdbank.GitVersioning.3.7.112\build\Nerdbank.GitVersioning.targets'))" />
+    <Error Condition="!Exists('..\packages\Nerdbank.GitVersioning.3.7.115\build\Nerdbank.GitVersioning.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nerdbank.GitVersioning.3.7.115\build\Nerdbank.GitVersioning.props'))" />
+    <Error Condition="!Exists('..\packages\Nerdbank.GitVersioning.3.7.115\build\Nerdbank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Nerdbank.GitVersioning.3.7.115\build\Nerdbank.GitVersioning.targets'))" />
   </Target>
-  <Import Project="..\packages\Nerdbank.GitVersioning.3.7.112\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\packages\Nerdbank.GitVersioning.3.7.112\build\Nerdbank.GitVersioning.targets')" />
+  <Import Project="..\packages\Nerdbank.GitVersioning.3.7.115\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\packages\Nerdbank.GitVersioning.3.7.115\build\Nerdbank.GitVersioning.targets')" />
 </Project>
