@@ -116,9 +116,6 @@
     <Reference Include="nanoFramework.Json">
       <HintPath>..\packages\nanoFramework.Json.2.2.160\lib\nanoFramework.Json.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.Json, Version=2.2.154.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.Json.2.2.154\lib\nanoFramework.Json.dll</HintPath>
-    </Reference>
     <Reference Include="nanoFramework.M2Mqtt.Core, Version=5.1.158.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.M2Mqtt.Core.5.1.158\lib\nanoFramework.M2Mqtt.Core.dll</HintPath>
     </Reference>
