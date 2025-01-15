@@ -110,7 +110,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="mscorlib, Version=1.15.6.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+    <Reference Include="mscorlib">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Json">

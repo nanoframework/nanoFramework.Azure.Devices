@@ -64,7 +64,7 @@
     <Content Include="packages.lock.json" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="mscorlib, Version=1.15.6.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+    <Reference Include="mscorlib">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Json">
@@ -72,6 +72,9 @@
     </Reference>
     <Reference Include="nanoFramework.M2Mqtt, Version=5.1.158.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.M2Mqtt.5.1.158\lib\nanoFramework.M2Mqtt.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.M2Mqtt.Core">
+      <HintPath>..\packages\nanoFramework.M2Mqtt.Core.5.1.158\lib\nanoFramework.M2Mqtt.Core.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events, Version=1.11.18.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.Runtime.Events.1.11.18\lib\nanoFramework.Runtime.Events.dll</HintPath>
