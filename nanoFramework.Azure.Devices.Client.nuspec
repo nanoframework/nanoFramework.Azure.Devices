@@ -19,10 +19,10 @@
 This is an SDK for Azure IoT Hub using MQTT broker.</description>
     <tags>nanoFramework C# csharp netmf netnf Microsoft.Azure.Devices nanoFramework.Azure.Devices</tags>
     <dependencies>
-      <dependency id="nanoFramework.CoreLibrary" version="1.16.11" />
+      <dependency id="nanoFramework.CoreLibrary" version="1.17.1" />
       <dependency id="nanoFramework.Json" version="2.2.176" />
-      <dependency id="nanoFramework.M2Mqtt" version="5.1.176" />
-      <dependency id="nanoFramework.M2Mqtt.Core" version="5.1.176" />
+      <dependency id="nanoFramework.M2Mqtt" version="5.1.181" />
+      <dependency id="nanoFramework.M2Mqtt.Core" version="5.1.181" />
       <dependency id="nanoFramework.System.Net.Http" version="1.5.99" />
     </dependencies>
   </metadata>
