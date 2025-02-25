@@ -64,8 +64,8 @@
     <Content Include="packages.lock.json" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="mscorlib, Version=1.16.11.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\packages\nanoFramework.CoreLibrary.1.16.11\lib\mscorlib.dll</HintPath>
+    <Reference Include="mscorlib, Version=1.17.1.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
+      <HintPath>..\packages\nanoFramework.CoreLibrary.1.17.1\lib\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Json, Version=2.2.176.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.Json.2.2.176\lib\nanoFramework.Json.dll</HintPath>

@@ -20,7 +20,7 @@ This is an SDK for Azure IoT Hub using a MQTT broker interface. This is Independ
 Use the nanoFrameowrk.Azure.Devices.Client if you want to use native wifi and MQTT broker.</description>
     <tags>nanoFramework C# csharp netmf netnf Microsoft.Azure.Devices Microsoft.Azure.Devices.Client nanoFramework.Azure.Devices.Client.FullyManaged</tags>
     <dependencies>
-      <dependency id="nanoFramework.CoreLibrary" version="1.16.11" />
+      <dependency id="nanoFramework.CoreLibrary" version="1.17.1" />
       <dependency id="nanoFramework.Json" version="2.2.176" />
       <dependency id="nanoFramework.M2Mqtt.Core" version="5.1.176" />
       <dependency id="nanoFramework.Runtime.Native" version="1.7.8" />
