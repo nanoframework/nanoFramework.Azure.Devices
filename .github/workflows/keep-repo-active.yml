@@ -1,0 +1,19 @@
+# Copyright (c) .NET Foundation and Contributors
+# See LICENSE file in the project root for full license information.
+
+# This workflow will periodically make an empty commit to keep the repository active thus preventing the workflows from being disabled.
+
+name: Keep repository active
+
+on:
+  schedule:
+    # every 2 weeks at 00:00 UTC
+    - cron:  '0 0 */2 * *'
+  repository_dispatch:
+    types: keep-repo-active
+
+jobs:
+  update-dependencies:
+    name: nanoFramework
+    uses: nanoframework/nf-tools/.github/workflows/keep-repo-active.yml@main
+    secrets: inherit
