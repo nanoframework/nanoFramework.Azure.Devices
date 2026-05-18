@@ -32,9 +32,6 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
-  <PropertyGroup>
-    <RunSettingsFilePath>$(MSBuildProjectDirectory)\nano.runsettings</RunSettingsFilePath>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="DeviceClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

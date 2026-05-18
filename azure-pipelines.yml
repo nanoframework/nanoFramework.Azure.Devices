@@ -53,7 +53,8 @@ steps:
   parameters:
     sonarCloudProject: 'nanoframework_Azure.Devices'
     runUnitTests: true
-    unitTestRunsettings: '$(System.DefaultWorkingDirectory)/Tests/CryptoTests/nano.runsettings'
+    unitTestRunsettings: '$(System.DefaultWorkingDirectory)/.runsettings'
+    usePreviewBuild: true
 
 # build the 2 libs step
 - template: azure-pipelines-templates/class-lib-package.yml@templates  
