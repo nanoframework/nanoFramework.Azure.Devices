@@ -212,7 +212,7 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
             while ((!cancellationToken.IsCancellationRequested) && (_status != ProvisioningRegistrationStatusType.Assigned))
             {
                 // We force to clean the memory at this stage, for constrained devices
-                Runtime.Native.GC.Run(true);
+                GC.Collect();
                 Thread.Sleep(200);
                 // Don't ask for a new message if we are already processing one
                 if ((_retry > 0) && (!_isMessageProcessed))
@@ -229,7 +229,7 @@ namespace nanoFramework.Azure.Devices.Provisioning.Client
 
             // Creating a DeviceRegistrationResult only when it's needed
             // One more time cleaning the memory for small devices, a bit of performances penalties
-            Runtime.Native.GC.Run(true);
+            GC.Collect();
             if (!string.IsNullOrEmpty(_message))
             {
                 var opeStat = (RegistrationOperationStatus)nanoFramework.Json.JsonConvert.DeserializeObject(_message, typeof(RegistrationOperationStatus));
