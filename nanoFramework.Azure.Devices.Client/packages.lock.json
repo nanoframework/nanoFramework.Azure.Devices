@@ -10,21 +10,21 @@
       },
       "nanoFramework.Json": {
         "type": "Direct",
-        "requested": "[2.2.210, 2.2.210]",
-        "resolved": "2.2.210",
-        "contentHash": "pu7+1ia/oZ2t7TN/30UV022w7YBEysdn8+ECIK1gSGLrW0YWO0TChD5dkR55EAuTCCqQTf+6qoZt28D8rvtDDw=="
+        "requested": "[2.2.212, 2.2.212]",
+        "resolved": "2.2.212",
+        "contentHash": "HoCNEtxJda9SXqAgL4ORC3fdHfmGpRE/Dj7Z+AHmWSPf/ERMhy9S/sEL55Knc8UpypeGtldm/0xP8odfv8+YwQ=="
       },
       "nanoFramework.M2Mqtt": {
         "type": "Direct",
-        "requested": "[5.1.215, 5.1.215]",
-        "resolved": "5.1.215",
-        "contentHash": "MqKCGM0pVyUQ5fyGDOC39g54fCr0vtsDMRtu/clI4f6q7H0ECkvuiXeVpPxxTc9GkY2DW5zIOof5m1v9obZqYQ=="
+        "requested": "[5.1.217, 5.1.217]",
+        "resolved": "5.1.217",
+        "contentHash": "0MR54Gb9iQP5o2C4HhaQczaMWXLHRbr/Da6QVBBpkiqZZ6jQYyVW8jgok+Orlv2VX2+LI3XuAUpebVyvH6rCnQ=="
       },
       "nanoFramework.M2Mqtt.Core": {
         "type": "Direct",
-        "requested": "[5.1.215, 5.1.215]",
-        "resolved": "5.1.215",
-        "contentHash": "gNybBBk6BJ0hwt8aC/hq8g1aeWVknCD9SiZsMWJCPFLq1zEn5+2vwID4TGRYv5BcVTzAbKgVL8iHLK5SJDO31A=="
+        "requested": "[5.1.217, 5.1.217]",
+        "resolved": "5.1.217",
+        "contentHash": "LC7glpDQxJxz3jOUF/P8yiehAWPNe6k3UTD1+FVbLCB57/+yFOjyaAaRRAQslZkdiYE0cQ7kfRMkyVxvL9v67g=="
       },
       "nanoFramework.Runtime.Events": {
         "type": "Direct",
@@ -40,9 +40,9 @@
       },
       "nanoFramework.System.Collections": {
         "type": "Direct",
-        "requested": "[1.5.67, 1.5.67]",
-        "resolved": "1.5.67",
-        "contentHash": "MjSipUB70vrxjqTm1KfKTUqqjd0wbweiNyYFXONi0XClrH6HXsuX2lhDqXM8NWuYnWyYOqx8y20sXbvsH+4brg=="
+        "requested": "[1.5.75, 1.5.75]",
+        "resolved": "1.5.75",
+        "contentHash": "OiMpKo8RWbjZq1594YjdRnOGNN2aT4nowa+ET7scK0frGCux0a8LGaPkG56mmSfBCKzLlVs13LIlla3XLhXaMA=="
       },
       "nanoFramework.System.IO.Streams": {
         "type": "Direct",
@@ -70,9 +70,9 @@
       },
       "Nerdbank.GitVersioning": {
         "type": "Direct",
-        "requested": "[3.9.50, 3.9.50]",
-        "resolved": "3.9.50",
-        "contentHash": "HtOgGF6jZ+WYbXnCUCYPT8Y2d6mIJo9ozjK/FINTRsXdm4Zgv9GehUMa7EFoGQkqrMcDJNOIDwCmENnvXg4UbA=="
+        "requested": "[3.10.85, 3.10.85]",
+        "resolved": "3.10.85",
+        "contentHash": "smhqiTAbnI/6NRn+k7m+a65qKY7nREbnFqFgqxiw3JS8kXiBUOxdCxIZFP9TOpCsoh46DbMlBlcd+dWQYAVVCA=="
       }
     }
   }
