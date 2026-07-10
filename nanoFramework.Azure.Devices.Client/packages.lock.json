@@ -16,15 +16,15 @@
       },
       "nanoFramework.M2Mqtt": {
         "type": "Direct",
-        "requested": "[5.1.218, 5.1.218]",
-        "resolved": "5.1.218",
-        "contentHash": "8csOtZ0Nq+mzUHPPmLizxsGmSNNZexEi16WTYBes2FdkmODlebk7xfnp6fDtgmBxe2UM5psxS7Ee+aUflJi+Dg=="
+        "requested": "[5.1.219, 5.1.219]",
+        "resolved": "5.1.219",
+        "contentHash": "3uG79yTKk1B3gf5nRJZ1WbeJW6aZwmHeLMRzCD5ngPmCbxJKIT4RtF8s1u6rpbc7FR/2QoF3O5feb/YN6AR0TQ=="
       },
       "nanoFramework.M2Mqtt.Core": {
         "type": "Direct",
-        "requested": "[5.1.218, 5.1.218]",
-        "resolved": "5.1.218",
-        "contentHash": "ND7FCXr3Bfrg3ce+BGGr2AHD2kptDX+NIQz9ZXBiiXZ13TtAsSE+UAdrRrYAkQ+jbc+1vVt4JLswbB3mJdFxgA=="
+        "requested": "[5.1.219, 5.1.219]",
+        "resolved": "5.1.219",
+        "contentHash": "SLlwH/g7OeMeD8dX3vxCRJG0LpEHD3iSAx5MnkQUy4Mp6XEZAh+Sw+9ElyNS7YiK4a0eXKnn9ljUaRGWzx9a2Q=="
       },
       "nanoFramework.Runtime.Events": {
         "type": "Direct",
@@ -52,9 +52,9 @@
       },
       "nanoFramework.System.Net": {
         "type": "Direct",
-        "requested": "[1.11.54, 1.11.54]",
-        "resolved": "1.11.54",
-        "contentHash": "pV4SDR8SGtRTwpUNVkw682slTtVv3iGSLUVCjyoZ/eBnGdms8XzLxSYstLLdsBmtKEmdnyUWbUl9WYa82h6aKg=="
+        "requested": "[1.11.60, 1.11.60]",
+        "resolved": "1.11.60",
+        "contentHash": "FbcvVZSnOKI0nQqMz6Jw/m6C1CZzcNPsfQqmf6pp4dr5XUvtgWHv8D3/Vfhxv+5Zg2x+3tTsOVGAyFDIOuQdxg=="
       },
       "nanoFramework.System.Text": {
         "type": "Direct",
@@ -70,9 +70,9 @@
       },
       "Nerdbank.GitVersioning": {
         "type": "Direct",
-        "requested": "[3.10.85, 3.10.85]",
-        "resolved": "3.10.85",
-        "contentHash": "smhqiTAbnI/6NRn+k7m+a65qKY7nREbnFqFgqxiw3JS8kXiBUOxdCxIZFP9TOpCsoh46DbMlBlcd+dWQYAVVCA=="
+        "requested": "[3.10.91, 3.10.91]",
+        "resolved": "3.10.91",
+        "contentHash": "9MtEXm/um2lQAEoek1EkF4CXNH4JuXxv2jV3Ew2XlzP0LXxFaFiECS7ji8zf1ZaMnPGYbbom+Nm6y4ADc5HNHQ=="
       }
     }
   }
