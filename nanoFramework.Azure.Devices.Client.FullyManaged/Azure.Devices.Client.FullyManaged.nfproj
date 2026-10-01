@@ -59,6 +59,9 @@
     <Compile Include="..\nanoFramework.azure.Devices.Client\MethodCallbackRegistration.cs">
       <Link>MethodCallbackRegistration.cs</Link>
     </Compile>
+    <Compile Include="..\nanoFramework.azure.Devices.Client\MethodResponse.cs">
+      <Link>MethodResponse.cs</Link>
+    </Compile>
     <Compile Include="..\nanoFramework.azure.Devices.Client\DeviceClient.cs">
       <Link>DeviceClient.cs</Link>
     </Compile>

@@ -308,6 +308,26 @@ string RaiseExceptionCallbackTest(int rid, string payload)
 
 **Important**: method names are case sensitive. So make sure you name your functions in C# use the same case.
 
+The response is returned with a status code `200`. If the method returns `null`, the response has an empty payload. If the method raises an exception, the status code is `504` and the payload contains the exception. If there is no method matching the call, the status code is `501`.
+
+#### Setting the status code of the response
+
+To return a different status code, use a method returning a `MethodResponse`. This is useful, for example, to return `202` (accepted) for a long-running command that will complete later:
+
+```csharp
+azureIoT.AddMethodCallback(runDiagnostics);
+
+MethodResponse runDiagnostics(int rid, string payload)
+{
+    // start the diagnostics in the background
+    // (...)
+
+    return new MethodResponse(202, "{\"status\":\"pending\"}");
+}
+```
+
+Note: [long-running commands](https://learn.microsoft.com/azure/iot-central/core/howto-use-commands#long-running-commands) are an Azure IoT Central convention, they are not part of IoT Plug & Play. Once the operation is complete, the device reports it by updating a reported property with the same name as the command.
+
 > Note: some modem have limitations in the length of the message. The message is what contains the payload. Make sure you'll check the limitations when using the FullyManaged library.
 
 ### Status update event

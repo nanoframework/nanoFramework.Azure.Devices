@@ -13,6 +13,8 @@ namespace nanoFramework.Azure.Devices.Client
     internal class MethodCallbackRegistration
     {
         private const string C9PatternMainStyle = "<<Main>$>g__";
+        private const int StatusOk = 200;
+        private const int StatusGatewayTimeout = 504;
 
         /// <summary>
         /// The callback delegate.
@@ -34,6 +36,33 @@ namespace nanoFramework.Azure.Devices.Client
             Callback = callback;
             DtdlComponentName = dtdlComponentName;
             MethodName = GetCallbackName(callback.Method.Name);
+        }
+
+        /// <summary>
+        /// Invokes the callback and builds the response to return to the caller.
+        /// </summary>
+        /// <param name="rid">The request ID.</param>
+        /// <param name="payload">The request payload.</param>
+        /// <returns>The response to return. 200 with an empty payload if the callback returns <see langword="null"/>, 504 if the callback throws an exception.</returns>
+        internal MethodResponse Invoke(int rid, string payload)
+        {
+            try
+            {
+                if (Callback is MethodResponseCallback responseCallback)
+                {
+                    return responseCallback.Invoke(rid, payload) ?? new MethodResponse(StatusOk);
+                }
+
+                return new MethodResponse(
+                    StatusOk,
+                    ((MethodCallback)Callback).Invoke(rid, payload));
+            }
+            catch (Exception ex)
+            {
+                return new MethodResponse(
+                    StatusGatewayTimeout,
+                    $"{{\"Exception:\":\"{ex}\"}}");
+            }
         }
 
         /// <summary>
