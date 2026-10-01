@@ -505,6 +505,27 @@ namespace nanoFramework.Azure.Devices.Client
         }
 
         /// <summary>
+        /// Add a callback method that sets the status code of the response.
+        /// </summary>
+        /// <param name="methodCallback">The callback method to add. Its name must match the command name.</param>
+        public void AddMethodCallback(MethodResponseCallback methodCallback)
+        {
+            AddMethodCallback(methodCallback, null);
+        }
+
+        /// <summary>
+        /// Add a callback method that sets the status code of the response, for a command of a DTDL component.
+        /// </summary>
+        /// <param name="methodCallback">The callback method to add. Its name must match the command name.</param>
+        /// <param name="dtdlComponentName">The DTDL component name. Use <see langword="null"/> or <see cref="string.Empty"/> for the default (root) component.</param>
+        public void AddMethodCallback(
+            MethodResponseCallback methodCallback,
+            string dtdlComponentName)
+        {
+            _methodCallback.Add(new MethodCallbackRegistration(methodCallback, dtdlComponentName));
+        }
+
+        /// <summary>
         /// Remove a callback method.
         /// </summary>
         /// <param name="methodCallback">The callback method to remove.</param>
@@ -512,6 +533,23 @@ namespace nanoFramework.Azure.Devices.Client
         /// This removes all registrations of the callback method, for any DTDL component.
         /// </remarks>
         public void RemoveMethodCallback(MethodCallback methodCallback)
+        {
+            RemoveMethodCallback((Delegate)methodCallback);
+        }
+
+        /// <summary>
+        /// Remove a callback method that sets the status code of the response.
+        /// </summary>
+        /// <param name="methodCallback">The callback method to remove.</param>
+        /// <remarks>
+        /// This removes all registrations of the callback method, for any DTDL component.
+        /// </remarks>
+        public void RemoveMethodCallback(MethodResponseCallback methodCallback)
+        {
+            RemoveMethodCallback((Delegate)methodCallback);
+        }
+
+        private void RemoveMethodCallback(Delegate methodCallback)
         {
             for (int i = _methodCallback.Count - 1; i >= 0; i--)
             {
@@ -632,6 +670,29 @@ namespace nanoFramework.Azure.Devices.Client
             return conf.Received;
         }
 
+        internal static string BuildMethodResponseTopic(int status, int rid)
+        {
+            return $"$iothub/methods/res/{status}/?$rid={rid:X}";
+        }
+
+        internal static MethodResponse BuildMethodNotFoundResponse(string methodName)
+        {
+            return new MethodResponse(
+                501,
+                $"{{\"message\":\"Method '{methodName}' not found.\"}}");
+        }
+
+        private void PublishMethodResponse(int rid, MethodResponse response)
+        {
+            _mqttc.Publish(
+                BuildMethodResponseTopic(response.Status, rid),
+                response.Payload == null ? new byte[0] : Encoding.UTF8.GetBytes(response.Payload),
+                null,
+                new ArrayList(),
+                MqttQoSLevel.AtLeastOnce,
+                false);
+        }
+
         internal string EncodeContentType(string contentType)
         {
             return $"$.ct={HttpUtility.UrlEncode(contentType)}&$.ce=utf-8";
@@ -729,6 +790,7 @@ namespace nanoFramework.Azure.Devices.Client
                     _ioTHubStatus.Status = Status.DirectMethodCalled;
                     _ioTHubStatus.Message = $"{method}/{message}";
                     StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
+                    bool methodFound = false;
                     foreach (MethodCallbackRegistration registration in _methodCallback)
                     {
                         if (MethodCallbackRegistration.IsMethodMatch(
@@ -736,28 +798,14 @@ namespace nanoFramework.Azure.Devices.Client
                             registration.MethodName,
                             registration.DtdlComponentName))
                         {
-                            try
-                            {
-                                var res = ((MethodCallback)registration.Callback).Invoke(rid, message);
-                                _mqttc.Publish(
-                                    $"$iothub/methods/res/200/?$rid={rid:X}",
-                                    Encoding.UTF8.GetBytes(res),
-                                    null,
-                                    new ArrayList(),
-                                    MqttQoSLevel.AtLeastOnce,
-                                    false);
-                            }
-                            catch (Exception ex)
-                            {
-                                _mqttc.Publish(
-                                    $"$iothub/methods/res/504/?$rid={rid:X}",
-                                    Encoding.UTF8.GetBytes($"{{\"Exception:\":\"{ex}\"}}"),
-                                    null,
-                                    new ArrayList(),
-                                    MqttQoSLevel.AtLeastOnce,
-                                    false);
-                            }
+                            methodFound = true;
+                            PublishMethodResponse(rid, registration.Invoke(rid, message));
                         }
+                    }
+
+                    if (!methodFound)
+                    {
+                        PublishMethodResponse(rid, BuildMethodNotFoundResponse(methodName));
                     }
                 }
                 else if (e.Topic.StartsWith(_deviceMessageTopic))
