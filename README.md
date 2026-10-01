@@ -240,6 +240,12 @@ Note: The message will be sent with the default service quality of service you c
 azureIoT.SendMessage($"{{\"Temperature\":42,\"Pressure\":1024}}");
 ```
 
+When using IoT Plug & Play, telemetry from a DTDL component (and not the default component) must include the component name. Pass it as `dtdlComponentname`:
+
+```csharp
+azureIoT.SendMessage($"{{\"temperature\":21.3}}", dtdlComponentname: "thermostat1");
+```
+
 ### Cloud to device messages
 
 You can register an event to receive Cloud to device messages:
