@@ -83,5 +83,68 @@ namespace DeviceClientTests
                 client.EncodeContentType(contentType),
                 encodedContentType);
         }
+
+        [DataRow("getMaxMinReport", "getMaxMinReport", "", true)]
+        [DataRow("thermostat1*getMaxMinReport", "getMaxMinReport", "thermostat1", true)]
+        [DataRow("getMaxMinReport", "getMaxMinReport", "thermostat1", false)]
+        [DataRow("thermostat1*getMaxMinReport", "getMaxMinReport", "", false)]
+        [DataRow("thermostat2*getMaxMinReport", "getMaxMinReport", "thermostat1", false)]
+        [DataRow("getmaxminreport", "getMaxMinReport", "", false)]
+        [DataRow("Thermostat1*getMaxMinReport", "getMaxMinReport", "thermostat1", false)]
+        [TestMethod]
+        public void IsMethodMatch_00(
+            string requestedName,
+            string methodName,
+            string dtdlComponentName,
+            bool expected)
+        {
+            Assert.AreEqual(
+                expected,
+                MethodCallbackRegistration.IsMethodMatch(
+                    requestedName,
+                    methodName,
+                    dtdlComponentName));
+        }
+
+        [TestMethod]
+        public void IsMethodMatch_01()
+        {
+            // null component is the default (root) component
+            Assert.IsTrue(MethodCallbackRegistration.IsMethodMatch("getMaxMinReport", "getMaxMinReport", null));
+            Assert.IsFalse(MethodCallbackRegistration.IsMethodMatch("thermostat1*getMaxMinReport", "getMaxMinReport", null));
+        }
+
+        [DataRow("getMaxMinReport", "getMaxMinReport")]
+        [DataRow("<<Main>$>g__getMaxMinReport|0_1", "getMaxMinReport")]
+        [TestMethod]
+        public void GetCallbackName_00(string rawName, string expected)
+        {
+            Assert.AreEqual(
+                expected,
+                MethodCallbackRegistration.GetCallbackName(rawName));
+        }
+
+        [TestMethod]
+        public void AddRemoveMethodCallback_00()
+        {
+            DeviceClient client = new();
+
+            client.AddMethodCallback(getMaxMinReport);
+            client.AddMethodCallback(getMaxMinReport, "thermostat1");
+            client.AddMethodCallback(getMaxMinReport, "thermostat2");
+
+            Assert.AreEqual(3, client.MethodCallbacks.Count);
+
+            foreach (MethodCallbackRegistration registration in client.MethodCallbacks)
+            {
+                Assert.AreEqual("getMaxMinReport", registration.MethodName);
+            }
+
+            client.RemoveMethodCallback(getMaxMinReport);
+
+            Assert.AreEqual(0, client.MethodCallbacks.Count);
+        }
+
+        private static string getMaxMinReport(int rid, string payload) => "{}";
     }
 }

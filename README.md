@@ -166,6 +166,19 @@ string getMaxMinReport(int rid, string payload)
 
 In this example, the expected result is an object. Just populate the object and serialize it as a json as the command expect and return it. If any parameter to this command, it will be in the payload.
 
+If the command belongs to a DTDL component (and not the default component), IoT Hub calls it as `componentName*commandName`. In this case, pass the component name when adding the callback:
+
+```csharp
+DeviceClient azureIoT = new DeviceClient(Secrets.IotHub, Secrets.DeviceName, Secrets.SasKey, azureCert: new X509Certificate(Resource.GetBytes(Resource.BinaryResources.AzureRoot)), modelId: "dtmi:com:example:TemperatureController;2");
+// will be called for "thermostat1*getMaxMinReport"
+azureIoT.AddMethodCallback(getMaxMinReport, "thermostat1");
+// will be called for "thermostat2*getMaxMinReport"
+azureIoT.AddMethodCallback(getMaxMinReport, "thermostat2");
+azureIoT.Open();
+```
+
+The same method can be added for multiple components. If you need to know which component the command was sent to, use a different method for each component. `RemoveMethodCallback` removes the method for all the components it was added to.
+
 ### Getting and updating Twin
 
 You can request your Azure IoT Twin simply by calling the `GetTwin` function.

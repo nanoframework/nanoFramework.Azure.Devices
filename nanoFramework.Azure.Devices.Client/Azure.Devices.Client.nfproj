@@ -41,6 +41,7 @@
     </Compile>
     <Compile Include="IoTHubStatus.cs" />
     <Compile Include="MethodCallback.cs" />
+    <Compile Include="MethodCallbackRegistration.cs" />
     <Compile Include="DeviceClient.cs" />
     <Compile Include="PlugAndPlay\PnpConvention.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
