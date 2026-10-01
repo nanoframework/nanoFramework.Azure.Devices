@@ -597,7 +597,7 @@ namespace nanoFramework.Azure.Devices.Client
                 null,
                 new ArrayList(),
                 cancellationToken,
-                null);
+                dtdlComponentname);
         }
 
         /// <summary>
@@ -616,7 +616,41 @@ namespace nanoFramework.Azure.Devices.Client
             CancellationToken cancellationToken = default,
             string dtdlComponentname = "")
         {
-            StringBuilder topic = new(_telemetryTopic);
+            var rid = _mqttc.Publish(
+                BuildTelemetryTopic(
+                    _telemetryTopic,
+                    contentType,
+                    userProperties,
+                    dtdlComponentname),
+                Encoding.UTF8.GetBytes(message),
+                null,
+                new ArrayList(),
+                QosLevel,
+                false);
+
+            ConfirmationStatus conf = new(rid);
+            _waitForConfirmation.Add(conf);
+
+            if (cancellationToken.CanBeCanceled)
+            {
+                while (!conf.Received && !cancellationToken.IsCancellationRequested)
+                {
+                    cancellationToken.WaitHandle.WaitOne(200, true);
+                }
+            }
+
+            _waitForConfirmation.Remove(conf);
+
+            return conf.Received;
+        }
+
+        internal string BuildTelemetryTopic(
+            string telemetryTopic,
+            string contentType,
+            ArrayList userProperties,
+            string dtdlComponentname)
+        {
+            StringBuilder topic = new(telemetryTopic);
 
             // add content type to property bag, if there is one
             if (!string.IsNullOrEmpty(contentType))
@@ -646,28 +680,7 @@ namespace nanoFramework.Azure.Devices.Client
                 topicName = topicName.Substring(0, topicName.Length - 1);
             }
 
-            var rid = _mqttc.Publish(
-                topicName,
-                Encoding.UTF8.GetBytes(message),
-                null,
-                new ArrayList(),
-                QosLevel,
-                false);
-
-            ConfirmationStatus conf = new(rid);
-            _waitForConfirmation.Add(conf);
-
-            if (cancellationToken.CanBeCanceled)
-            {
-                while (!conf.Received && !cancellationToken.IsCancellationRequested)
-                {
-                    cancellationToken.WaitHandle.WaitOne(200, true);
-                }
-            }
-
-            _waitForConfirmation.Remove(conf);
-
-            return conf.Received;
+            return topicName;
         }
 
         internal static string BuildMethodResponseTopic(int status, int rid)
