@@ -3,6 +3,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
+using nanoFramework.Json;
 using System;
 
 namespace nanoFramework.Azure.Devices.Client
@@ -61,7 +62,7 @@ namespace nanoFramework.Azure.Devices.Client
             {
                 return new MethodResponse(
                     StatusGatewayTimeout,
-                    $"{{\"Exception:\":\"{ex}\"}}");
+                    $"{{\"Exception:\":{JsonConvert.SerializeObject(ex.ToString())}}}");
             }
         }
 

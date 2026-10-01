@@ -216,6 +216,20 @@ namespace DeviceClientTests
             Assert.AreEqual(504, response.Status);
         }
 
+        [TestMethod]
+        public void InvokeMethodCallback_06()
+        {
+            // exception message with characters that must be escaped in JSON
+            MethodResponse response = new MethodCallbackRegistration((MethodCallback)throwsExceptionWithSpecialChars, null).Invoke(1, "");
+
+            Assert.AreEqual(504, response.Status);
+            Assert.IsTrue(response.Payload.StartsWith("{\"Exception:\":\""), $"Unexpected payload: {response.Payload}");
+            Assert.IsTrue(response.Payload.EndsWith("\"}"), $"Unexpected payload: {response.Payload}");
+            Assert.IsTrue(response.Payload.IndexOf("\\\"quoted\\\"") >= 0, $"Quotes not escaped: {response.Payload}");
+            Assert.IsTrue(response.Payload.IndexOf("back\\\\slash") >= 0, $"Backslash not escaped: {response.Payload}");
+            Assert.AreEqual(-1, response.Payload.IndexOf('\n'), $"New line not escaped: {response.Payload}");
+        }
+
         [DataRow(200, 1, "$iothub/methods/res/200/?$rid=1")]
         [DataRow(202, 26, "$iothub/methods/res/202/?$rid=1A")]
         [DataRow(501, 255, "$iothub/methods/res/501/?$rid=FF")]
@@ -239,6 +253,8 @@ namespace DeviceClientTests
         private static string returnsNull(int rid, string payload) => null;
 
         private static string throwsException(int rid, string payload) => throw new Exception("test");
+
+        private static string throwsExceptionWithSpecialChars(int rid, string payload) => throw new Exception("a \"quoted\" value, a back\\slash\nand a new line");
 
         private static MethodResponse runDiagnostics(int rid, string payload) => new MethodResponse(202, "{\"status\":\"pending\"}");
 
