@@ -84,6 +84,49 @@ namespace DeviceClientTests
                 encodedContentType);
         }
 
+        [DataRow("", "", "devices/dev1/messages/events/")]
+        [DataRow("", "thermostat1", "devices/dev1/messages/events/$.sub=thermostat1")]
+        [DataRow("application/json", "", "devices/dev1/messages/events/$.ct=application%2Fjson&$.ce=utf-8")]
+        [DataRow("application/json", "thermostat1", "devices/dev1/messages/events/$.ct=application%2Fjson&$.ce=utf-8&$.sub=thermostat1")]
+        [TestMethod]
+        public void BuildTelemetryTopic_00(
+            string contentType,
+            string dtdlComponentName,
+            string expected)
+        {
+            DeviceClient client = new();
+
+            Assert.AreEqual(
+                expected,
+                client.BuildTelemetryTopic(
+                    "devices/dev1/messages/events/",
+                    contentType,
+                    new ArrayList(),
+                    dtdlComponentName));
+        }
+
+        [TestMethod]
+        public void BuildTelemetryTopic_01()
+        {
+            DeviceClient client = new();
+
+            Assert.AreEqual(
+                "devices/dev1/messages/events/prop1=iAmValue1&$.sub=thermostat1",
+                client.BuildTelemetryTopic(
+                    "devices/dev1/messages/events/",
+                    null,
+                    new ArrayList() { _userProperty1 },
+                    "thermostat1"));
+
+            Assert.AreEqual(
+                "devices/dev1/messages/events/$.ct=application%2Fjson&$.ce=utf-8&prop1=iAmValue1",
+                client.BuildTelemetryTopic(
+                    "devices/dev1/messages/events/",
+                    "application/json",
+                    new ArrayList() { _userProperty1 },
+                    null));
+        }
+
         [DataRow("getMaxMinReport", "getMaxMinReport", "", true)]
         [DataRow("thermostat1*getMaxMinReport", "getMaxMinReport", "thermostat1", true)]
         [DataRow("getMaxMinReport", "getMaxMinReport", "thermostat1", false)]
