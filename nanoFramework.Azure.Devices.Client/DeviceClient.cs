@@ -73,6 +73,9 @@ namespace nanoFramework.Azure.Devices.Client
             // required for Unit Tests
         }
 
+        // required for Unit Tests
+        internal ArrayList MethodCallbacks => _methodCallback;
+
         /// <summary>
         /// Creates an <see cref="DeviceClient"/> class.
         /// </summary>
@@ -486,16 +489,37 @@ namespace nanoFramework.Azure.Devices.Client
         /// <param name="methodCallback">The callback method to add.</param>
         public void AddMethodCallback(MethodCallback methodCallback)
         {
-            _methodCallback.Add(methodCallback);
+            AddMethodCallback(methodCallback, null);
+        }
+
+        /// <summary>
+        /// Add a callback method for a command of a DTDL component.
+        /// </summary>
+        /// <param name="methodCallback">The callback method to add. Its name must match the command name.</param>
+        /// <param name="dtdlComponentName">The DTDL component name. Use <see langword="null"/> or <see cref="string.Empty"/> for the default (root) component.</param>
+        public void AddMethodCallback(
+            MethodCallback methodCallback,
+            string dtdlComponentName)
+        {
+            _methodCallback.Add(new MethodCallbackRegistration(methodCallback, dtdlComponentName));
         }
 
         /// <summary>
         /// Remove a callback method.
         /// </summary>
         /// <param name="methodCallback">The callback method to remove.</param>
+        /// <remarks>
+        /// This removes all registrations of the callback method, for any DTDL component.
+        /// </remarks>
         public void RemoveMethodCallback(MethodCallback methodCallback)
         {
-            _methodCallback.Remove(methodCallback);
+            for (int i = _methodCallback.Count - 1; i >= 0; i--)
+            {
+                if (((MethodCallbackRegistration)_methodCallback[i]).Callback.Equals(methodCallback))
+                {
+                    _methodCallback.RemoveAt(i);
+                }
+            }
         }
 
         /// <summary>
@@ -699,26 +723,22 @@ namespace nanoFramework.Azure.Devices.Client
                 }
                 else if (e.Topic.StartsWith(DirectMethodTopic))
                 {
-                    const string C9PatternMainStyle = "<<Main>$>g__";
                     string method = e.Topic.Substring(DirectMethodTopic.Length);
                     string methodName = method.Substring(0, method.IndexOf('/'));
                     int rid = Convert.ToInt32(method.Substring(method.IndexOf('=') + 1), 16);
                     _ioTHubStatus.Status = Status.DirectMethodCalled;
                     _ioTHubStatus.Message = $"{method}/{message}";
                     StatusUpdated?.Invoke(this, new StatusUpdatedEventArgs(_ioTHubStatus));
-                    foreach (MethodCallback mt in _methodCallback)
+                    foreach (MethodCallbackRegistration registration in _methodCallback)
                     {
-                        string mtName = mt.Method.Name;
-                        if (mtName.Contains(C9PatternMainStyle))
-                        {
-                            mtName = mtName.Substring(C9PatternMainStyle.Length);
-                            mtName = mtName.Substring(0, mtName.IndexOf('|'));
-                        }
-                        if (mtName == methodName)
+                        if (MethodCallbackRegistration.IsMethodMatch(
+                            methodName,
+                            registration.MethodName,
+                            registration.DtdlComponentName))
                         {
                             try
                             {
-                                var res = mt.Invoke(rid, message);
+                                var res = ((MethodCallback)registration.Callback).Invoke(rid, message);
                                 _mqttc.Publish(
                                     $"$iothub/methods/res/200/?$rid={rid:X}",
                                     Encoding.UTF8.GetBytes(res),
