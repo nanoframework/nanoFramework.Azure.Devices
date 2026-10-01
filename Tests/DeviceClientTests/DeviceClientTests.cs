@@ -145,6 +145,121 @@ namespace DeviceClientTests
             Assert.AreEqual(0, client.MethodCallbacks.Count);
         }
 
+        [TestMethod]
+        public void AddRemoveMethodCallback_01()
+        {
+            DeviceClient client = new();
+
+            client.AddMethodCallback(getMaxMinReport);
+            client.AddMethodCallback(runDiagnostics);
+            client.AddMethodCallback(runDiagnostics, "thermostat1");
+
+            Assert.AreEqual(3, client.MethodCallbacks.Count);
+
+            client.RemoveMethodCallback(runDiagnostics);
+
+            Assert.AreEqual(1, client.MethodCallbacks.Count);
+            Assert.AreEqual("getMaxMinReport", ((MethodCallbackRegistration)client.MethodCallbacks[0]).MethodName);
+        }
+
+        [TestMethod]
+        public void InvokeMethodCallback_00()
+        {
+            MethodResponse response = new MethodCallbackRegistration((MethodCallback)getMaxMinReport, null).Invoke(1, "");
+
+            Assert.AreEqual(200, response.Status);
+            Assert.AreEqual("{}", response.Payload);
+        }
+
+        [TestMethod]
+        public void InvokeMethodCallback_01()
+        {
+            // a null return must not be reported as an exception
+            MethodResponse response = new MethodCallbackRegistration((MethodCallback)returnsNull, null).Invoke(1, "");
+
+            Assert.AreEqual(200, response.Status);
+            Assert.IsNull(response.Payload);
+        }
+
+        [TestMethod]
+        public void InvokeMethodCallback_02()
+        {
+            MethodResponse response = new MethodCallbackRegistration((MethodCallback)throwsException, null).Invoke(1, "");
+
+            Assert.AreEqual(504, response.Status);
+            Assert.IsTrue(response.Payload.IndexOf("Exception") >= 0);
+        }
+
+        [TestMethod]
+        public void InvokeMethodCallback_03()
+        {
+            MethodResponse response = new MethodCallbackRegistration((MethodResponseCallback)runDiagnostics, null).Invoke(1, "");
+
+            Assert.AreEqual(202, response.Status);
+            Assert.AreEqual("{\"status\":\"pending\"}", response.Payload);
+        }
+
+        [TestMethod]
+        public void InvokeMethodCallback_04()
+        {
+            MethodResponse response = new MethodCallbackRegistration((MethodResponseCallback)returnsNullResponse, null).Invoke(1, "");
+
+            Assert.AreEqual(200, response.Status);
+            Assert.IsNull(response.Payload);
+        }
+
+        [TestMethod]
+        public void InvokeMethodCallback_05()
+        {
+            MethodResponse response = new MethodCallbackRegistration((MethodResponseCallback)throwsExceptionResponse, null).Invoke(1, "");
+
+            Assert.AreEqual(504, response.Status);
+        }
+
+        [TestMethod]
+        public void InvokeMethodCallback_06()
+        {
+            // exception message with characters that must be escaped in JSON
+            MethodResponse response = new MethodCallbackRegistration((MethodCallback)throwsExceptionWithSpecialChars, null).Invoke(1, "");
+
+            Assert.AreEqual(504, response.Status);
+            Assert.IsTrue(response.Payload.StartsWith("{\"Exception:\":\""), $"Unexpected payload: {response.Payload}");
+            Assert.IsTrue(response.Payload.EndsWith("\"}"), $"Unexpected payload: {response.Payload}");
+            Assert.IsTrue(response.Payload.IndexOf("\\\"quoted\\\"") >= 0, $"Quotes not escaped: {response.Payload}");
+            Assert.IsTrue(response.Payload.IndexOf("back\\\\slash") >= 0, $"Backslash not escaped: {response.Payload}");
+            Assert.AreEqual(-1, response.Payload.IndexOf('\n'), $"New line not escaped: {response.Payload}");
+        }
+
+        [DataRow(200, 1, "$iothub/methods/res/200/?$rid=1")]
+        [DataRow(202, 26, "$iothub/methods/res/202/?$rid=1A")]
+        [DataRow(501, 255, "$iothub/methods/res/501/?$rid=FF")]
+        [TestMethod]
+        public void BuildMethodResponseTopic_00(int status, int rid, string expected)
+        {
+            Assert.AreEqual(expected, DeviceClient.BuildMethodResponseTopic(status, rid));
+        }
+
+        [TestMethod]
+        public void BuildMethodNotFoundResponse_00()
+        {
+            MethodResponse response = DeviceClient.BuildMethodNotFoundResponse("thermostat1*getMaxMinReport");
+
+            Assert.AreEqual(501, response.Status);
+            Assert.AreEqual("{\"message\":\"Method 'thermostat1*getMaxMinReport' not found.\"}", response.Payload);
+        }
+
         private static string getMaxMinReport(int rid, string payload) => "{}";
+
+        private static string returnsNull(int rid, string payload) => null;
+
+        private static string throwsException(int rid, string payload) => throw new Exception("test");
+
+        private static string throwsExceptionWithSpecialChars(int rid, string payload) => throw new Exception("a \"quoted\" value, a back\\slash\nand a new line");
+
+        private static MethodResponse runDiagnostics(int rid, string payload) => new MethodResponse(202, "{\"status\":\"pending\"}");
+
+        private static MethodResponse returnsNullResponse(int rid, string payload) => null;
+
+        private static MethodResponse throwsExceptionResponse(int rid, string payload) => throw new Exception("test");
     }
 }

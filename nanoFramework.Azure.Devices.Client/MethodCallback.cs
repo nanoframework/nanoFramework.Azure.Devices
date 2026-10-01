@@ -10,4 +10,12 @@ namespace nanoFramework.Azure.Devices.Client
     /// <param name="payload">The payload.</param>
     /// <returns></returns>
     public delegate string MethodCallback(int rid, string payload);
+
+    /// <summary>
+    /// Method call back delegate that sets the status code of the response.
+    /// </summary>
+    /// <param name="rid">The request ID.</param>
+    /// <param name="payload">The payload.</param>
+    /// <returns>The response with the status code and payload to return to the caller.</returns>
+    public delegate MethodResponse MethodResponseCallback(int rid, string payload);
 }
