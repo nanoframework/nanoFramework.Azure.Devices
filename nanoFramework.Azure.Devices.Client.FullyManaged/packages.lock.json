@@ -6,19 +6,19 @@
         "type": "Direct",
         "requested": "[10.0.402, 10.0.402]",
         "resolved": "10.0.402",
-        "contentHash": "lWm6DfERDHodzCBuLNJJplEu5krLIxx7haXxa5kuOuWSB9cREaC8Vc0ZIV4P7KyhYyDpmTwd3o7BjWqMjWY6uA=="
+        "contentHash": "k4TuSlseeYpFMIZP3X/MFHNKe+yNDIfVDlvu2ABiWaFWFQFwdsjqmoLTjtrD6YZ5vS2LT1TEZ9JT2kokfLdd0w=="
       },
       "Microsoft.SourceLink.Common": {
         "type": "Direct",
         "requested": "[10.0.402, 10.0.402]",
         "resolved": "10.0.402",
-        "contentHash": "ouIq+nrdk6b1KvUngeBShOiTOrOtkwwNXzkK/wG1Xc/cgipi/MA171VUNEDPa+BZ6wWSJl6RYOWIyu49s5XBBg=="
+        "contentHash": "/GC+zNRas+lEu2sBUH1YJ7q/bzb5jrnCCpaQNHvMuwn3Uvq9eOZnjMH2Zd1C9e2cpbHmRwP9N/jSZK0ysdw73Q=="
       },
       "Microsoft.SourceLink.GitHub": {
         "type": "Direct",
         "requested": "[10.0.402, 10.0.402]",
         "resolved": "10.0.402",
-        "contentHash": "SvZbtcfqaAGEOU/s/8GtVZ7WvKFRjVxeWrub8KJr0ggv8xFgBlxi0awcsn5QZ33h+12PuHtolChVVW20AotZtQ=="
+        "contentHash": "YXtBgnbTAhNng4PcEaolRL59UdRg77eYdAHilt9jljp8EuBOubDuHDkmH8Qa9pR2pBGte/FwJgHXQQVi24GOzg=="
       },
       "nanoFramework.CoreLibrary": {
         "type": "Direct",
