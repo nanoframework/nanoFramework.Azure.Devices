@@ -2,6 +2,24 @@
   "version": 1,
   "dependencies": {
     ".NETnanoFramework,Version=v1.0": {
+      "Microsoft.Build.Tasks.Git": {
+        "type": "Direct",
+        "requested": "[10.0.402, 10.0.402]",
+        "resolved": "10.0.402",
+        "contentHash": "lWm6DfERDHodzCBuLNJJplEu5krLIxx7haXxa5kuOuWSB9cREaC8Vc0ZIV4P7KyhYyDpmTwd3o7BjWqMjWY6uA=="
+      },
+      "Microsoft.SourceLink.Common": {
+        "type": "Direct",
+        "requested": "[10.0.402, 10.0.402]",
+        "resolved": "10.0.402",
+        "contentHash": "ouIq+nrdk6b1KvUngeBShOiTOrOtkwwNXzkK/wG1Xc/cgipi/MA171VUNEDPa+BZ6wWSJl6RYOWIyu49s5XBBg=="
+      },
+      "Microsoft.SourceLink.GitHub": {
+        "type": "Direct",
+        "requested": "[10.0.402, 10.0.402]",
+        "resolved": "10.0.402",
+        "contentHash": "SvZbtcfqaAGEOU/s/8GtVZ7WvKFRjVxeWrub8KJr0ggv8xFgBlxi0awcsn5QZ33h+12PuHtolChVVW20AotZtQ=="
+      },
       "nanoFramework.CoreLibrary": {
         "type": "Direct",
         "requested": "[2.0.0-preview.63, 2.0.0-preview.63]",
